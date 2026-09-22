@@ -90,34 +90,34 @@ export const LandingPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#070E1E] text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F4F6F9] text-slate-800 flex flex-col font-sans">
       <LandingNav />
 
       {/* HERO SECTION */}
-      <section id="hero" className="relative pt-12 pb-20 overflow-hidden border-b border-slate-800">
+      <section id="hero" className="relative pt-12 pb-20 overflow-hidden border-b border-slate-200 bg-gradient-to-b from-sky-50/70 via-white to-[#F4F6F9]">
         {/* Subtle background glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-sky-600/10 blur-[130px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-sky-200/40 blur-[130px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto space-y-6">
             {/* Tagline Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/30 text-xs font-semibold text-sky-300 shadow-sm shadow-sky-950">
-              <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-sky-300 text-xs font-semibold text-sky-800 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-sky-600 animate-pulse" />
               <span>Smart India Hackathon 2026 Prototype</span>
-              <span className="text-slate-600">•</span>
-              <span className="text-slate-300 font-normal">Startup-Friendly Public Procurement</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-slate-600 font-medium">Startup-Friendly Public Procurement</span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
               From Government Challenges to <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-300 to-sky-200">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-700 via-blue-800 to-sky-900">
                 Scalable Innovation
               </span>
             </h1>
 
             {/* Subheading */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
+            <p className="text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed font-normal">
               PragatiAI enables government departments to discover, evaluate, pilot, procure, and scale innovative solutions from startups through a transparent and structured workflow.
             </p>
 
@@ -125,14 +125,14 @@ export const LandingPage: React.FC = () => {
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
               <Link
                 to="/login"
-                className="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-sm shadow-lg shadow-sky-900/40 flex items-center gap-2 transition-all hover:translate-y-[-1px]"
+                className="px-6 py-3 rounded-xl bg-sky-700 hover:bg-sky-800 text-white font-semibold text-sm shadow-md shadow-sky-900/10 flex items-center gap-2 transition-all hover:translate-y-[-1px]"
               >
                 <span>Explore PragatiAI</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
                 href="#how-it-works"
-                className="px-6 py-3 rounded-xl bg-[#0F1C36] hover:bg-[#142546] border border-slate-700 text-slate-200 font-semibold text-sm transition-all"
+                className="px-6 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-semibold text-sm shadow-sm transition-all"
               >
                 See How It Works
               </a>
@@ -141,24 +141,24 @@ export const LandingPage: React.FC = () => {
             {/* Prototype Demo Stats */}
             <div className="pt-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-                <div className="p-4 rounded-xl bg-[#0B1528]/80 border border-slate-800 backdrop-blur-sm">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-white">120+</div>
-                  <div className="text-xs text-slate-400 font-medium mt-1">Challenges Formulated</div>
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm backdrop-blur-sm">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-slate-900">120+</div>
+                  <div className="text-xs text-slate-500 font-semibold mt-1">Challenges Formulated</div>
                 </div>
-                <div className="p-4 rounded-xl bg-[#0B1528]/80 border border-slate-800 backdrop-blur-sm">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-sky-400">350+</div>
-                  <div className="text-xs text-slate-400 font-medium mt-1">Startups Discovered</div>
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm backdrop-blur-sm">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-sky-700">350+</div>
+                  <div className="text-xs text-slate-500 font-semibold mt-1">Startups Discovered</div>
                 </div>
-                <div className="p-4 rounded-xl bg-[#0B1528]/80 border border-slate-800 backdrop-blur-sm">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400">85+</div>
-                  <div className="text-xs text-slate-400 font-medium mt-1">Controlled Pilots</div>
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm backdrop-blur-sm">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-emerald-700">85+</div>
+                  <div className="text-xs text-slate-500 font-semibold mt-1">Controlled Pilots</div>
                 </div>
-                <div className="p-4 rounded-xl bg-[#0B1528]/80 border border-slate-800 backdrop-blur-sm">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-amber-400">42</div>
-                  <div className="text-xs text-slate-400 font-medium mt-1">Solutions Scaled</div>
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm backdrop-blur-sm">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-amber-700">42</div>
+                  <div className="text-xs text-slate-500 font-semibold mt-1">Solutions Scaled</div>
                 </div>
               </div>
-              <p className="text-[11px] text-slate-400 italic mt-2.5">
+              <p className="text-[11px] text-slate-500 italic mt-2.5">
                 *Representative figures from prototype demonstration dataset
               </p>
             </div>
@@ -166,13 +166,13 @@ export const LandingPage: React.FC = () => {
 
           {/* HERO WORKFLOW DIAGRAM */}
           <div className="mt-14 max-w-5xl mx-auto">
-            <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1528]/90 border border-slate-800 shadow-2xl relative">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-6 flex items-center justify-between">
+            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xl relative">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-6 flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-sky-400" />
-                  PragatiAI Innovation Procurement Journey
+                  <span className="w-2 h-2 rounded-full bg-sky-600" />
+                  <span className="text-slate-800">PragatiAI Innovation Procurement Journey</span>
                 </span>
-                <span className="text-[11px] text-slate-400 hidden sm:inline">End-to-End Gov-Tech Architecture</span>
+                <span className="text-[11px] text-slate-500 hidden sm:inline">End-to-End Gov-Tech Architecture</span>
               </div>
 
               {/* Responsive Flowchart */}
@@ -189,26 +189,26 @@ export const LandingPage: React.FC = () => {
                 ].map((step, idx) => (
                   <div 
                     key={idx}
-                    className="p-3.5 rounded-xl bg-[#0F1C36] border border-slate-800 hover:border-sky-500/50 transition-all text-center flex flex-col items-center group"
+                    className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-sky-400 hover:bg-sky-50 transition-all text-center flex flex-col items-center group shadow-xs"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-sky-950/80 border border-sky-800/60 flex items-center justify-center text-sky-400 mb-2 group-hover:scale-110 transition-transform">
+                    <div className="w-9 h-9 rounded-lg bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-800 mb-2 group-hover:scale-110 transition-transform">
                       <step.icon className="w-4 h-4" />
                     </div>
-                    <span className="text-xs font-bold text-slate-100">{step.name}</span>
-                    <span className="text-[10px] text-slate-400 mt-0.5">{step.tag}</span>
+                    <span className="text-xs font-bold text-slate-900">{step.name}</span>
+                    <span className="text-[10px] text-slate-500 mt-0.5">{step.tag}</span>
                   </div>
                 ))}
               </div>
 
               {/* Active demo flow banner */}
-              <div className="mt-6 p-3 rounded-lg bg-sky-950/40 border border-sky-800/40 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <div className="mt-6 p-3 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-slate-700">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
                   <span><strong>Live Prototype Story:</strong> PWD Bengaluru North × RoadVision AI Pothole Monitoring</span>
                 </div>
                 <button
                   onClick={() => handleRoleSelect('government', '/government/validation')}
-                  className="text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1"
+                  className="text-sky-700 hover:text-sky-800 font-bold flex items-center gap-1"
                 >
                   <span>View Validation</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -220,33 +220,33 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* PROBLEM / SOLUTION SECTION */}
-      <section id="about" className="py-20 bg-[#060D1D] border-b border-slate-800">
+      <section id="about" className="py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-sky-400">The Problem Statement</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+            <span className="text-xs font-bold uppercase tracking-widest text-sky-700">The Problem Statement</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               Why PragatiAI?
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               Traditional public procurement was engineered for commoditized civil works and hardware tenders, creating a massive barrier for deep-tech startups and leaving government departments with obsolete tools.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             {/* Government Challenges Card */}
-            <div className="p-8 rounded-2xl bg-[#0B1528] border border-slate-800 relative flex flex-col justify-between">
+            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm relative flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-sky-950 border border-sky-800/60 flex items-center justify-center text-sky-400">
+                  <div className="w-10 h-10 rounded-xl bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-800">
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Government Departments</h3>
-                    <p className="text-xs text-slate-400">Public Sector Innovation Bottlenecks</p>
+                    <h3 className="text-lg font-bold text-slate-900">Government Departments</h3>
+                    <p className="text-xs text-slate-500 font-medium">Public Sector Innovation Bottlenecks</p>
                   </div>
                 </div>
 
-                <ul className="space-y-3.5 text-xs sm:text-sm text-slate-300">
+                <ul className="space-y-3.5 text-xs sm:text-sm text-slate-700">
                   {[
                     'Difficult to formulate outcome-based innovation challenges without prescriptive technical biases',
                     'Hard to discover relevant deep-tech startups outside legacy vendor registries',
@@ -256,32 +256,32 @@ export const LandingPage: React.FC = () => {
                     'Limited visibility into post-pilot scale-up and multi-district adoption outcomes'
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2.5">
-                      <span className="w-5 h-5 rounded-full bg-rose-950/80 border border-rose-800/50 flex items-center justify-center text-rose-400 shrink-0 text-xs mt-0.5">✕</span>
+                      <span className="w-5 h-5 rounded-full bg-rose-100 border border-rose-300 flex items-center justify-center text-rose-700 shrink-0 text-xs mt-0.5 font-bold">✕</span>
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-slate-800/80 text-xs text-slate-400 italic">
+              <div className="mt-8 pt-4 border-t border-slate-200 text-xs text-slate-500 italic">
                 Result: Government departments rely on outdated legacy systems due to high perceived risk.
               </div>
             </div>
 
             {/* Startup Challenges Card */}
-            <div className="p-8 rounded-2xl bg-[#0B1528] border border-slate-800 relative flex flex-col justify-between">
+            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm relative flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800">
                     <Rocket className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Innovative Startups</h3>
-                    <p className="text-xs text-slate-400">Barriers Facing High-Growth Deep-Tech Founders</p>
+                    <h3 className="text-lg font-bold text-slate-900">Innovative Startups</h3>
+                    <p className="text-xs text-slate-500 font-medium">Barriers Facing High-Growth Deep-Tech Founders</p>
                   </div>
                 </div>
 
-                <ul className="space-y-3.5 text-xs sm:text-sm text-slate-300">
+                <ul className="space-y-3.5 text-xs sm:text-sm text-slate-700">
                   {[
                     'Disqualified by traditional eligibility requirements designed for established conglomerates',
                     'High turnover and prior years-in-business barriers blocking seed-stage breakthroughs',
@@ -291,25 +291,25 @@ export const LandingPage: React.FC = () => {
                     'Complex tender paperwork requiring dedicated government liaison teams'
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2.5">
-                      <span className="w-5 h-5 rounded-full bg-rose-950/80 border border-rose-800/50 flex items-center justify-center text-rose-400 shrink-0 text-xs mt-0.5">✕</span>
+                      <span className="w-5 h-5 rounded-full bg-rose-100 border border-rose-300 flex items-center justify-center text-rose-700 shrink-0 text-xs mt-0.5 font-bold">✕</span>
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-slate-800/80 text-xs text-slate-400 italic">
+              <div className="mt-8 pt-4 border-t border-slate-200 text-xs text-slate-500 italic">
                 Result: Breakthrough Indian technologies fail to deploy in high-impact public domains.
               </div>
             </div>
           </div>
 
           {/* Solution Banner */}
-          <div className="mt-10 p-6 rounded-2xl bg-gradient-to-r from-sky-950/80 via-[#0F1C36] to-sky-950/80 border border-sky-500/40 text-center">
-            <h4 className="text-lg sm:text-xl font-bold text-white">
+          <div className="mt-10 p-6 rounded-2xl bg-gradient-to-r from-sky-50 via-white to-blue-50 border border-sky-300 text-center shadow-sm">
+            <h4 className="text-lg sm:text-xl font-bold text-slate-900">
               PragatiAI connects both sides through one structured, transparent platform.
             </h4>
-            <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-2xl mx-auto">
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-2xl mx-auto font-medium">
               Transforming bureaucratic friction into a standardized 7-step innovation pipeline with automated DPIIT eligibility, explainable AI matching, and milestone-backed contracts.
             </p>
           </div>
@@ -317,14 +317,14 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* HOW IT WORKS: 7-STEP TIMELINE */}
-      <section id="how-it-works" className="py-20 bg-[#070E1E] border-b border-slate-800">
+      <section id="how-it-works" className="py-20 bg-[#F4F6F9] border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-sky-400">Structured Process</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+            <span className="text-xs font-bold uppercase tracking-widest text-sky-700">Structured Process</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               How PragatiAI Works
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               A 7-step structured procurement lifecycle engineered to provide absolute transparency, measurable pilot accountability, and rapid procurement execution.
             </p>
           </div>
@@ -335,21 +335,21 @@ export const LandingPage: React.FC = () => {
               return (
                 <div
                   key={idx}
-                  className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-sky-500/40 transition-all flex flex-col justify-between group"
+                  className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-sky-400 hover:shadow-md transition-all flex flex-col justify-between group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-2xl font-black text-sky-400/70 font-mono group-hover:text-sky-400 transition-colors">
+                      <span className="text-2xl font-black text-sky-700/60 font-mono group-hover:text-sky-700 transition-colors">
                         {step.num}
                       </span>
-                      <div className="w-10 h-10 rounded-xl bg-[#0F1C36] border border-slate-700 flex items-center justify-center text-sky-400">
+                      <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700">
                         <Icon className="w-5 h-5" />
                       </div>
                     </div>
-                    <h3 className="text-base font-bold text-white mb-2">{step.title}</h3>
-                    <p className="text-xs text-slate-300 leading-relaxed">{step.desc}</p>
+                    <h3 className="text-base font-bold text-slate-900 mb-2">{step.title}</h3>
+                    <p className="text-xs text-slate-600 leading-relaxed">{step.desc}</p>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center text-[11px] text-sky-400 font-medium">
+                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center text-[11px] text-sky-700 font-semibold">
                     <span>Explore Step {step.num}</span>
                     <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -358,23 +358,23 @@ export const LandingPage: React.FC = () => {
             })}
 
             {/* Special Final Card: Scale-Up Outcome */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-sky-950 to-blue-950 border border-sky-500/50 flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-sky-700 to-blue-900 text-white border border-sky-600 shadow-md flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-bold uppercase tracking-wider text-sky-300">Target Outcome</span>
-                  <div className="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white">
+                  <span className="text-xs font-bold uppercase tracking-wider text-sky-200">Target Outcome</span>
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white">
                     <TrendingUp className="w-5 h-5" />
                   </div>
                 </div>
                 <h3 className="text-base font-bold text-white mb-2">Statewide Deployment</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-sky-100 leading-relaxed">
                   Validated solutions bypass multi-year bureaucratic friction to expand from a 50 km pilot corridor to all 31 districts.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-sky-800/60">
+              <div className="mt-4 pt-3 border-t border-white/20">
                 <Link
                   to="/login"
-                  className="w-full text-center py-2 px-3 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold block transition-colors"
+                  className="w-full text-center py-2 px-3 bg-white hover:bg-slate-100 text-sky-900 rounded-lg text-xs font-bold block transition-colors shadow-sm"
                 >
                   Enter Demonstration Hub
                 </Link>
@@ -385,33 +385,33 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* ROLE PORTALS SELECTION */}
-      <section className="py-20 bg-[#060D1D] border-b border-slate-800">
+      <section className="py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-sky-400">Multi-Stakeholder Experience</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+            <span className="text-xs font-bold uppercase tracking-widest text-sky-700">Multi-Stakeholder Experience</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               Role-Specific Workspaces
             </h2>
-            <p className="text-sm text-slate-300">
+            <p className="text-sm text-slate-600">
               PragatiAI provides dedicated workflows customized to the exact legal, technical, and operational needs of each ecosystem participant.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Government Officer */}
-            <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-sky-500/50 transition-all flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-sky-400 hover:bg-white transition-all flex flex-col justify-between shadow-xs">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-800 mb-4">
                   <Shield className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-white mb-1.5">Government Officer</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <h3 className="text-base font-bold text-slate-900 mb-1.5">Government Officer</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Create outcome-based challenges, discover deep-tech startups, monitor active pilots, and authorize procurement scaling.
                 </p>
               </div>
               <button
                 onClick={() => handleRoleSelect('government', '/government/dashboard')}
-                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
               >
                 <span>Continue as Officer</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -419,19 +419,19 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Startup */}
-            <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-400 hover:bg-white transition-all flex flex-col justify-between shadow-xs">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-800 flex items-center justify-center text-emerald-400 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 mb-4">
                   <Rocket className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-white mb-1.5">Startup Founder</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <h3 className="text-base font-bold text-slate-900 mb-1.5">Startup Founder</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Discover matching government opportunities, verify DPIIT eligibility, submit proposals, and track milestone disbursements.
                 </p>
               </div>
               <button
                 onClick={() => handleRoleSelect('startup', '/startup/dashboard')}
-                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
               >
                 <span>Continue as Startup</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -439,19 +439,19 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Expert Evaluator */}
-            <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-purple-500/50 transition-all flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-400 hover:bg-white transition-all flex flex-col justify-between shadow-xs">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-purple-950 border border-purple-800 flex items-center justify-center text-purple-400 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-purple-100 border border-purple-300 flex items-center justify-center text-purple-800 mb-4">
                   <Award className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-white mb-1.5">Expert Evaluator</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <h3 className="text-base font-bold text-slate-900 mb-1.5">Expert Evaluator</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Conduct objective peer evaluations with weighted multi-factor rubrics and recommend high-conviction pilot shortlists.
                 </p>
               </div>
               <button
                 onClick={() => handleRoleSelect('expert', '/expert/dashboard')}
-                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
               >
                 <span>Continue as Expert</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -459,19 +459,19 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Platform Admin */}
-            <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-amber-500/50 transition-all flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-amber-400 hover:bg-white transition-all flex flex-col justify-between shadow-xs">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-amber-950 border border-amber-800 flex items-center justify-center text-amber-400 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 mb-4">
                   <Shield className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-white mb-1.5">Platform Admin</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <h3 className="text-base font-bold text-slate-900 mb-1.5">Platform Admin</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Inspect platform-wide telemetry, verify tamper-evident audit trails, and manage governance policies.
                 </p>
               </div>
               <button
                 onClick={() => handleRoleSelect('admin', '/admin/dashboard')}
-                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                className="mt-6 w-full py-2.5 px-4 rounded-lg bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
               >
                 <span>Continue as Admin</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -482,21 +482,21 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* FEATURED CHALLENGES SECTION */}
-      <section id="challenges" className="py-20 bg-[#070E1E] border-b border-slate-800">
+      <section id="challenges" className="py-20 bg-[#F4F6F9] border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-sky-400">Open Opportunities</span>
-              <h2 className="text-3xl font-extrabold text-white mt-1">
+              <span className="text-xs font-bold uppercase tracking-widest text-sky-700">Open Opportunities</span>
+              <h2 className="text-3xl font-extrabold text-slate-900 mt-1">
                 Active Innovation Challenges
               </h2>
-              <p className="text-sm text-slate-300 mt-1">
+              <p className="text-sm text-slate-600 mt-1">
                 Explore outcome-based problem statements published by Indian government departments.
               </p>
             </div>
             <Link
               to="/government/challenges"
-              className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+              className="text-xs font-bold text-sky-700 hover:text-sky-800 flex items-center gap-1"
             >
               <span>View All Challenges</span>
               <ArrowRight className="w-4 h-4" />
@@ -507,49 +507,49 @@ export const LandingPage: React.FC = () => {
             {challenges.slice(0, 4).map((ch) => (
               <div
                 key={ch.id}
-                className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-sky-500/40 transition-all flex flex-col justify-between"
+                className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-sky-400 hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="text-xs font-semibold text-sky-400 bg-sky-950/70 border border-sky-800/50 px-2.5 py-0.5 rounded-full">
+                    <span className="text-xs font-bold text-sky-800 bg-sky-50 border border-sky-200 px-2.5 py-0.5 rounded-full">
                       {ch.department}
                     </span>
                     <StatusBadge status={ch.status} />
                   </div>
-                  <h3 className="text-base font-bold text-white mb-2 leading-snug">
+                  <h3 className="text-base font-bold text-slate-900 mb-2 leading-snug">
                     {ch.title}
                   </h3>
-                  <p className="text-xs text-slate-300 line-clamp-2 mb-4 leading-relaxed">
+                  <p className="text-xs text-slate-600 line-clamp-2 mb-4 leading-relaxed">
                     {ch.problemDescription}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-2 text-[11px] bg-[#070E1E] p-3 rounded-lg border border-slate-800 mb-4">
+                  <div className="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-3 rounded-lg border border-slate-200 mb-4">
                     <div>
-                      <span className="text-slate-400 block">Pilot Budget:</span>
-                      <span className="font-semibold text-slate-200">{ch.budgetRange}</span>
+                      <span className="text-slate-500 block">Pilot Budget:</span>
+                      <span className="font-bold text-slate-900">{ch.budgetRange}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400 block">Duration:</span>
-                      <span className="font-semibold text-slate-200">{ch.pilotDuration}</span>
+                      <span className="text-slate-500 block">Duration:</span>
+                      <span className="font-bold text-slate-900">{ch.pilotDuration}</span>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {(ch.techArea ?? []).map((t, idx) => (
-                      <span key={idx} className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">
+                      <span key={idx} className="text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-medium">
                         {t}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                  <span className="text-xs text-slate-400">
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs text-slate-500 font-medium">
                     {ch.applicationsCount} Proposals Submitted
                   </span>
                   <Link
                     to="/startup/challenges"
-                    className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+                    className="text-xs font-bold text-sky-700 hover:text-sky-800 flex items-center gap-1"
                   >
                     <span>Inspect Challenge</span>
                     <ChevronRight className="w-3.5 h-3.5" />

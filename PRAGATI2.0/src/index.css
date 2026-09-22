@@ -5,61 +5,162 @@
 @layer base {
   :root {
     --gov-primary: #0284C7;
-    --gov-navy: #0B1528;
-    --gov-dark: #070E1E;
+    --gov-navy: #003366;
+    --gov-blue-dark: #0A2540;
+    --gov-saffron: #FF671F;
+    --gov-green: #046A38;
+    --gov-bg: #F4F6F9;
+    --gov-surface: #FFFFFF;
+    --gov-card-border: #E2E8F0;
+    --gov-text-heading: #0F172A;
+    --gov-text-body: #334155;
+    --gov-text-muted: #64748B;
   }
 
   body {
-    background-color: #070E1E;
-    color: #E2E8F0;
-    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #F4F6F9;
+    color: #1E293B;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
-  /* Custom subtle scrollbar */
+  /* Custom subtle scrollbar in light government theme */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0B1528;
+    background: #F1F5F9;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1E293B;
+    background: #CBD5E1;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #94A3B8;
   }
 }
 
 @layer components {
   .gov-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border;
   }
   
   .gov-card {
-    @apply bg-[#0F1C36]/90 backdrop-blur-sm border border-slate-800 rounded-xl transition-all duration-200;
+    @apply bg-white border border-slate-200/90 rounded-xl shadow-sm transition-all duration-200 text-slate-800;
   }
 
   .gov-card-hover {
-    @apply gov-card hover:border-sky-500/40 hover:shadow-lg hover:shadow-sky-950/40;
+    @apply gov-card hover:border-sky-500 hover:shadow-md;
   }
 
   .gov-input {
-    @apply w-full bg-[#0B1528] border border-slate-700/80 rounded-lg px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all;
+    @apply w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent transition-all;
   }
 
   .gov-button-primary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-sky-600 hover:bg-sky-500 text-white shadow-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-sky-700 hover:bg-sky-600 text-white shadow-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .gov-button-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all duration-150;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-sm transition-all duration-150;
   }
 
   .gov-button-outline {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-transparent hover:bg-slate-800/60 text-sky-400 border border-sky-500/40 transition-all duration-150;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-transparent hover:bg-sky-50 text-sky-700 border border-sky-600/50 transition-all duration-150;
   }
+}
+
+/* ============================================================
+   GOVERNMENT PORTAL LIGHT THEME REMAPPING
+   Transforms arbitrary dark utility classes across all pages
+   to clean, accessible, official government light theme.
+   ============================================================ */
+
+/* Page canvas backgrounds */
+.bg-\[\#070E1E\],
+div[class*="bg-[#070E1E]"],
+main[class*="bg-[#070E1E]"] {
+  background-color: #F4F6F9 !important;
+}
+
+/* Cards, sidebars, top headers & surfaces */
+.bg-\[\#0B1528\],
+div[class*="bg-[#0B1528]"],
+section[class*="bg-[#0B1528]"],
+.bg-\[\#0F1C36\],
+div[class*="bg-[#0F1C36]"],
+.bg-\[\#0A1224\],
+aside[class*="bg-[#0A1224]"] {
+  background-color: #FFFFFF !important;
+}
+
+/* Sub-panels, wells, chip backgrounds */
+.bg-\[\#080E1C\],
+.bg-\[\#080E1D\],
+div[class*="bg-[#080E1C]"],
+div[class*="bg-[#080E1D]"] {
+  background-color: #F8FAFC !important;
+}
+
+/* Official deep navy footer (retained as standard on India.gov.in / MyGov) */
+footer.bg-\[\#050B17\],
+footer[class*="bg-[#050B17]"],
+.gov-dark-footer {
+  background-color: #0A192F !important;
+  color: #E2E8F0 !important;
+}
+
+/* Clean slate borders */
+[class*="border-slate-800"],
+[class*="border-slate-700"] {
+  border-color: #E2E8F0 !important;
+}
+
+/* Form inputs & text fields in light mode */
+input.bg-\[\#080E1D\],
+input.bg-\[\#0B1528\],
+input.bg-\[\#070E1E\],
+textarea.bg-\[\#080E1D\],
+textarea.bg-\[\#0B1528\],
+textarea.bg-\[\#070E1E\],
+select.bg-\[\#080E1D\],
+select.bg-\[\#0B1528\],
+select.bg-\[\#070E1E\] {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Headings inside light containers */
+.bg-\[\#070E1E\] h1, .bg-\[\#070E1E\] h2, .bg-\[\#070E1E\] h3, .bg-\[\#070E1E\] h4, .bg-\[\#070E1E\] h5,
+.bg-\[\#0B1528\] h1, .bg-\[\#0B1528\] h2, .bg-\[\#0B1528\] h3, .bg-\[\#0B1528\] h4, .bg-\[\#0B1528\] h5,
+.bg-\[\#0F1C36\] h1, .bg-\[\#0F1C36\] h2, .bg-\[\#0F1C36\] h3, .bg-\[\#0F1C36\] h4, .bg-\[\#0F1C36\] h5,
+.bg-\[\#0A1224\] h1, .bg-\[\#0A1224\] h2, .bg-\[\#0A1224\] h3, .bg-\[\#0A1224\] h4, .bg-\[\#0A1224\] h5 {
+  color: #0F172A !important;
+}
+
+/* Slate text remaps on light surfaces (excluding colored buttons, badges & dark footer) */
+.text-slate-100:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *),
+span.text-white:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-purple-600 *):not(.bg-amber-600 *):not(.bg-rose-600 *):not(.bg-emerald-500 *):not(footer *):not(.gov-top-bar *),
+div.text-white:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *) {
+  color: #0F172A !important;
+}
+
+.text-slate-200:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *) {
+  color: #1E293B !important;
+}
+
+.text-slate-300:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *) {
+  color: #334155 !important;
+}
+
+.text-slate-400:not(footer *):not(.gov-top-bar *) {
+  color: #64748B !important;
 }
 
 /* Subtle glowing pulse */

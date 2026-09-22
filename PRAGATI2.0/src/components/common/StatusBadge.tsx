@@ -9,18 +9,18 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
   const getStyle = (val: string) => {
     const s = val.toLowerCase();
     if (s.includes('scale') || s.includes('procured') || s.includes('validated') || s.includes('exceeded') || s.includes('met') || s.includes('shortlisted') || s.includes('eligible') || s.includes('completed') || s.includes('released')) {
-      return 'bg-emerald-950/70 text-emerald-300 border-emerald-500/40 ring-1 ring-emerald-500/20';
+      return 'bg-emerald-50 text-emerald-800 border-emerald-300 ring-1 ring-emerald-500/10';
     }
     if (s.includes('pilot') || s.includes('in progress') || s.includes('published') || s.includes('active') || s.includes('open') || s.includes('high')) {
-      return 'bg-sky-950/70 text-sky-300 border-sky-500/40 ring-1 ring-sky-500/20';
+      return 'bg-sky-50 text-sky-800 border-sky-300 ring-1 ring-sky-500/10';
     }
     if (s.includes('review') || s.includes('evaluation') || s.includes('pending') || s.includes('medium') || s.includes('draft') || s.includes('planned')) {
-      return 'bg-amber-950/70 text-amber-300 border-amber-500/40 ring-1 ring-amber-500/20';
+      return 'bg-amber-50 text-amber-800 border-amber-300 ring-1 ring-amber-500/10';
     }
     if (s.includes('reject') || s.includes('stop') || s.includes('risk') || s.includes('ineligible') || s.includes('terminated')) {
-      return 'bg-rose-950/70 text-rose-300 border-rose-500/40 ring-1 ring-rose-500/20';
+      return 'bg-rose-50 text-rose-800 border-rose-300 ring-1 ring-rose-500/10';
     }
-    return 'bg-slate-800 text-slate-300 border-slate-700';
+    return 'bg-slate-100 text-slate-700 border-slate-300';
   };
 
   const sizeClass = size === 'sm' ? 'px-2.5 py-0.5 text-xs' : size === 'md' ? 'px-3 py-1 text-xs' : 'px-3.5 py-1.5 text-sm';

@@ -7,7 +7,9 @@ export const Footer: React.FC = () => {
   const { resetDemoData } = usePragati();
 
   return (
-    <footer className="bg-[#050B17] border-t border-slate-800 text-slate-400 text-sm">
+    <footer className="gov-dark-footer bg-[#0A192F] border-t border-slate-800 text-slate-300 text-sm relative">
+      {/* Authentic Indian Government Tricolor Footer Strip */}
+      <div className="h-1 w-full bg-gradient-to-r from-[#FF671F] via-white to-[#046A38] shrink-0" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Col 1: Brand & Tagline */}

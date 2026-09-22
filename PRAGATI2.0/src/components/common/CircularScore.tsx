@@ -36,7 +36,7 @@ export const CircularScore: React.FC<CircularScoreProps> = ({
             cx={size / 2}
             cy={size / 2}
             r={radius}
-            stroke="#1E293B"
+            stroke="#E2E8F0"
             strokeWidth={strokeWidth}
             fill="transparent"
           />
@@ -55,11 +55,11 @@ export const CircularScore: React.FC<CircularScoreProps> = ({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="text-3xl font-extrabold text-white tracking-tight">
+          <span className="text-3xl font-extrabold text-slate-900 tracking-tight">
             {score}%
           </span>
           {label && (
-            <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-400 mt-0.5">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mt-0.5">
               {label}
             </span>
           )}
