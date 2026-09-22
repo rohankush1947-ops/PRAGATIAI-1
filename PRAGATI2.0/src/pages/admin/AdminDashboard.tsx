@@ -51,28 +51,28 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Admin Banner */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0B1528] via-[#0F1C36] to-[#0B1528] border border-amber-500/40 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-amber-50 via-white to-orange-50 border border-amber-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
               Platform Administration
             </span>
-            <span className="text-slate-600">•</span>
-            <span className="text-xs text-slate-400">Smart India Hackathon 2026</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-xs text-slate-500 font-medium">Smart India Hackathon 2026</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             PragatiAI System Governance
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
             Real-time telemetry oversight, role permissions matrix, and ecosystem audit integrity controls.
           </p>
         </div>
 
         <button
           onClick={resetDemoData}
-          className="px-4 py-2.5 rounded-xl bg-[#080E1C] hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 flex items-center gap-2 transition-colors self-start md:self-auto"
+          className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-xs font-semibold text-slate-700 flex items-center gap-2 transition-colors self-start md:self-auto shadow-sm"
         >
-          <RefreshCw className="w-4 h-4 text-sky-400" />
+          <RefreshCw className="w-4 h-4 text-sky-600" />
           <span>Reset Prototype Data</span>
         </button>
       </div>
@@ -84,7 +84,7 @@ export const AdminDashboard: React.FC = () => {
           return (
             <div
               key={idx}
-              className={`p-3.5 rounded-xl bg-[#0B1528] border ${stat.border} flex flex-col justify-between shadow-sm`}
+              className="p-3.5 rounded-xl bg-white border border-slate-200 flex flex-col justify-between shadow-sm"
             >
               <div className="flex items-center justify-between mb-2">
                 <Icon className={`w-4 h-4 ${stat.color}`} />
@@ -93,10 +93,10 @@ export const AdminDashboard: React.FC = () => {
                 <div className={`text-xl sm:text-2xl font-black ${stat.color} font-mono`}>
                   {stat.value}
                 </div>
-                <div className="font-semibold text-white mt-0.5 leading-tight text-[11px]">
+                <div className="font-semibold text-slate-800 mt-0.5 leading-tight text-[11px]">
                   {stat.label}
                 </div>
-                <div className="text-[10px] text-slate-400 mt-0.5 truncate">
+                <div className="text-[10px] text-slate-500 mt-0.5 truncate">
                   {stat.sub}
                 </div>
               </div>
@@ -106,14 +106,14 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* USER MANAGEMENT & ACCESS MATRIX */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
           <div>
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Users className="w-5 h-5 text-sky-400" />
+            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Users className="w-5 h-5 text-sky-600" />
               <span>User Management & Ecosystem Stakeholders</span>
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               Authorized government officers, startup founders, and appointed peer evaluators.
             </p>
           </div>
@@ -133,7 +133,7 @@ export const AdminDashboard: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400 uppercase text-[10px] tracking-wider">
+              <tr className="border-b border-slate-200 text-slate-500 uppercase text-[10px] tracking-wider">
                 <th className="py-2.5 px-3">Name & Official Email</th>
                 <th className="py-2.5 px-3">System Role</th>
                 <th className="py-2.5 px-3">Department / Affiliation</th>
@@ -141,21 +141,21 @@ export const AdminDashboard: React.FC = () => {
                 <th className="py-2.5 px-3">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-100">
               {filteredUsers.map((u, idx) => (
-                <tr key={idx} className="hover:bg-slate-800/40 transition-colors">
+                <tr key={idx} className="hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-3">
-                    <div className="font-bold text-white">{u.name}</div>
-                    <span className="text-[10px] text-slate-400">{u.email}</span>
+                    <div className="font-bold text-slate-900">{u.name}</div>
+                    <span className="text-[10px] text-slate-500">{u.email}</span>
                   </td>
                   <td className="py-3 px-3">
-                    <span className="font-semibold text-slate-200">{u.role}</span>
+                    <span className="font-semibold text-slate-800">{u.role}</span>
                   </td>
-                  <td className="py-3 px-3 text-slate-300">
+                  <td className="py-3 px-3 text-slate-600">
                     {u.dept}
                   </td>
                   <td className="py-3 px-3">
-                    <span className="text-[10px] bg-slate-800 text-sky-300 px-2 py-0.5 rounded border border-slate-700">
+                    <span className="text-[10px] bg-sky-50 text-sky-700 px-2 py-0.5 rounded border border-sky-200 font-medium">
                       {u.permissions}
                     </span>
                   </td>

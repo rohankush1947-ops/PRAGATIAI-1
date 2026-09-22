@@ -52,9 +52,9 @@ if (!activePilot) {
         <div className="flex items-center gap-3">
           <Link
             to="/government/kpi-monitoring"
-            className="px-4 py-2 rounded-xl bg-[#0F1C36] hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition-colors"
+            className="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-xs font-semibold text-slate-700 flex items-center gap-1.5 transition-colors shadow-sm"
           >
-            <Gauge className="w-4 h-4 text-sky-400" />
+            <Gauge className="w-4 h-4 text-sky-600" />
             <span>Live KPI Telemetry</span>
           </Link>
           <Link
@@ -68,33 +68,33 @@ if (!activePilot) {
       </div>
 
       {/* ACTIVE PILOT OVERVIEW CARD */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#0F1C36] via-[#0B1528] to-[#0F1C36] border border-sky-500/40 shadow-xl space-y-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800">
+      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800 uppercase">
+              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 uppercase">
                 {activePilot.department}
               </span>
               <StatusBadge status={activePilot.status} />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
               {activePilot.challengeTitle}
             </h2>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-2">
-              <span>Startup: <strong className="text-sky-400 font-semibold">{activePilot.startupName}</strong></span>
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600 mt-2">
+              <span>Startup: <strong className="text-sky-700 font-semibold">{activePilot.startupName}</strong></span>
               <span>•</span>
-              <span>Pilot Duration: <strong>{activePilot.pilotDuration}</strong></span>
+              <span>Pilot Duration: <strong className="text-slate-800">{activePilot.pilotDuration}</strong></span>
               <span>•</span>
-              <span>Period: <strong>{activePilot.startDate}</strong> to <strong>{activePilot.endDate}</strong></span>
+              <span>Period: <strong className="text-slate-800">{activePilot.startDate}</strong> to <strong className="text-slate-800">{activePilot.endDate}</strong></span>
             </div>
           </div>
 
           <div className="lg:text-right shrink-0">
-            <span className="text-xs text-slate-400 block mb-1">Overall Pilot Progress</span>
-            <div className="text-3xl font-black text-sky-400 font-mono">
+            <span className="text-xs text-slate-500 block mb-1">Overall Pilot Progress</span>
+            <div className="text-3xl font-black text-sky-600 font-mono">
               {activePilot.progressPercent}%
             </div>
-            <span className="text-[11px] text-slate-400">Day 74 of 90 Days</span>
+            <span className="text-[11px] text-slate-500">Day 74 of 90 Days</span>
           </div>
         </div>
 
@@ -108,7 +108,7 @@ if (!activePilot) {
 
         {/* 6-STEP PILOT TIMELINE */}
         <div className="space-y-4 pt-2">
-          <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+          <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
             6-Step Pilot Timeline & Field Deliverables
           </h3>
 
@@ -121,32 +121,32 @@ if (!activePilot) {
                   key={m.id}
                   className={`p-4 rounded-xl border flex flex-col justify-between transition-all ${
                     isCompleted
-                      ? 'bg-[#070E1E] border-emerald-500/30'
+                      ? 'bg-emerald-50/40 border-emerald-200'
                       : isInProgress
-                      ? 'bg-sky-950/20 border-sky-500/50 ring-1 ring-sky-500/30'
-                      : 'bg-[#070E1E]/60 border-slate-800'
+                      ? 'bg-sky-50 border-sky-300 ring-2 ring-sky-400/30'
+                      : 'bg-slate-50/80 border-slate-200'
                   }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-mono font-bold text-slate-400">
+                      <span className="text-xs font-mono font-bold text-slate-500">
                         Step 0{idx + 1}
                       </span>
                       <StatusBadge status={m.status} size="sm" />
                     </div>
-                    <h4 className="text-xs font-bold text-slate-100 mb-1 leading-snug">
+                    <h4 className="text-xs font-bold text-slate-900 mb-1 leading-snug">
                       {m.title}
                     </h4>
-                    <p className="text-[11px] text-slate-400 leading-relaxed mb-3">
+                    <p className="text-[11px] text-slate-600 leading-relaxed mb-3">
                       {m.deliverables}
                     </p>
                   </div>
-                  <div className="pt-2 border-t border-slate-800/80 text-[10px] text-slate-400 flex items-center justify-between">
+                  <div className="pt-2 border-t border-slate-200 text-[10px] text-slate-500 flex items-center justify-between">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3 h-3 text-slate-400" />
                       {m.date}
                     </span>
-                    {isCompleted && <span className="text-emerald-400 font-semibold">✓ Verified</span>}
+                    {isCompleted && <span className="text-emerald-700 font-semibold">✓ Verified</span>}
                   </div>
                 </div>
               );
@@ -157,22 +157,22 @@ if (!activePilot) {
 
       {/* QUICK STATS CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-        <div className="p-4 rounded-xl bg-[#0B1528] border border-slate-800">
-          <span className="text-slate-400 block mb-1">Hardware Units Deployed</span>
-          <div className="text-2xl font-bold text-white">12 Edge Cameras</div>
-          <p className="text-[11px] text-slate-400 mt-1">Mounted on PWD Bolero patrol fleet</p>
+        <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <span className="text-slate-500 block mb-1">Hardware Units Deployed</span>
+          <div className="text-2xl font-bold text-slate-900">12 Edge Cameras</div>
+          <p className="text-[11px] text-slate-500 mt-1">Mounted on PWD Bolero patrol fleet</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#0B1528] border border-slate-800">
-          <span className="text-slate-400 block mb-1">Road Network Monitored</span>
-          <div className="text-2xl font-bold text-sky-400">520 Kilometers</div>
-          <p className="text-[11px] text-slate-400 mt-1">Bengaluru North Division corridor</p>
+        <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <span className="text-slate-500 block mb-1">Road Network Monitored</span>
+          <div className="text-2xl font-bold text-sky-700">520 Kilometers</div>
+          <p className="text-[11px] text-slate-500 mt-1">Bengaluru North Division corridor</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#0B1528] border border-slate-800">
-          <span className="text-slate-400 block mb-1">Automated Work Orders</span>
-          <div className="text-2xl font-bold text-emerald-400">420 Hazards Fixed</div>
-          <p className="text-[11px] text-slate-400 mt-1">Sub-meter GPS dispatched to repair crews</p>
+        <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <span className="text-slate-500 block mb-1">Defect Verification Rate</span>
+          <div className="text-2xl font-bold text-emerald-700">94.2% Accurate</div>
+          <p className="text-[11px] text-slate-500 mt-1">1,480 potholes audited with GPS tagging</p>
         </div>
       </div>
     </div>

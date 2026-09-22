@@ -66,7 +66,7 @@ export const CircularScore: React.FC<CircularScoreProps> = ({
         </div>
       </div>
       {sublabel && (
-        <p className="text-xs text-slate-400 mt-2 font-medium max-w-[160px]">
+        <p className="text-xs text-slate-600 mt-2 font-medium max-w-[160px]">
           {sublabel}
         </p>
       )}

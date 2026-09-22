@@ -113,20 +113,20 @@ export const ExpertChallenges: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0B1528] via-[#0F1C36] to-[#0B1528] border border-purple-500/40 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-purple-50 via-white to-indigo-50 border border-purple-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4" />
+            <span className="text-xs font-bold uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-purple-600" />
               Statutory Technical Peer Review
             </span>
-            <span className="text-slate-600">•</span>
-            <span className="text-xs text-slate-400">Rule 173 GFR / GeM Innovation Portal</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-xs text-slate-500 font-medium">Rule 173 GFR / GeM Innovation Portal</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Review Government Challenges
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
             Inspect public sector problem statements, evaluate technical feasibility, and score outcome-based RFP criteria across public departments.
           </p>
         </div>
@@ -134,19 +134,19 @@ export const ExpertChallenges: React.FC = () => {
         <div className="flex items-center gap-3 shrink-0">
           <Link
             to="/expert/dashboard"
-            className="px-4 py-2.5 rounded-xl bg-[#080E1C] hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs font-semibold flex items-center gap-2 transition-colors shadow-sm"
           >
             <span>Evaluator Dashboard</span>
           </Link>
-          <div className="p-3 bg-purple-950/60 border border-purple-800/60 rounded-xl text-center">
-            <span className="text-[10px] text-purple-300 block uppercase font-bold">Total Challenges</span>
-            <span className="text-xl font-mono font-extrabold text-white">{challenges.length}</span>
+          <div className="p-3 bg-purple-50 border border-purple-200 rounded-xl text-center shadow-sm">
+            <span className="text-[10px] text-purple-700 block uppercase font-bold">Total Challenges</span>
+            <span className="text-xl font-mono font-extrabold text-purple-900">{challenges.length}</span>
           </div>
         </div>
       </div>
 
       {/* Search & Filters */}
-      <div className="p-4 rounded-2xl bg-[#0B1528] border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="relative flex-1 sm:max-w-md">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input

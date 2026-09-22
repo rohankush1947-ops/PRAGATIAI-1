@@ -76,9 +76,29 @@
    to clean, accessible, official government light theme.
    ============================================================ */
 
+/* Neutralize and transform all dark gradients into clean government light surfaces */
+div[class*="from-[#0B1528]"],
+div[class*="from-[#0F1C36]"],
+div[class*="from-[#070E1E]"],
+div[class*="from-[#080E1C]"],
+div[class*="from-[#0A1224]"],
+div[class*="from-emerald-950"],
+div[class*="from-sky-950"],
+div[class*="from-slate-900"]:not(footer):not(button):not(a),
+div[class*="via-[#0B1528]"],
+div[class*="via-[#0F1C36]"],
+div[class*="to-[#0B1528]"],
+div[class*="to-[#0F1C36]"],
+section[class*="from-[#0B1528]"],
+section[class*="from-[#0F1C36]"] {
+  background-image: none !important;
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
 /* Page canvas backgrounds */
 .bg-\[\#070E1E\],
-div[class*="bg-[#070E1E]"],
+div[class*="bg-[#070E1E]"]:not(.border-emerald-500\/40):not(.border-sky-500\/40):not(.border-purple-500\/40),
 main[class*="bg-[#070E1E]"] {
   background-color: #F4F6F9 !important;
 }
@@ -92,14 +112,64 @@ div[class*="bg-[#0F1C36]"],
 .bg-\[\#0A1224\],
 aside[class*="bg-[#0A1224]"] {
   background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
 }
 
 /* Sub-panels, wells, chip backgrounds */
+.bg-\[\#070E1E\],
 .bg-\[\#080E1C\],
 .bg-\[\#080E1D\],
+div[class*="bg-[#070E1E]"],
 div[class*="bg-[#080E1C]"],
 div[class*="bg-[#080E1D]"] {
   background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Remap 950-tints to accessible light government pastels */
+[class*="bg-sky-950"] {
+  background-color: #F0F9FF !important;
+  border-color: #BAE6FD !important;
+  color: #0369A1 !important;
+}
+[class*="bg-sky-950"] * {
+  color: #0369A1 !important;
+}
+
+[class*="bg-emerald-950"] {
+  background-color: #ECFDF5 !important;
+  border-color: #A7F3D0 !important;
+  color: #047857 !important;
+}
+[class*="bg-emerald-950"] * {
+  color: #047857 !important;
+}
+
+[class*="bg-amber-950"] {
+  background-color: #FFFBEB !important;
+  border-color: #FDE68A !important;
+  color: #B45309 !important;
+}
+[class*="bg-amber-950"] * {
+  color: #B45309 !important;
+}
+
+[class*="bg-rose-950"] {
+  background-color: #FFF1F2 !important;
+  border-color: #FECDD3 !important;
+  color: #BE123C !important;
+}
+[class*="bg-rose-950"] * {
+  color: #BE123C !important;
+}
+
+[class*="bg-purple-950"] {
+  background-color: #FAF5FF !important;
+  border-color: #E9D5FF !important;
+  color: #6B21A8 !important;
+}
+[class*="bg-purple-950"] * {
+  color: #6B21A8 !important;
 }
 
 /* Official deep navy footer (retained as standard on India.gov.in / MyGov) */
@@ -136,31 +206,58 @@ textarea::placeholder {
   color: #94A3B8 !important;
 }
 
-/* Headings inside light containers */
-.bg-\[\#070E1E\] h1, .bg-\[\#070E1E\] h2, .bg-\[\#070E1E\] h3, .bg-\[\#070E1E\] h4, .bg-\[\#070E1E\] h5,
-.bg-\[\#0B1528\] h1, .bg-\[\#0B1528\] h2, .bg-\[\#0B1528\] h3, .bg-\[\#0B1528\] h4, .bg-\[\#0B1528\] h5,
-.bg-\[\#0F1C36\] h1, .bg-\[\#0F1C36\] h2, .bg-\[\#0F1C36\] h3, .bg-\[\#0F1C36\] h4, .bg-\[\#0F1C36\] h5,
-.bg-\[\#0A1224\] h1, .bg-\[\#0A1224\] h2, .bg-\[\#0A1224\] h3, .bg-\[\#0A1224\] h4, .bg-\[\#0A1224\] h5 {
+/* All headings inside content surfaces */
+h1:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
+h2:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
+h3:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
+h4:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
+h5:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
+h6:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *) {
   color: #0F172A !important;
 }
 
 /* Slate text remaps on light surfaces (excluding colored buttons, badges & dark footer) */
-.text-slate-100:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *),
-span.text-white:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-purple-600 *):not(.bg-amber-600 *):not(.bg-rose-600 *):not(.bg-emerald-500 *):not(footer *):not(.gov-top-bar *),
-div.text-white:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *) {
-  color: #0F172A !important;
-}
-
-.text-slate-200:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *) {
+.text-slate-100:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *),
+.text-slate-200:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *) {
   color: #1E293B !important;
 }
 
-.text-slate-300:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(footer *):not(.gov-top-bar *) {
+.text-slate-300:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *) {
   color: #334155 !important;
 }
 
-.text-slate-400:not(footer *):not(.gov-top-bar *) {
+.text-slate-400:not(button *):not(footer *):not(.gov-top-bar *) {
   color: #64748B !important;
+}
+
+/* Text white overrides on non-button content elements */
+span.text-white:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not([class*="bg-purple-600"] *):not([class*="bg-rose-600"] *):not([class*="bg-amber-600"] *),
+div.text-white:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *) {
+  color: #0F172A !important;
+}
+
+/* Preserve crisp white text in solid colored action buttons and badges */
+button[class*="bg-sky-"],
+button[class*="bg-emerald-"],
+button[class*="bg-blue-"],
+button[class*="bg-purple-"],
+button[class*="bg-teal-"],
+a[class*="bg-sky-"],
+a[class*="bg-emerald-"],
+a[class*="bg-blue-"],
+a[class*="bg-purple-"],
+a[class*="bg-teal-"],
+button[class*="bg-sky-"] *,
+button[class*="bg-emerald-"] *,
+button[class*="bg-blue-"] *,
+button[class*="bg-purple-"] *,
+button[class*="bg-teal-"] *,
+a[class*="bg-sky-"] *,
+a[class*="bg-emerald-"] *,
+a[class*="bg-blue-"] *,
+a[class*="bg-purple-"] *,
+a[class*="bg-teal-"] * {
+  color: #FFFFFF !important;
 }
 
 /* Subtle glowing pulse */
@@ -172,3 +269,4 @@ div.text-white:not(button *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emera
 .animate-pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
 }
+

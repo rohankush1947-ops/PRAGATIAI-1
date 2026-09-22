@@ -62,19 +62,19 @@ export const ExpertDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Evaluator Welcome Banner */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0B1528] via-[#0F1C36] to-[#0B1528] border border-purple-500/40 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-purple-50 via-white to-indigo-50 border border-purple-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-purple-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-purple-700">
               Dr. Arvind Swaminathan
             </span>
-            <span className="text-slate-600">•</span>
-            <span className="text-xs text-slate-400">Professor of Transportation & Deep-Tech AI, IIT Madras</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-xs text-slate-500 font-medium">Professor of Transportation & Deep-Tech AI, IIT Madras</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Expert Evaluator Workspace
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
             Statutory peer review and multi-criteria evaluation of outcome-based Government Challenges and deep-tech startup proposals.
           </p>
         </div>
@@ -90,9 +90,9 @@ export const ExpertDashboard: React.FC = () => {
           </Link>
           <Link
             to="/expert/evaluate/app-pwd-roadvision"
-            className="px-4 py-2.5 rounded-xl bg-[#080E1C] hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs font-semibold flex items-center gap-2 transition-colors shadow-sm"
           >
-            <Award className="w-4 h-4 text-purple-400" />
+            <Award className="w-4 h-4 text-purple-600" />
             <span>Open Scoring Rubric</span>
           </Link>
         </div>
@@ -100,24 +100,24 @@ export const ExpertDashboard: React.FC = () => {
 
       {/* DASHBOARD STATS */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-sm">
-          <span className="text-xs text-slate-400 block mb-1">Open Government Challenges</span>
-          <div id="stat-expert-challenges-count" className="text-3xl font-black text-purple-400 font-mono">
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <span className="text-xs text-slate-500 block mb-1">Open Government Challenges</span>
+          <div id="stat-expert-challenges-count" className="text-3xl font-black text-purple-700 font-mono">
             {totalChallengesCount}
           </div>
-          <span className="text-[11px] text-slate-400 mt-1 block">Live across departments</span>
+          <span className="text-[11px] text-slate-500 mt-1 block">Live across departments</span>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-sm">
-          <span className="text-xs text-slate-400 block mb-1">Applications Awaiting Review</span>
-          <div className="text-3xl font-black text-amber-400 font-mono">
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <span className="text-xs text-slate-500 block mb-1">Applications Awaiting Review</span>
+          <div className="text-3xl font-black text-amber-700 font-mono">
             {awaitingReview}
           </div>
-          <span className="text-[11px] text-slate-400 mt-1 block">Assigned by Review Board</span>
+          <span className="text-[11px] text-slate-500 mt-1 block">Assigned by Review Board</span>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-sm">
-          <span className="text-xs text-slate-400 block mb-1">Completed Evaluations</span>
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <span className="text-xs text-slate-500 block mb-1">Completed Evaluations</span>
           <div className="text-3xl font-black text-emerald-400 font-mono">
             {completedEvals}
           </div>

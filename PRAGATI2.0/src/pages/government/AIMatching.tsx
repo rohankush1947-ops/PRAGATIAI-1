@@ -258,18 +258,18 @@ export const AIMatching: React.FC = () => {
                   onClick={() => setActiveCandidateId(m.startupId)}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shrink-0 ${
                     isSelected
-                      ? 'bg-sky-600 text-white shadow-lg shadow-sky-900/40 border border-sky-400/60'
-                      : 'bg-[#070E1E] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                      ? 'bg-sky-600 text-white shadow-md shadow-sky-900/20 border border-sky-400'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
                   }`}
                 >
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                    isSelected ? 'bg-sky-700 text-white' : 'bg-slate-800 text-slate-400'
+                    isSelected ? 'bg-sky-700 text-white' : 'bg-slate-100 text-slate-600'
                   }`}>
                     #{m.rank}
                   </span>
                   <span>{m.startupName}</span>
                   <span className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                    isSelected ? 'bg-sky-800 text-sky-100' : 'bg-slate-800/80 text-emerald-400'
+                    isSelected ? 'bg-sky-800 text-sky-100' : 'bg-emerald-50 text-emerald-700'
                   }`}>
                     {m.overallScore}%
                   </span>
@@ -282,45 +282,45 @@ export const AIMatching: React.FC = () => {
 
       {/* TOP MATCH RECOMMENDATION CARD */}
       {!loading && activeStartup && (
-        <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#0F1C36] via-[#0B1528] to-[#0F1C36] border border-sky-500/50 shadow-2xl space-y-8">
+        <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-8">
           {/* Top Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-800">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-200">
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 uppercase">
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 uppercase">
                   Rank #{activeStartup.rank} Recommendation
                 </span>
                 
                 {/* Engine Mode Badge */}
                 {matchingData?.mode === 'ai' ? (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-950/80 text-sky-300 border border-sky-500/40 text-[10px] font-bold uppercase tracking-wider">
-                    <Sparkles className="w-3 h-3 text-sky-400" />
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-300 text-[10px] font-bold uppercase tracking-wider">
+                    <Sparkles className="w-3 h-3 text-sky-600" />
                     <span>AI-Powered Match</span>
                     {matchingData.modelUsed && (
-                      <span className="text-[9px] text-slate-400 font-mono normal-case">({matchingData.modelUsed})</span>
+                      <span className="text-[9px] text-slate-500 font-mono normal-case">({matchingData.modelUsed})</span>
                     )}
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-600/40 text-[10px] font-bold uppercase tracking-wider" title="Operating with deterministic statutory scoring">
-                    <ShieldCheck className="w-3 h-3 text-amber-400" />
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 text-[10px] font-bold uppercase tracking-wider" title="Operating with deterministic statutory scoring">
+                    <ShieldCheck className="w-3 h-3 text-amber-600" />
                     <span>Rule-Based Fallback Engine</span>
                   </span>
                 )}
 
-                <span className="text-xs text-slate-400">{activeStartup.confidence} Match Confidence</span>
+                <span className="text-xs text-slate-500">{activeStartup.confidence} Match Confidence</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
                 {activeStartup.startupName}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
+              <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-xl">
                 {activeStartup.tagline}
               </p>
-              <div className="flex items-center gap-3 mt-2 text-[11px] text-slate-400">
-                <span className="px-2 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-slate-700">
+              <div className="flex items-center gap-3 mt-2 text-[11px] text-slate-500">
+                <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300">
                   {activeStartup.domain}
                 </span>
-                <span>Stage: <strong className="text-slate-200">{activeStartup.stage}</strong></span>
-                <span>Location: <strong className="text-slate-200">{activeStartup.location}</strong></span>
+                <span>Stage: <strong className="text-slate-800">{activeStartup.stage}</strong></span>
+                <span>Location: <strong className="text-slate-800">{activeStartup.location}</strong></span>
               </div>
             </div>
 
@@ -337,33 +337,33 @@ export const AIMatching: React.FC = () => {
           </div>
 
           {/* Explainable AI Rationale Highlight */}
-          <div className="p-4 rounded-xl bg-sky-950/40 border border-sky-800/40 text-xs sm:text-sm text-sky-200 leading-relaxed">
-            <strong className="text-white">Explainable AI Rationale:</strong> {activeStartup.explanation}
+          <div className="p-4 rounded-xl bg-sky-50 border border-sky-200 text-xs sm:text-sm text-sky-900 leading-relaxed">
+            <strong className="text-sky-950 font-bold">Explainable AI Rationale:</strong> {activeStartup.explanation}
           </div>
 
           {/* EXPLAINABLE SCORING BREAKDOWN */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
                 Explainable Scoring Breakdown
               </h3>
-              <span className="text-xs text-slate-400">Weights configured by RFP Rubric</span>
+              <span className="text-xs text-slate-500">Weights configured by RFP Rubric</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {activeStartup.breakdown.map((factor, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-xl bg-[#070E1E] border border-slate-800/90 space-y-2"
+                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2"
                 >
                   <div className="flex items-center justify-between text-xs">
                     <div>
-                      <span className="font-bold text-slate-200">{factor.label}</span>
-                      <span className="text-slate-400 text-[10px] ml-1.5 font-medium">
+                      <span className="font-bold text-slate-800">{factor.label}</span>
+                      <span className="text-slate-500 text-[10px] ml-1.5 font-medium">
                         ({factor.weight} weight)
                       </span>
                     </div>
-                    <span className="font-mono font-bold text-emerald-400 text-sm">
+                    <span className="font-mono font-bold text-emerald-600 text-sm">
                       {factor.score}%
                     </span>
                   </div>
@@ -373,7 +373,7 @@ export const AIMatching: React.FC = () => {
                     size="sm" 
                     showPercentage={false} 
                   />
-                  <p className="text-[11px] text-slate-400 leading-normal">
+                  <p className="text-[11px] text-slate-600 leading-normal">
                     {factor.desc}
                   </p>
                 </div>
@@ -385,12 +385,12 @@ export const AIMatching: React.FC = () => {
           {(activeStartup.strengths.length > 0 || (activeStartup.gaps && activeStartup.gaps.length > 0) || activeStartup.riskFactors.length > 0) && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
               {activeStartup.strengths.length > 0 && (
-                <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-800/30 text-xs space-y-1.5">
-                  <span className="font-bold text-emerald-400 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
+                <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs space-y-1.5">
+                  <span className="font-bold text-emerald-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                     Key Verified Strengths
                   </span>
-                  <ul className="list-disc list-inside space-y-1 text-slate-300 text-[11px]">
+                  <ul className="list-disc list-inside space-y-1 text-slate-700 text-[11px]">
                     {activeStartup.strengths.map((str, i) => (
                       <li key={i}>{str}</li>
                     ))}
@@ -399,12 +399,12 @@ export const AIMatching: React.FC = () => {
               )}
 
               {((activeStartup.gaps && activeStartup.gaps.length > 0) || activeStartup.riskFactors.length > 0) && (
-                <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-800/30 text-xs space-y-1.5">
-                  <span className="font-bold text-amber-400 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-                    <Info className="w-3.5 h-3.5" />
+                <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs space-y-1.5">
+                  <span className="font-bold text-amber-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+                    <Info className="w-3.5 h-3.5 text-amber-600" />
                     Identified Gaps & Advisory Considerations
                   </span>
-                  <ul className="list-disc list-inside space-y-1 text-slate-300 text-[11px]">
+                  <ul className="list-disc list-inside space-y-1 text-slate-700 text-[11px]">
                     {(activeStartup.gaps && activeStartup.gaps.length > 0 ? activeStartup.gaps : activeStartup.riskFactors).map((risk, i) => (
                       <li key={i}>{risk}</li>
                     ))}
@@ -415,11 +415,11 @@ export const AIMatching: React.FC = () => {
           )}
 
           {/* Action Buttons */}
-          <div className="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
             <button
               id="btn-compare-candidates"
               onClick={() => setCompareModalOpen(true)}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-300"
             >
               <Sliders className="w-3.5 h-3.5" />
               <span>Compare All {matchingData?.matches?.length || 0} Candidates</span>
@@ -429,7 +429,7 @@ export const AIMatching: React.FC = () => {
               <button
                 id="btn-open-proposal"
                 onClick={() => setProposalModalOpen(true)}
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition-all cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
               >
                 <FileText className="w-3.5 h-3.5" />
                 <span>Open Proposal</span>
@@ -437,7 +437,7 @@ export const AIMatching: React.FC = () => {
 
               <Link
                 to={`/startup/profile?startupId=${activeStartup?.startupId || ''}`}
-                className="px-4 py-2.5 rounded-xl bg-[#080E1C] hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
               >
                 <span>View Full Profile</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -479,14 +479,14 @@ export const AIMatching: React.FC = () => {
         maxWidth="3xl"
       >
         <div className="space-y-4 text-xs">
-          <p className="text-slate-400 text-[11px]">
+          <p className="text-slate-500 text-[11px]">
             Click on any candidate row below to inspect their detailed explainable breakdown and rationale.
           </p>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[550px]">
               <thead>
-                <tr className="border-b border-slate-800 text-slate-400 text-[11px]">
+                <tr className="border-b border-slate-200 text-slate-500 text-[11px]">
                   <th className="py-2.5 px-3">Rank</th>
                   <th className="py-2.5 px-3">Startup Candidate</th>
                   <th className="py-2.5 px-3">Tech Match</th>
@@ -497,7 +497,7 @@ export const AIMatching: React.FC = () => {
                   <th className="py-2.5 px-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-100">
                 {matchingData?.matches?.map((m) => {
                   const isCurrent = m.startupId === activeStartup?.startupId;
                   return (
@@ -507,39 +507,39 @@ export const AIMatching: React.FC = () => {
                         setActiveCandidateId(m.startupId);
                       }}
                       className={`cursor-pointer transition-colors ${
-                        isCurrent ? 'bg-sky-950/40 font-medium' : 'hover:bg-slate-800/40 text-slate-300'
+                        isCurrent ? 'bg-sky-50 font-medium text-slate-900' : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
                       <td className="py-3 px-3">
                         <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                          m.rank === 1 ? 'bg-emerald-900 text-emerald-300 border border-emerald-700' : 'bg-slate-800 text-slate-400'
+                          m.rank === 1 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-600'
                         }`}>
                           #{m.rank}
                         </span>
                       </td>
                       <td className="py-3 px-3">
-                        <div className="font-bold text-white text-xs">{m.startupName}</div>
-                        <div className="text-[10px] text-slate-400 truncate max-w-[180px]">{m.domain}</div>
+                        <div className="font-bold text-slate-900 text-xs">{m.startupName}</div>
+                        <div className="text-[10px] text-slate-500 truncate max-w-[180px]">{m.domain}</div>
                       </td>
                       <td className="py-3 px-3">
-                        <span className="font-mono font-semibold text-emerald-400">{m.technologyMatch}%</span>
+                        <span className="font-mono font-semibold text-emerald-600">{m.technologyMatch}%</span>
                       </td>
                       <td className="py-3 px-3">
-                        <span className="font-mono font-semibold text-sky-400">{m.domainMatch}%</span>
+                        <span className="font-mono font-semibold text-sky-700">{m.domainMatch}%</span>
                       </td>
                       <td className="py-3 px-3">
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                          m.readinessLevel === 'High' ? 'bg-emerald-950 text-emerald-300' : 'bg-amber-950 text-amber-300'
+                          m.readinessLevel === 'High' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
                         }`}>
                           {m.readinessLevel}
                         </span>
                       </td>
                       <td className="py-3 px-3">
-                        <span className="font-mono font-bold text-sky-300 text-sm">{m.overallScore}%</span>
+                        <span className="font-mono font-bold text-sky-700 text-sm">{m.overallScore}%</span>
                       </td>
                       <td className="py-3 px-3">
                         <span className={`text-[10px] font-medium ${
-                          m.eligibilityStatus === 'Eligible' ? 'text-emerald-400' : 'text-amber-400'
+                          m.eligibilityStatus === 'Eligible' ? 'text-emerald-700' : 'text-amber-700'
                         }`}>
                           {m.eligibilityStatus}
                         </span>

@@ -44,17 +44,17 @@ export const StartupDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Startup Profile Banner */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0B1528] via-[#0F1C36] to-[#0B1528] border border-emerald-500/40 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-emerald-50 via-white to-teal-50 border border-emerald-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">RoadVision AI</span>
-            <span className="text-slate-600">•</span>
-            <span className="text-xs text-slate-400">DPIIT Recognized Deep-Tech Startup</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">RoadVision AI</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-xs text-slate-500 font-medium">DPIIT Recognized Deep-Tech Startup</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Founder Workspace — RoadVision AI
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
             Pothole monitoring pilot with Public Works Department is currently at <strong>82% completion</strong> with <strong>94.2% detection accuracy</strong>.
           </p>
         </div>
@@ -62,9 +62,9 @@ export const StartupDashboard: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             to="/startup/eligibility"
-            className="px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900/80 border border-emerald-700 text-xs font-semibold text-emerald-300 flex items-center gap-1.5 transition-colors"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-emerald-300 text-xs font-semibold text-emerald-800 flex items-center gap-1.5 transition-colors shadow-sm"
           >
-            <CheckSquare className="w-4 h-4" />
+            <CheckSquare className="w-4 h-4 text-emerald-600" />
             <span>Eligibility Checklist</span>
           </Link>
           <Link
@@ -85,10 +85,10 @@ export const StartupDashboard: React.FC = () => {
             <Link
               key={idx}
               to={card.path}
-              className={`p-4 rounded-xl bg-[#0B1528] border ${card.border} hover:border-sky-400 transition-all flex flex-col justify-between group shadow-sm`}
+              className={`p-4 rounded-xl bg-white border border-slate-200 hover:border-sky-300 transition-all flex flex-col justify-between group shadow-sm`}
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-300">{card.label}</span>
+                <span className="text-xs font-semibold text-slate-600">{card.label}</span>
                 <Icon className={`w-4 h-4 ${card.color}`} />
               </div>
               <div className={`text-2xl sm:text-3xl font-black ${card.color}`}>
@@ -100,14 +100,14 @@ export const StartupDashboard: React.FC = () => {
       </div>
 
       {/* APPLICATION PIPELINE (PROMPT SPECIFIED 7 STAGES) */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-4">
           <div>
-            <h3 className="text-base font-bold text-white">
+            <h3 className="text-base font-bold text-slate-900">
               Application & Procurement Pipeline
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Current lifecycle status for: <strong className="text-sky-400">AI-Based Pothole Detection (PWD)</strong>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Current lifecycle status for: <strong className="text-sky-700">AI-Based Pothole Detection (PWD)</strong>
             </p>
           </div>
           <span className="text-xs text-emerald-400 font-semibold bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-800">
@@ -158,35 +158,35 @@ export const StartupDashboard: React.FC = () => {
       {/* QUICK ACTIONS & ACTIVE ENGAGEMENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Active Engagement Card */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white">Active Government Pilot</h3>
+            <h3 className="text-sm font-bold text-slate-900">Active Government Pilot</h3>
             <StatusBadge status="In Progress" />
           </div>
 
           <div className="space-y-2 text-xs">
-            <h4 className="text-sm font-bold text-sky-400">
+            <h4 className="text-sm font-bold text-sky-700">
               AI-Based Pothole Detection and Road Condition Monitoring
             </h4>
-            <p className="text-slate-300 leading-relaxed">
+            <p className="text-slate-600 leading-relaxed">
               Client: Public Works Department, Bengaluru North Division (520 km highway corridor).
             </p>
-            <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-[#070E1E] border border-slate-800 text-[11px] mt-2">
+            <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] mt-2">
               <div>
-                <span className="text-slate-400 block">Current Accuracy:</span>
-                <span className="text-emerald-400 font-bold">94.2% (Target 90%)</span>
+                <span className="text-slate-500 block">Current Accuracy:</span>
+                <span className="text-emerald-700 font-bold">94.2% (Target 90%)</span>
               </div>
               <div>
-                <span className="text-slate-400 block">Milestone 1 Payment:</span>
-                <span className="text-emerald-400 font-bold">₹11.55L Disbursed</span>
+                <span className="text-slate-500 block">Milestone 1 Payment:</span>
+                <span className="text-emerald-700 font-bold">₹11.55L Disbursed</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+          <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
             <Link
               to="/startup/pilots"
-              className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+              className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1"
             >
               <span>Manage Pilot Deliverables</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -195,35 +195,35 @@ export const StartupDashboard: React.FC = () => {
         </div>
 
         {/* DPIIT Regulatory & Statutory Status */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white">DPIIT Exemption Badges</h3>
-            <span className="text-xs font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+            <h3 className="text-sm font-bold text-slate-900">DPIIT Exemption Badges</h3>
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
               100% Verified
             </span>
           </div>
 
-          <div className="space-y-2.5 text-xs text-slate-300">
-            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#070E1E] border border-slate-800">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="space-y-2.5 text-xs text-slate-600">
+            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>DPIIT Startup Certificate (DIPP89234) active & verified</span>
             </div>
-            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#070E1E] border border-slate-800">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>Prior Turnover exemption approved under GFR Rule 173(i)</span>
             </div>
-            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#070E1E] border border-slate-800">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>Earnest Money Deposit (EMD) exemption active on GeM portal</span>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+          <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
             <Link
               to="/startup/profile"
-              className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+              className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1"
             >
-              <span>View Full Startup Dossier</span>
+              <span>View Registered Credentials</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

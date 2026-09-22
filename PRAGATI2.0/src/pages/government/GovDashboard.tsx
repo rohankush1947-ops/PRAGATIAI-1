@@ -84,17 +84,17 @@ export const GovDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Officer Welcome Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-[#0B1528] via-[#0F1C36] to-[#0B1528] border border-slate-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-sky-50 via-white to-blue-50 border border-sky-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-sky-400">Public Works Department (PWD)</span>
-            <span className="text-slate-600">•</span>
-            <span className="text-xs text-slate-400">Government Officer Workspace</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-sky-700">Public Works Department (PWD)</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-xs text-slate-500 font-medium">Government Officer Workspace</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Welcome back, Er. Rajeshwar Rao
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
             You are overseeing the Public Works Innovation Portfolio. RoadVision AI pilot in Bengaluru North has achieved 82% progress with 94.2% detection accuracy.
           </p>
         </div>
@@ -102,9 +102,9 @@ export const GovDashboard: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             to="/government/ai-assistant"
-            className="px-4 py-2.5 rounded-xl bg-[#080E1C] hover:bg-slate-800 border border-sky-500/40 text-xs font-semibold text-sky-400 flex items-center gap-2 transition-all"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-sky-300 text-xs font-semibold text-sky-700 flex items-center gap-2 shadow-sm transition-all"
           >
-            <Sparkles className="w-4 h-4 text-sky-400" />
+            <Sparkles className="w-4 h-4 text-sky-600" />
             <span>AI Challenge Assistant</span>
           </Link>
           <Link
@@ -124,11 +124,11 @@ export const GovDashboard: React.FC = () => {
           return (
             <div
               key={idx}
-              className={`p-4 rounded-xl bg-[#0B1528] border ${kpi.border} flex flex-col justify-between shadow-sm`}
+              className="p-4 rounded-xl bg-white border border-slate-200 flex flex-col justify-between shadow-sm"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-300">{kpi.label}</span>
-                <div className="w-8 h-8 rounded-lg bg-[#0F1C36] border border-slate-700 flex items-center justify-center">
+                <span className="text-xs font-semibold text-slate-600">{kpi.label}</span>
+                <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
                   <Icon className={`w-4 h-4 ${kpi.color}`} />
                 </div>
               </div>
@@ -136,7 +136,7 @@ export const GovDashboard: React.FC = () => {
                 <div className={`text-2xl sm:text-3xl font-black tracking-tight ${kpi.color}`}>
                   {kpi.value}
                 </div>
-                <div className="text-[11px] text-slate-400 mt-1 font-medium truncate">
+                <div className="text-[11px] text-slate-500 mt-1 font-medium truncate">
                   {kpi.sub}
                 </div>
               </div>
@@ -146,32 +146,32 @@ export const GovDashboard: React.FC = () => {
       </div>
 
       {/* ACTIVE SPOTLIGHT STORY: ROADVISION AI PILOT */}
-      <div className="p-6 rounded-2xl bg-[#0B1528] border border-sky-500/40 shadow-xl">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="p-6 rounded-2xl bg-white border border-sky-200/90 shadow-sm">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">
+              <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
                 ACTIVE PILOT SPOTLIGHT
               </span>
-              <span className="text-xs text-slate-400">90-Day Controlled Deployment</span>
+              <span className="text-xs text-slate-500">90-Day Controlled Deployment</span>
             </div>
-            <h3 className="text-lg font-bold text-white">
+            <h3 className="text-lg font-bold text-slate-900">
               AI-Based Pothole Detection & Road Condition Monitoring
             </h3>
-            <p className="text-xs text-slate-300 mt-0.5">
-              Startup: <strong className="text-sky-400">RoadVision AI</strong> | Corridor: 520 km Bengaluru North
+            <p className="text-xs text-slate-600 mt-0.5">
+              Startup: <strong className="text-sky-700">RoadVision AI</strong> | Corridor: 520 km Bengaluru North
             </p>
           </div>
           <div className="flex items-center gap-3">
             <Link
               to="/government/kpi-monitoring"
-              className="px-3.5 py-2 rounded-lg bg-[#0F1C36] hover:bg-slate-800 border border-slate-700 text-xs font-medium text-slate-200"
+              className="px-3.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-xs font-semibold text-slate-700"
             >
               Live Telemetry
             </Link>
             <Link
               to="/government/validation"
-              className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm"
             >
               <span>Validate & Scale</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -181,33 +181,33 @@ export const GovDashboard: React.FC = () => {
 
         {/* Mini progress bar & KPI chips */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 text-xs">
-          <div className="bg-[#070E1E] p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 block mb-1">Pilot Progress</span>
-            <div className="flex items-center justify-between font-bold text-white mb-1.5">
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 block mb-1">Pilot Progress</span>
+            <div className="flex items-center justify-between font-bold text-slate-900 mb-1.5">
               <span>82% Completed</span>
-              <span className="text-sky-400">Day 74 of 90</span>
+              <span className="text-sky-700">Day 74 of 90</span>
             </div>
-            <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-              <div className="bg-sky-500 h-2 rounded-full" style={{ width: '82%' }} />
+            <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div className="bg-sky-600 h-2 rounded-full" style={{ width: '82%' }} />
             </div>
           </div>
 
-          <div className="bg-[#070E1E] p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 block mb-1">Detection Accuracy</span>
-            <div className="text-xl font-black text-emerald-400">94.2%</div>
-            <span className="text-[11px] text-slate-400">Target was ≥ 90% (+4.2%)</span>
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 block mb-1">Detection Accuracy</span>
+            <div className="text-xl font-black text-emerald-600">94.2%</div>
+            <span className="text-[11px] text-slate-500">Target was ≥ 90% (+4.2%)</span>
           </div>
 
-          <div className="bg-[#070E1E] p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 block mb-1">False Positive Rate</span>
-            <div className="text-xl font-black text-emerald-400">6.1%</div>
-            <span className="text-[11px] text-slate-400">Target was ≤ 10% (-3.9%)</span>
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 block mb-1">False Positive Rate</span>
+            <div className="text-xl font-black text-emerald-600">6.1%</div>
+            <span className="text-[11px] text-slate-500">Target was ≤ 10% (-3.9%)</span>
           </div>
 
-          <div className="bg-[#070E1E] p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 block mb-1">Validation Recommendation</span>
-            <div className="text-xl font-black text-sky-400">SCALE</div>
-            <span className="text-[11px] text-slate-400">5-District Expansion Ready</span>
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 block mb-1">Validation Recommendation</span>
+            <div className="text-xl font-black text-sky-700">SCALE</div>
+            <span className="text-[11px] text-slate-500">5-District Expansion Ready</span>
           </div>
         </div>
       </div>
@@ -215,7 +215,7 @@ export const GovDashboard: React.FC = () => {
       {/* CHARTS GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart 1: Challenges by Department */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-sm font-bold text-white">Challenges by Department</h3>
@@ -239,37 +239,37 @@ export const GovDashboard: React.FC = () => {
         </div>
 
         {/* Chart 2: Application Pipeline */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-white">Application Pipeline Funnel</h3>
-              <p className="text-xs text-slate-400">Conversion from proposal to procurement</p>
+              <h3 className="text-sm font-bold text-slate-900">Application Pipeline Funnel</h3>
+              <p className="text-xs text-slate-500">Conversion from proposal to procurement</p>
             </div>
-            <span className="text-xs text-emerald-400 font-semibold">86 Inflow</span>
+            <span className="text-xs text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">86 Inflow</span>
           </div>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={pipelineData} layout="vertical" margin={{ top: 10, right: 20, left: 20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" horizontal={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" horizontal={false} />
                 <XAxis type="number" stroke="#64748B" fontSize={11} />
-                <YAxis type="category" dataKey="stage" stroke="#94A3B8" fontSize={11} tickLine={false} />
+                <YAxis type="category" dataKey="stage" stroke="#475569" fontSize={11} tickLine={false} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0F1C36', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#CBD5E1', borderRadius: '8px', fontSize: '12px', color: '#0F172A' }}
                 />
-                <Bar dataKey="count" name="Startups" fill="#38BDF8" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="count" name="Startups" fill="#0284C7" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Chart 3: Pilot Success Rate */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-white">Pilot Success Outcomes</h3>
-              <p className="text-xs text-slate-400">Performance against benchmark targets</p>
+              <h3 className="text-sm font-bold text-slate-900">Pilot Success Outcomes</h3>
+              <p className="text-xs text-slate-500">Performance against benchmark targets</p>
             </div>
-            <span className="text-xs text-sky-400 font-semibold">90% Pass Rate</span>
+            <span className="text-xs text-sky-700 font-semibold bg-sky-50 px-2 py-0.5 rounded border border-sky-200">90% Pass Rate</span>
           </div>
           <div className="h-64 w-full flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
@@ -288,7 +288,7 @@ export const GovDashboard: React.FC = () => {
                   ))}
                 </Pie>
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0F1C36', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#CBD5E1', borderRadius: '8px', fontSize: '12px', color: '#0F172A' }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -297,31 +297,31 @@ export const GovDashboard: React.FC = () => {
             {pilotOutcomeData.map((item, idx) => (
               <div key={idx} className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                <span className="text-slate-300">{item.name} ({item.value}%)</span>
+                <span className="text-slate-700 font-medium">{item.name} ({item.value}%)</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Chart 4: Procurement Disbursement (in Lakhs) */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-white">Procurement Disbursement Trend</h3>
-              <p className="text-xs text-slate-400">Milestone payments released (in ₹ Lakhs)</p>
+              <h3 className="text-sm font-bold text-slate-900">Procurement Disbursement Trend</h3>
+              <p className="text-xs text-slate-500">Milestone payments released (in ₹ Lakhs)</p>
             </div>
-            <span className="text-xs text-purple-400 font-semibold">₹98L Released</span>
+            <span className="text-xs text-purple-700 font-semibold bg-purple-50 px-2 py-0.5 rounded border border-purple-200">₹98L Released</span>
           </div>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={procurementTrendData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis dataKey="month" stroke="#64748B" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0F1C36', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#CBD5E1', borderRadius: '8px', fontSize: '12px', color: '#0F172A' }}
                 />
-                <Line type="monotone" dataKey="value" name="Payout (₹ Lakhs)" stroke="#A855F7" strokeWidth={2.5} dot={{ r: 4, fill: '#A855F7' }} />
+                <Line type="monotone" dataKey="value" name="Payout (₹ Lakhs)" stroke="#0284C7" strokeWidth={2.5} dot={{ r: 4, fill: '#0284C7' }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -329,34 +329,34 @@ export const GovDashboard: React.FC = () => {
       </div>
 
       {/* RECENT ACTIVITY AUDIT TRAIL */}
-      <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md">
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+        <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
           <div>
-            <h3 className="text-sm font-bold text-white">Recent Ecosystem Activity</h3>
-            <p className="text-xs text-slate-400">Tamper-evident audit timeline across government and startups</p>
+            <h3 className="text-sm font-bold text-slate-900">Recent Ecosystem Activity</h3>
+            <p className="text-xs text-slate-500">Tamper-evident audit timeline across government and startups</p>
           </div>
           <Link
             to="/government/audit-log"
-            className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+            className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1"
           >
             <span>View Full Audit Registry</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="divide-y divide-slate-800/60">
+        <div className="divide-y divide-slate-100">
           {auditLogs.slice(0, 5).map((log) => (
             <div key={log.id} className="py-3 flex items-start justify-between gap-4 text-xs">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-slate-100">{log.action}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-sky-400 border border-slate-700">
+                  <span className="font-semibold text-slate-900">{log.action}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-medium">
                     {log.userRole}
                   </span>
                 </div>
-                <p className="text-slate-400 leading-normal">{log.details}</p>
+                <p className="text-slate-600 leading-normal">{log.details}</p>
                 <div className="text-[11px] text-slate-400 flex items-center gap-2">
-                  <span>By: <strong>{log.userName}</strong></span>
+                  <span>By: <strong className="text-slate-600">{log.userName}</strong></span>
                   <span>•</span>
                   <span>{log.timestamp}</span>
                 </div>
@@ -369,3 +369,4 @@ export const GovDashboard: React.FC = () => {
     </div>
   );
 };
+

@@ -160,30 +160,30 @@ export const PilotValidation: React.FC = () => {
         </div>
 
         {/* RECOMMENDATION CARD (PROMPT SPECIFIED) */}
-        <div className="p-5 rounded-xl bg-gradient-to-r from-emerald-950/70 via-[#0A1F18] to-emerald-950/70 border border-emerald-500/50 space-y-2">
+        <div className="p-5 rounded-xl bg-gradient-to-r from-emerald-50 via-white to-teal-50 border border-emerald-200 shadow-sm space-y-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">
               Algorithmic & Technical Committee Recommendation
             </span>
           </div>
-          <div className="text-3xl font-black text-emerald-300 tracking-wider">
+          <div className="text-3xl font-black text-emerald-700 tracking-wider">
             SCALE
           </div>
-          <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
             "The solution exceeded the predefined pilot KPIs and demonstrated strong operational performance."
           </p>
         </div>
       </div>
 
       {/* AUTHORIZED HUMAN DECISION SECTION */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl space-y-6">
-        <div className="border-b border-slate-800 pb-4">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <UserCheck className="w-5 h-5 text-sky-400" />
+      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+        <div className="border-b border-slate-200 pb-4">
+          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <UserCheck className="w-5 h-5 text-sky-600" />
             <span>Authorized Official Decision Required</span>
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Pursuant to Rule 173 of GFR 2017 and GeM Innovation Procurement Guidelines, human authorization is mandatory before committing public procurement funds.
           </p>
         </div>
@@ -196,16 +196,16 @@ export const PilotValidation: React.FC = () => {
             onClick={() => setSelectedDecision('Scale')}
             className={`p-4 rounded-xl border text-left transition-all ${
               selectedDecision === 'Scale'
-                ? 'bg-emerald-950/80 border-emerald-500 ring-2 ring-emerald-500/40 text-white'
-                : 'bg-[#070E1E] border-slate-800 text-slate-300 hover:border-slate-700'
+                ? 'bg-emerald-50 border-emerald-400 ring-2 ring-emerald-300 text-slate-900 shadow-sm'
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <TrendingUp className={`w-5 h-5 ${selectedDecision === 'Scale' ? 'text-emerald-400' : 'text-slate-400'}`} />
-              {selectedDecision === 'Scale' && <span className="text-[10px] font-bold text-emerald-400">SELECTED</span>}
+              <TrendingUp className={`w-5 h-5 ${selectedDecision === 'Scale' ? 'text-emerald-600' : 'text-slate-400'}`} />
+              {selectedDecision === 'Scale' && <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">SELECTED</span>}
             </div>
-            <div className="text-sm font-bold text-white">SCALE</div>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <div className="text-sm font-bold text-slate-900">SCALE</div>
+            <p className="text-[11px] text-slate-500 mt-1">
               Approve statewide multi-district expansion and milestone contract.
             </p>
           </button>
@@ -216,16 +216,16 @@ export const PilotValidation: React.FC = () => {
             onClick={() => setSelectedDecision('Continue Pilot')}
             className={`p-4 rounded-xl border text-left transition-all ${
               selectedDecision === 'Continue Pilot'
-                ? 'bg-sky-950/80 border-sky-500 ring-2 ring-sky-500/40 text-white'
-                : 'bg-[#070E1E] border-slate-800 text-slate-300 hover:border-slate-700'
+                ? 'bg-sky-50 border-sky-400 ring-2 ring-sky-300 text-slate-900 shadow-sm'
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <RotateCcw className={`w-5 h-5 ${selectedDecision === 'Continue Pilot' ? 'text-sky-400' : 'text-slate-400'}`} />
-              {selectedDecision === 'Continue Pilot' && <span className="text-[10px] font-bold text-sky-400">SELECTED</span>}
+              <RotateCcw className={`w-5 h-5 ${selectedDecision === 'Continue Pilot' ? 'text-sky-600' : 'text-slate-400'}`} />
+              {selectedDecision === 'Continue Pilot' && <span className="text-[10px] font-bold text-sky-700 bg-sky-100 px-1.5 py-0.5 rounded">SELECTED</span>}
             </div>
-            <div className="text-sm font-bold text-white">Continue Pilot</div>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <div className="text-sm font-bold text-slate-900">Continue Pilot</div>
+            <p className="text-[11px] text-slate-500 mt-1">
               Extend trial by 30 days for additional stress testing.
             </p>
           </button>
