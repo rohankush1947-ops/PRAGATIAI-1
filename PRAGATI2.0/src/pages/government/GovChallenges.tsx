@@ -187,14 +187,14 @@ export const GovChallenges: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-sky-400 mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-sky-700 mb-1">
             <Flag className="w-4 h-4" />
             <span>Problem Statements & RFPs</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             Government Challenges
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Explore, manage, and register outcome-based challenges across public departments.
           </p>
         </div>
@@ -202,7 +202,7 @@ export const GovChallenges: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             to="/government/ai-assistant"
-            className="px-3.5 py-2 rounded-xl bg-[#0F1C36] hover:bg-slate-800 border border-sky-500/40 text-xs font-semibold text-sky-400 flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-2 rounded-xl bg-white hover:bg-sky-50 border border-sky-300 text-xs font-semibold text-sky-700 flex items-center gap-1.5 shadow-sm transition-colors"
           >
             <Sparkles className="w-4 h-4" />
             <span>AI Assistant</span>
@@ -211,7 +211,7 @@ export const GovChallenges: React.FC = () => {
           <button
             id="btn-register-new-challenge"
             onClick={handleOpenModal}
-            className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-sky-700 hover:bg-sky-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
           >
             <PlusCircle className="w-4 h-4" />
             <span>+ Register New Challenge</span>
@@ -219,7 +219,7 @@ export const GovChallenges: React.FC = () => {
 
           <Link
             to="/government/create-challenge"
-            className="px-3 py-2 rounded-xl bg-[#0F1C36] hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-medium flex items-center gap-1 transition-colors"
+            className="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs font-medium flex items-center gap-1 shadow-sm transition-colors"
           >
             <FileText className="w-3.5 h-3.5" />
             <span>Full Wizard</span>
@@ -228,7 +228,7 @@ export const GovChallenges: React.FC = () => {
       </div>
 
       {/* Filter Tabs & Search */}
-      <div className="p-4 rounded-2xl bg-[#0B1528] border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-wrap gap-1.5">
           {['All', 'Pilot', 'Open', 'Review', 'Published'].map(tab => (
             <button
@@ -236,8 +236,8 @@ export const GovChallenges: React.FC = () => {
               onClick={() => setFilterStatus(tab)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                 filterStatus === tab
-                  ? 'bg-sky-600 text-white font-semibold'
-                  : 'bg-[#070E1E] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-sky-700 text-white font-semibold shadow-sm'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
               }`}
             >
               {tab === 'All' ? 'All Challenges' : tab}
@@ -262,59 +262,59 @@ export const GovChallenges: React.FC = () => {
         {filtered.map(ch => (
           <div
             key={ch.id}
-            className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-sky-500/40 transition-all flex flex-col justify-between group shadow-sm"
+            className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-sky-500 hover:shadow-md transition-all flex flex-col justify-between group shadow-sm"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono font-bold text-sky-300 bg-sky-950/90 border border-sky-800/60 px-2 py-0.5 rounded">
+                  <span className="text-[11px] font-mono font-bold text-sky-800 bg-sky-50 border border-sky-200 px-2 py-0.5 rounded">
                     {ch.id}
                   </span>
-                  <span className="text-xs font-semibold text-slate-300 truncate max-w-[200px]">
+                  <span className="text-xs font-semibold text-slate-600 truncate max-w-[200px]">
                     {ch.department}
                   </span>
                 </div>
                 <StatusBadge status={ch.status} />
               </div>
 
-              <h3 className="text-base font-bold text-white mb-2 leading-snug group-hover:text-sky-300 transition-colors">
+              <h3 className="text-base font-bold text-slate-900 mb-2 leading-snug group-hover:text-sky-700 transition-colors">
                 {ch.title}
               </h3>
 
-              <p className="text-xs text-slate-300 line-clamp-3 mb-4 leading-relaxed">
+              <p className="text-xs text-slate-600 line-clamp-3 mb-4 leading-relaxed">
                 {ch.problemDescription}
               </p>
 
-              <div className="grid grid-cols-2 gap-2 text-[11px] bg-[#070E1E] p-3 rounded-xl border border-slate-800/80 mb-4">
+              <div className="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-3 rounded-xl border border-slate-200 mb-4">
                 <div>
-                  <span className="text-slate-400 block">Pilot Budget:</span>
-                  <span className="font-bold text-slate-200">{ch.budgetRange || ch.budget || '₹25 - 50 Lakhs'}</span>
+                  <span className="text-slate-500 block">Pilot Budget:</span>
+                  <span className="font-bold text-slate-900">{ch.budgetRange || ch.budget || '₹25 - 50 Lakhs'}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block">Pilot Duration:</span>
-                  <span className="font-bold text-slate-200">{ch.pilotDuration || ch.timeline || '90 Days'}</span>
+                  <span className="text-slate-500 block">Pilot Duration:</span>
+                  <span className="font-bold text-slate-900">{ch.pilotDuration || ch.timeline || '90 Days'}</span>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {(ch.techArea || []).map((tech, i) => (
-                  <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                  <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300 font-medium">
                     {tech}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1.5 text-slate-400">
-                <Users className="w-3.5 h-3.5 text-sky-400" />
+            <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-1.5 text-slate-600 font-medium">
+                <Users className="w-3.5 h-3.5 text-sky-700" />
                 <span>{ch.applicationsCount || 0} Proposals</span>
               </div>
               <div className="flex items-center gap-3">
                 <Link
                   id={`match-${ch.id}`}
                   to={`/government/ai-matching?challengeId=${ch.id}`}
-                  className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1 group-hover:translate-x-0.5 transition-all"
+                  className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1 group-hover:translate-x-0.5 transition-all"
                 >
                   <span>AI Match</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -379,7 +379,7 @@ export const GovChallenges: React.FC = () => {
               <button
                 type="button"
                 onClick={resetForm}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-xs font-medium transition-colors cursor-pointer"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 text-xs font-medium transition-colors cursor-pointer"
               >
                 + Register Another
               </button>
@@ -388,21 +388,21 @@ export const GovChallenges: React.FC = () => {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 text-xs">
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-rose-950/60 border border-rose-500/50 flex items-center gap-2 text-rose-300 text-xs">
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-300 flex items-center gap-2 text-rose-800 text-xs">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             {/* Basic Information */}
-            <div className="space-y-3 bg-[#070E1E] p-4 rounded-xl border border-slate-800/80">
-              <div className="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div className="text-xs font-bold text-sky-800 uppercase tracking-wider flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5" />
                 <span>1. Basic Information</span>
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-700 mb-1">
                   Challenge Title *
                 </label>
                 <input
@@ -417,7 +417,7 @@ export const GovChallenges: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-300 mb-1">
+                  <label className="block font-semibold text-slate-700 mb-1">
                     Department *
                   </label>
                   <input
@@ -431,7 +431,7 @@ export const GovChallenges: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-300 mb-1">
+                  <label className="block font-semibold text-slate-700 mb-1">
                     Sector / Category *
                   </label>
                   <input
@@ -445,7 +445,7 @@ export const GovChallenges: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-300 mb-1">
+                  <label className="block font-semibold text-slate-700 mb-1">
                     Location
                   </label>
                   <input
@@ -459,7 +459,7 @@ export const GovChallenges: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-700 mb-1">
                   Problem Statement *
                 </label>
                 <textarea
@@ -474,14 +474,14 @@ export const GovChallenges: React.FC = () => {
             </div>
 
             {/* Technical & Implementation Requirements */}
-            <div className="space-y-3 bg-[#070E1E] p-4 rounded-xl border border-slate-800/80">
-              <div className="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div className="text-xs font-bold text-sky-800 uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>2. Technical & Implementation Requirements</span>
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-700 mb-1">
                   Required Technologies * (Comma-separated)
                 </label>
                 <input
@@ -495,7 +495,7 @@ export const GovChallenges: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-300 mb-1">
+                <label className="block font-semibold text-slate-700 mb-1">
                   Required Capabilities
                 </label>
                 <input
@@ -509,7 +509,7 @@ export const GovChallenges: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-300 mb-1">
+                  <label className="block font-semibold text-slate-700 mb-1">
                     Pilot Budget
                   </label>
                   <input
@@ -522,7 +522,7 @@ export const GovChallenges: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-300 mb-1">
+                  <label className="block font-semibold text-slate-700 mb-1">
                     Timeline / Duration
                   </label>
                   <input
@@ -536,7 +536,7 @@ export const GovChallenges: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-300 mb-1">
+                <label className="block font-semibold text-slate-700 mb-1">
                   Expected Outcome / Solution
                 </label>
                 <input
@@ -550,15 +550,15 @@ export const GovChallenges: React.FC = () => {
             </div>
 
             {/* Eligibility & Status */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#070E1E] p-4 rounded-xl border border-slate-800/80">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
               <div>
-                <label className="block font-semibold text-slate-300 mb-1">
+                <label className="block font-semibold text-slate-700 mb-1">
                   Startup Stage
                 </label>
                 <select
                   value={formData.minStage}
                   onChange={(e) => setFormData({ ...formData, minStage: e.target.value })}
-                  className="gov-input bg-[#0B1528]"
+                  className="gov-input bg-white"
                 >
                   <option value="Early Stage">Early Stage (TRL 5+)</option>
                   <option value="Growth">Growth (TRL 7+)</option>
@@ -567,13 +567,13 @@ export const GovChallenges: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-300 mb-1">
+                <label className="block font-semibold text-slate-700 mb-1">
                   Lifecycle Status
                 </label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="gov-input bg-[#0B1528]"
+                  className="gov-input bg-white"
                 >
                   <option value="Published">Published (Open for Matching)</option>
                   <option value="Applications Open">Applications Open</option>
@@ -582,7 +582,7 @@ export const GovChallenges: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200">
               <button
                 type="button"
                 onClick={handleCloseModal}

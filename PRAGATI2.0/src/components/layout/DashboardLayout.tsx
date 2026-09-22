@@ -268,19 +268,19 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                       className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                         isActive
                           ? 'bg-sky-700 text-white shadow-sm font-semibold'
-                          : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+                          : 'text-slate-700 hover:text-sky-900 hover:bg-slate-100'
                       }`}
                       title={sidebarCollapsed ? item.label : undefined}
                     >
-                      <Icon className="w-4 h-4 shrink-0" />
+                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
-                        <span className="flex-1 truncate">{item.label}</span>
+                        <span className={`flex-1 truncate font-medium ${isActive ? 'text-white' : 'text-slate-700'}`}>{item.label}</span>
                       )}
                       {!sidebarCollapsed && item.badge && (
                         <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${
                           isActive 
                             ? 'bg-sky-800 text-white' 
-                            : 'bg-sky-50 text-sky-800 border border-sky-200'
+                            : 'bg-sky-100 text-sky-800 border border-sky-200'
                         }`}>
                           {item.badge}
                         </span>
@@ -347,13 +347,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                           className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium ${
                             isActive
                               ? 'bg-sky-700 text-white font-semibold'
-                              : 'text-slate-700 hover:bg-slate-100'
+                              : 'text-slate-700 hover:text-sky-900 hover:bg-slate-100'
                           }`}
                         >
-                          <Icon className="w-4 h-4 shrink-0" />
-                          <span className="flex-1">{item.label}</span>
+                          <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                          <span className={`flex-1 font-medium ${isActive ? 'text-white' : 'text-slate-700'}`}>{item.label}</span>
                           {item.badge && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-200">
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${
+                              isActive
+                                ? 'bg-sky-800 text-white'
+                                : 'bg-sky-100 text-sky-800 border border-sky-200'
+                            }`}>
                               {item.badge}
                             </span>
                           )}

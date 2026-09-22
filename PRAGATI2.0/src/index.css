@@ -186,6 +186,22 @@ footer[class*="bg-[#050B17]"],
   border-color: #E2E8F0 !important;
 }
 
+/* Remap dark slate chips, tags, and small badges to accessible light badges */
+span.bg-slate-800,
+span.bg-slate-900,
+span.bg-slate-700,
+div.bg-slate-800:not(button):not(footer *),
+[class*="bg-slate-800"]:not(button):not(footer *):not(aside button) {
+  background-color: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #334155 !important;
+}
+span.bg-slate-800 *,
+span.bg-slate-900 *,
+span.bg-slate-700 * {
+  color: #334155 !important;
+}
+
 /* Form inputs & text fields in light mode */
 input.bg-\[\#080E1D\],
 input.bg-\[\#0B1528\],
@@ -206,57 +222,76 @@ textarea::placeholder {
   color: #94A3B8 !important;
 }
 
-/* All headings inside content surfaces */
-h1:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
-h2:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
-h3:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
-h4:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
-h5:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *),
-h6:not(button *):not(footer *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not(.gov-top-bar *) {
+/* Headings inside content surfaces */
+h1:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
+h2:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
+h3:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
+h4:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
+h5:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
+h6:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *) {
   color: #0F172A !important;
 }
 
-/* Slate text remaps on light surfaces (excluding colored buttons, badges & dark footer) */
-.text-slate-100:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *),
-.text-slate-200:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *) {
+/* Slate text remaps on light surfaces */
+.text-slate-100:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *),
+.text-slate-200:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *) {
   color: #1E293B !important;
 }
 
-.text-slate-300:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *) {
+.text-slate-300:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *) {
   color: #334155 !important;
 }
 
-.text-slate-400:not(button *):not(footer *):not(.gov-top-bar *) {
+.text-slate-400:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *) {
   color: #64748B !important;
 }
 
 /* Text white overrides on non-button content elements */
-span.text-white:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *):not([class*="bg-purple-600"] *):not([class*="bg-rose-600"] *):not([class*="bg-amber-600"] *),
-div.text-white:not(button *):not(a[class*="bg-sky-"]):not(a[class*="bg-emerald-"]):not(footer *):not(.gov-top-bar *):not([class*="bg-sky-600"] *):not([class*="bg-emerald-600"] *):not([class*="bg-blue-600"] *) {
+span.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-purple-600 *):not(.bg-rose-600 *):not(.bg-amber-600 *),
+div.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *) {
   color: #0F172A !important;
 }
 
-/* Preserve crisp white text in solid colored action buttons and badges */
-button[class*="bg-sky-"],
-button[class*="bg-emerald-"],
-button[class*="bg-blue-"],
-button[class*="bg-purple-"],
-button[class*="bg-teal-"],
-a[class*="bg-sky-"],
-a[class*="bg-emerald-"],
-a[class*="bg-blue-"],
-a[class*="bg-purple-"],
-a[class*="bg-teal-"],
-button[class*="bg-sky-"] *,
-button[class*="bg-emerald-"] *,
-button[class*="bg-blue-"] *,
-button[class*="bg-purple-"] *,
-button[class*="bg-teal-"] *,
-a[class*="bg-sky-"] *,
-a[class*="bg-emerald-"] *,
-a[class*="bg-blue-"] *,
-a[class*="bg-purple-"] *,
-a[class*="bg-teal-"] * {
+/* Sidebar navigation link labels & icons guarantee */
+aside nav a span,
+aside .space-y-1 a span {
+  color: #334155 !important;
+}
+aside nav a svg,
+aside .space-y-1 a svg {
+  color: #64748B !important;
+}
+aside nav a:hover span,
+aside .space-y-1 a:hover span {
+  color: #0F172A !important;
+}
+aside nav a:hover svg,
+aside .space-y-1 a:hover svg {
+  color: #0284C7 !important;
+}
+aside nav a.bg-sky-700 span,
+aside .space-y-1 a.bg-sky-700 span,
+aside nav a.bg-sky-700 svg,
+aside .space-y-1 a.bg-sky-700 svg {
+  color: #FFFFFF !important;
+}
+
+/* Solid colored action buttons and badges - crisp white text */
+.bg-sky-600, .bg-sky-700, .bg-sky-800,
+.bg-emerald-600, .bg-emerald-700,
+.bg-blue-600, .bg-blue-700, .bg-blue-800,
+.bg-purple-600, .bg-purple-700,
+.bg-indigo-600, .bg-indigo-700,
+.bg-teal-600, .bg-teal-700,
+.bg-rose-600, .bg-rose-700,
+.bg-amber-600, .bg-amber-700,
+button.bg-sky-600 *, button.bg-sky-700 *, button.bg-sky-800 *,
+button.bg-emerald-600 *, button.bg-emerald-700 *,
+button.bg-blue-600 *, button.bg-blue-700 *,
+button.bg-purple-600 *, button.bg-indigo-600 *,
+a.bg-sky-600 *, a.bg-sky-700 *, a.bg-sky-800 *,
+a.bg-emerald-600 *, a.bg-blue-600 *,
+.gov-button-primary, .gov-button-primary * {
   color: #FFFFFF !important;
 }
 

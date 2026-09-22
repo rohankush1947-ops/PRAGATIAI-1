@@ -100,14 +100,14 @@ export const StartupDiscovery: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-sky-400 mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-sky-700 mb-1">
             <Search className="w-4 h-4" />
             <span>Deep-Tech Ecosystem Marketplace</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             Startup Discovery
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Discover vetted Indian deep-tech startups across computer vision, agritech, healthcare, and urban IoT.
           </p>
         </div>
@@ -116,7 +116,7 @@ export const StartupDiscovery: React.FC = () => {
           <button
             id="btn-enroll-startup"
             onClick={() => setIsRegisterOpen(true)}
-            className="px-3.5 py-2 rounded-xl bg-[#0F1C36] hover:bg-slate-800 border border-sky-500/40 text-xs font-semibold text-sky-400 flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-2 rounded-xl bg-white hover:bg-sky-50 border border-sky-300 text-xs font-semibold text-sky-700 flex items-center gap-1.5 shadow-sm transition-colors"
           >
             <PlusCircle className="w-4 h-4" />
             <span>Enroll Startup</span>
@@ -124,7 +124,7 @@ export const StartupDiscovery: React.FC = () => {
 
           <Link
             to="/government/ai-matching"
-            className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-2 shadow-sm transition-colors"
+            className="px-4 py-2 rounded-xl bg-sky-700 hover:bg-sky-600 text-white text-xs font-semibold flex items-center gap-2 shadow-sm transition-colors"
           >
             <Sparkles className="w-4 h-4" />
             <span>AI Matching Matrix</span>
@@ -133,7 +133,7 @@ export const StartupDiscovery: React.FC = () => {
       </div>
 
       {/* SEARCH AND FILTER BAR */}
-      <div className="p-4 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md space-y-3">
+      <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
         <div className="relative">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -146,8 +146,8 @@ export const StartupDiscovery: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 pt-1">
-          <div className="flex items-center gap-1.5 text-xs text-slate-400">
-            <Filter className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
+            <Filter className="w-3.5 h-3.5 text-sky-700" />
             <span>Domain:</span>
           </div>
           {['All', 'Infrastructure', 'Agriculture', 'Healthcare', 'Urban', 'EdTech'].map((dom) => (
@@ -156,20 +156,20 @@ export const StartupDiscovery: React.FC = () => {
               onClick={() => setSelectedDomain(dom)}
               className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                 selectedDomain === dom
-                  ? 'bg-sky-600 text-white font-semibold'
-                  : 'bg-[#070E1E] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-sky-700 text-white font-semibold shadow-sm'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
               }`}
             >
               {dom}
             </button>
           ))}
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 ml-auto">
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 font-medium ml-auto">
             <span>Readiness:</span>
             <select
               value={selectedReadiness}
               onChange={(e) => setSelectedReadiness(e.target.value)}
-              className="bg-[#070E1E] border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-200"
+              className="bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-xs text-slate-800"
             >
               <option value="All">All Stages</option>
               <option value="High">High Readiness</option>
@@ -184,45 +184,45 @@ export const StartupDiscovery: React.FC = () => {
         {filteredStartups.map((st) => (
           <div
             key={st.id}
-            className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-sky-500/50 transition-all flex flex-col justify-between group shadow-sm"
+            className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-sky-500 hover:shadow-md transition-all flex flex-col justify-between group shadow-sm"
           >
             <div>
               {/* Top row */}
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-base font-bold text-white group-hover:text-sky-400 transition-colors">
+                    <h3 className="text-base font-bold text-slate-900 group-hover:text-sky-700 transition-colors">
                       {st.name}
                     </h3>
                   </div>
-                  <p className="text-xs text-sky-400 font-medium mt-0.5">{st.domain}</p>
+                  <p className="text-xs text-sky-700 font-semibold mt-0.5">{st.domain}</p>
                 </div>
                 <StatusBadge status={st.eligibilityStatus} />
               </div>
 
-              <p className="text-xs text-slate-300 line-clamp-2 mb-4 leading-relaxed">
+              <p className="text-xs text-slate-600 line-clamp-2 mb-4 leading-relaxed">
                 {st.tagline}
               </p>
 
               {/* Meta stats */}
-              <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-[#070E1E] border border-slate-800/80 text-[11px] mb-4">
+              <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] mb-4">
                 <div>
-                  <span className="text-slate-400 block">Pilot Readiness:</span>
-                  <span className={`font-bold ${st.pilotReadiness === 'High' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                  <span className="text-slate-500 block">Pilot Readiness:</span>
+                  <span className={`font-bold ${st.pilotReadiness === 'High' ? 'text-emerald-700' : 'text-amber-700'}`}>
                     {st.pilotReadiness} Readiness
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block">Pilots Completed:</span>
-                  <span className="font-bold text-slate-200">{st.completedPilotsCount} State Pilots</span>
+                  <span className="text-slate-500 block">Pilots Completed:</span>
+                  <span className="font-bold text-slate-900">{st.completedPilotsCount} State Pilots</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block">Founded:</span>
-                  <span className="font-semibold text-slate-200">{st.foundedYear}</span>
+                  <span className="text-slate-500 block">Founded:</span>
+                  <span className="font-semibold text-slate-900">{st.foundedYear}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block">Location:</span>
-                  <span className="font-semibold text-slate-200 truncate block">{st.location}</span>
+                  <span className="text-slate-500 block">Location:</span>
+                  <span className="font-semibold text-slate-900 truncate block">{st.location}</span>
                 </div>
               </div>
 
@@ -231,7 +231,7 @@ export const StartupDiscovery: React.FC = () => {
                 {st.techStack.map((tech, idx) => (
                   <span
                     key={idx}
-                    className="text-[10px] px-2 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-slate-700/50"
+                    className="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300 font-medium"
                   >
                     {tech}
                   </span>
@@ -240,17 +240,17 @@ export const StartupDiscovery: React.FC = () => {
             </div>
 
             {/* Bottom Actions */}
-            <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+            <div className="pt-3 border-t border-slate-200 flex items-center justify-between gap-2">
               <Link
                 to={st.id === 'startup-roadvision' ? '/government/ai-matching' : `/startup/profile`}
-                className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+                className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1"
               >
                 <span>Check Match Score</span>
                 <Sparkles className="w-3.5 h-3.5" />
               </Link>
               <Link
                 to="/startup/profile"
-                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 border border-slate-300 text-xs font-medium text-slate-700 shadow-sm transition-colors"
               >
                 View Profile
               </Link>

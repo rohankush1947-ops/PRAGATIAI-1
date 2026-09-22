@@ -219,20 +219,20 @@ export const CreateChallengeWizard: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 text-xs text-sky-400 font-semibold mb-1">
+        <div className="flex items-center gap-2 text-xs text-sky-700 font-semibold mb-1">
           <Building2 className="w-4 h-4" />
           <span>Outcome-Based Procurement Wizard</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
           Create Innovation Challenge
         </h1>
-        <p className="text-xs sm:text-sm text-slate-300 mt-1">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1">
           Formulate a transparent, outcome-oriented challenge designed to attract qualified deep-tech startups.
         </p>
       </div>
 
       {/* Step Indicator */}
-      <div className="p-4 rounded-xl bg-[#0B1528] border border-slate-800 flex items-center justify-between overflow-x-auto gap-2">
+      <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-between overflow-x-auto gap-2">
         {steps.map((step) => {
           const isDone = currentStep > step.num;
           const isCurrent = currentStep === step.num;
@@ -247,18 +247,18 @@ export const CreateChallengeWizard: React.FC = () => {
                   isDone
                     ? 'bg-emerald-600 text-white'
                     : isCurrent
-                    ? 'bg-sky-600 text-white ring-2 ring-sky-400/30'
-                    : 'bg-slate-800 text-slate-400'
+                    ? 'bg-sky-700 text-white ring-2 ring-sky-400/30'
+                    : 'bg-slate-100 text-slate-600 border border-slate-300'
                 }`}
               >
                 {isDone ? <Check className="w-3.5 h-3.5" /> : step.num}
               </div>
               <span className={`text-xs font-medium hidden sm:inline ${
-                isCurrent ? 'text-white font-bold' : isDone ? 'text-slate-300' : 'text-slate-400'
+                isCurrent ? 'text-sky-900 font-bold' : isDone ? 'text-slate-700' : 'text-slate-500'
               }`}>
                 {step.title}
               </span>
-              {step.num < 5 && <span className="text-slate-700 mx-1 hidden sm:inline">→</span>}
+              {step.num < 5 && <span className="text-slate-300 mx-1 hidden sm:inline">→</span>}
             </div>
           );
         })}
