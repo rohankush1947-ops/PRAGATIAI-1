@@ -3,10 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "postinstall": "npm --prefix PRAGATI2.0 install",
     "dev": "npm --prefix PRAGATI2.0 run dev",
     "dev:server": "npm --prefix PRAGATI2.0 run dev:server",
     "dev:all": "npm --prefix PRAGATI2.0 run dev:all",
-    "build": "npm --prefix PRAGATI2.0 run build && node -e \"const fs=require('fs'); fs.cpSync('PRAGATI2.0/dist', 'dist', {recursive:true});\"",
+    "build": "npm --prefix PRAGATI2.0 install && npm --prefix PRAGATI2.0 run build && node -e \"const fs=require('fs'); if(fs.existsSync('PRAGATI2.0/dist')) fs.cpSync('PRAGATI2.0/dist', 'dist', {recursive:true});\"",
     "lint": "npm --prefix PRAGATI2.0 run lint",
     "preview": "npm --prefix PRAGATI2.0 run preview"
   }

@@ -1,4 +1,6 @@
 {
+  "installCommand": "npm --prefix PRAGATI2.0 install",
+  "buildCommand": "npm run build",
   "outputDirectory": "PRAGATI2.0/dist",
   "rewrites": [
     {
