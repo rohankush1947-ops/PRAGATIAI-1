@@ -1,0 +1,234 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { usePragati } from '../../context/PragatiContext';
+import { 
+  Rocket, 
+  Flag, 
+  FileCheck, 
+  Award, 
+  Briefcase, 
+  CheckCircle2, 
+  TrendingUp, 
+  ArrowRight, 
+  Building2, 
+  CheckSquare, 
+  Calendar,
+  Layers,
+  Sparkles
+} from 'lucide-react';
+import { StatusBadge } from '../../components/common/StatusBadge';
+
+export const StartupDashboard: React.FC = () => {
+  const { challenges, applications, pilots } = usePragati();
+
+  // Dashboard Cards: Open Opportunities, Applications Submitted, Shortlisted, Active Pilots, Completed Pilots
+  const statCards = [
+    { label: 'Open Opportunities', value: challenges.filter(c => c.status === 'Published' || c.status === 'Applications Open' || c.status === 'Pilot Active').length, icon: Flag, color: 'text-sky-400', border: 'border-sky-500/30', path: '/startup/challenges' },
+    { label: 'Applications Submitted', value: applications.length, icon: FileCheck, color: 'text-blue-400', border: 'border-blue-500/30', path: '/startup/applications' },
+    { label: 'Shortlisted for Pilot', value: applications.filter(a => a.status === 'Shortlisted' || a.status === 'Pilot' || a.status === 'Validated').length, icon: Award, color: 'text-amber-400', border: 'border-amber-500/30', path: '/startup/applications' },
+    { label: 'Active Pilots', value: pilots.filter(p => p.status === 'In Progress').length, icon: Briefcase, color: 'text-emerald-400', border: 'border-emerald-500/30', path: '/startup/pilots' },
+    { label: 'Completed / Validated', value: pilots.filter(p => p.status === 'Validated' || p.status === 'Scale Approved').length, icon: CheckCircle2, color: 'text-purple-400', border: 'border-purple-500/30', path: '/startup/pilots' }
+  ];
+
+  // Pipeline stages: Applied → Under Review → Expert Evaluation → Shortlisted → Pilot → Validated → Procurement
+  const pipelineStages = [
+    { stage: 'Applied', status: 'Completed', date: '15 Sept 2026' },
+    { stage: 'Under Review', status: 'Completed', date: '17 Sept 2026' },
+    { stage: 'Expert Evaluation', status: 'Completed', date: '20 Sept 2026 (91/100)' },
+    { stage: 'Shortlisted', status: 'Completed', date: '22 Sept 2026' },
+    { stage: 'Pilot', status: 'In Progress', date: 'Day 74 of 90 (82%)' },
+    { stage: 'Validated', status: 'Upcoming', date: 'Target: 94.2% Passed' },
+    { stage: 'Procurement', status: 'Upcoming', date: 'GeM Runway Fast-Track' }
+  ];
+
+  return (
+    <div className="space-y-8">
+      {/* Startup Profile Banner */}
+      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0B1528] via-[#0F1C36] to-[#0B1528] border border-emerald-500/40 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">RoadVision AI</span>
+            <span className="text-slate-600">•</span>
+            <span className="text-xs text-slate-400">DPIIT Recognized Deep-Tech Startup</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Founder Workspace — RoadVision AI
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+            Pothole monitoring pilot with Public Works Department is currently at <strong>82% completion</strong> with <strong>94.2% detection accuracy</strong>.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            to="/startup/eligibility"
+            className="px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900/80 border border-emerald-700 text-xs font-semibold text-emerald-300 flex items-center gap-1.5 transition-colors"
+          >
+            <CheckSquare className="w-4 h-4" />
+            <span>Eligibility Checklist</span>
+          </Link>
+          <Link
+            to="/startup/challenges"
+            className="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-colors"
+          >
+            <Flag className="w-4 h-4" />
+            <span>Find Challenges</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* 5 DASHBOARD KPI CARDS (PROMPT SPECIFIED) */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {statCards.map((card, idx) => {
+          const Icon = card.icon;
+          return (
+            <Link
+              key={idx}
+              to={card.path}
+              className={`p-4 rounded-xl bg-[#0B1528] border ${card.border} hover:border-sky-400 transition-all flex flex-col justify-between group shadow-sm`}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-semibold text-slate-300">{card.label}</span>
+                <Icon className={`w-4 h-4 ${card.color}`} />
+              </div>
+              <div className={`text-2xl sm:text-3xl font-black ${card.color}`}>
+                {card.value}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* APPLICATION PIPELINE (PROMPT SPECIFIED 7 STAGES) */}
+      <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+          <div>
+            <h3 className="text-base font-bold text-white">
+              Application & Procurement Pipeline
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Current lifecycle status for: <strong className="text-sky-400">AI-Based Pothole Detection (PWD)</strong>
+            </p>
+          </div>
+          <span className="text-xs text-emerald-400 font-semibold bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-800">
+            Active in Pilot Stage
+          </span>
+        </div>
+
+        {/* 7-Step Horizontal Pipeline */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
+          {pipelineStages.map((stage, idx) => {
+            const isCompleted = stage.status === 'Completed';
+            const isInProgress = stage.status === 'In Progress';
+            return (
+              <div
+                key={idx}
+                className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 transition-all ${
+                  isCompleted
+                    ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
+                    : isInProgress
+                    ? 'bg-sky-950/40 border-sky-500/60 ring-2 ring-sky-500/30 text-white'
+                    : 'bg-[#070E1E] border-slate-800 text-slate-400'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono font-bold">0{idx + 1}</span>
+                  {isCompleted ? (
+                    <span className="text-emerald-400 text-[10px] font-bold">✓ DONE</span>
+                  ) : isInProgress ? (
+                    <span className="text-sky-400 text-[10px] font-bold animate-pulse">ACTIVE</span>
+                  ) : (
+                    <span className="text-slate-400 text-[10px]">NEXT</span>
+                  )}
+                </div>
+
+                <div className="font-bold text-xs leading-snug">
+                  {stage.stage}
+                </div>
+
+                <div className="text-[10px] opacity-80 truncate">
+                  {stage.date}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* QUICK ACTIONS & ACTIVE ENGAGEMENTS */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Active Engagement Card */}
+        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-bold text-white">Active Government Pilot</h3>
+            <StatusBadge status="In Progress" />
+          </div>
+
+          <div className="space-y-2 text-xs">
+            <h4 className="text-sm font-bold text-sky-400">
+              AI-Based Pothole Detection and Road Condition Monitoring
+            </h4>
+            <p className="text-slate-300 leading-relaxed">
+              Client: Public Works Department, Bengaluru North Division (520 km highway corridor).
+            </p>
+            <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-[#070E1E] border border-slate-800 text-[11px] mt-2">
+              <div>
+                <span className="text-slate-400 block">Current Accuracy:</span>
+                <span className="text-emerald-400 font-bold">94.2% (Target 90%)</span>
+              </div>
+              <div>
+                <span className="text-slate-400 block">Milestone 1 Payment:</span>
+                <span className="text-emerald-400 font-bold">₹11.55L Disbursed</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+            <Link
+              to="/startup/pilots"
+              className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+            >
+              <span>Manage Pilot Deliverables</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+
+        {/* DPIIT Regulatory & Statutory Status */}
+        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-bold text-white">DPIIT Exemption Badges</h3>
+            <span className="text-xs font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+              100% Verified
+            </span>
+          </div>
+
+          <div className="space-y-2.5 text-xs text-slate-300">
+            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#070E1E] border border-slate-800">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>DPIIT Startup Certificate (DIPP89234) active & verified</span>
+            </div>
+            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#070E1E] border border-slate-800">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Prior Turnover exemption approved under GFR Rule 173(i)</span>
+            </div>
+            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#070E1E] border border-slate-800">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Earnest Money Deposit (EMD) exemption active on GeM portal</span>
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+            <Link
+              to="/startup/profile"
+              className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1"
+            >
+              <span>View Full Startup Dossier</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

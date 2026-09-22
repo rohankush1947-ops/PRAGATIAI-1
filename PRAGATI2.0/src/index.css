@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gov-primary: #0284C7;
+    --gov-navy: #0B1528;
+    --gov-dark: #070E1E;
+  }
+
+  body {
+    background-color: #070E1E;
+    color: #E2E8F0;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B1528;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1E293B;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+  }
+}
+
+@layer components {
+  .gov-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
+  }
+  
+  .gov-card {
+    @apply bg-[#0F1C36]/90 backdrop-blur-sm border border-slate-800 rounded-xl transition-all duration-200;
+  }
+
+  .gov-card-hover {
+    @apply gov-card hover:border-sky-500/40 hover:shadow-lg hover:shadow-sky-950/40;
+  }
+
+  .gov-input {
+    @apply w-full bg-[#0B1528] border border-slate-700/80 rounded-lg px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all;
+  }
+
+  .gov-button-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-sky-600 hover:bg-sky-500 text-white shadow-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .gov-button-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all duration-150;
+  }
+
+  .gov-button-outline {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-transparent hover:bg-slate-800/60 text-sky-400 border border-sky-500/40 transition-all duration-150;
+  }
+}
+
+/* Subtle glowing pulse */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}

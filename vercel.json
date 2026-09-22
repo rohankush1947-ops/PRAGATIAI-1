@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "PRAGATI2.0/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
