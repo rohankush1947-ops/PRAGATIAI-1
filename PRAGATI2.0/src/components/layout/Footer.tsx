@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
             <p className="text-xs text-slate-400 leading-relaxed">
               "Bridging Government Challenges with Startup Innovation"
             </p>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0B1528] border border-slate-800 text-xs text-sky-300">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#112240] border border-slate-700/80 text-xs text-sky-300">
               <Award className="w-4 h-4 text-amber-400" />
               <span>Smart India Hackathon 2026</span>
             </div>
@@ -62,28 +62,28 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Col 4: Evaluator Demo Controls */}
-          <div className="bg-[#0B1528] p-4 rounded-xl border border-slate-800/80 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
-              <span>SIH Demo Controls</span>
+          <div className="bg-[#112240] p-4 rounded-xl border border-slate-700/80 space-y-3 shadow-md">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="text-sky-400 font-extrabold tracking-wide">SIH Demo Controls</span>
             </h4>
-            <p className="text-[11px] text-slate-400 leading-normal">
-              Team: <strong className="text-slate-200 font-semibold">Pragyan</strong><br />
+            <p className="text-[11px] text-slate-300 leading-normal">
+              Team: <strong className="text-white font-bold">Pragyan</strong><br />
               All data is local mock data tailored to the PWD & RoadVision AI demo journey.
             </p>
             <button
               onClick={resetDemoData}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 hover:text-white rounded-lg border border-slate-700 transition-all"
+              className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-white bg-sky-700 hover:bg-sky-600 rounded-lg border border-sky-500/50 shadow-sm transition-all"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-sky-400" />
+              <RefreshCw className="w-3.5 h-3.5 text-sky-200" />
               <span>Reset Demo State</span>
             </button>
           </div>
         </div>
 
         {/* SIH 2026 Disclaimer Box */}
-        <div className="p-4 rounded-xl bg-[#091122] border border-sky-900/30 text-center my-6">
-          <p className="text-xs text-slate-300 font-medium leading-relaxed max-w-4xl mx-auto">
-            <strong className="text-sky-400">Notice:</strong> PragatiAI is a prototype developed for Smart India Hackathon 2026. AI recommendations are advisory and final decisions remain with authorized government officials. Does not constitute actual government procurement, certified verification, or contractual obligation.
+        <div className="p-4 rounded-xl bg-[#112240] border border-sky-800/40 text-center my-6">
+          <p className="text-xs text-slate-200 font-medium leading-relaxed max-w-4xl mx-auto">
+            <strong className="text-sky-400 font-bold">Notice:</strong> PragatiAI is a prototype developed for Smart India Hackathon 2026. AI recommendations are advisory and final decisions remain with authorized government officials. Does not constitute actual government procurement, certified verification, or contractual obligation.
           </p>
         </div>
 

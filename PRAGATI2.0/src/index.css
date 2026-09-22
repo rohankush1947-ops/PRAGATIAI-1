@@ -57,6 +57,10 @@
     @apply w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent transition-all;
   }
 
+  .gov-select {
+    @apply w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent transition-all cursor-pointer;
+  }
+
   .gov-button-primary {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-sky-700 hover:bg-sky-600 text-white shadow-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
   }
@@ -97,31 +101,31 @@ section[class*="from-[#0F1C36]"] {
 }
 
 /* Page canvas backgrounds */
-.bg-\[\#070E1E\],
-div[class*="bg-[#070E1E]"]:not(.border-emerald-500\/40):not(.border-sky-500\/40):not(.border-purple-500\/40),
+.bg-\[\#070E1E\]:not(footer):not(footer *),
+div[class*="bg-[#070E1E]"]:not(.border-emerald-500\/40):not(.border-sky-500\/40):not(.border-purple-500\/40):not(footer *),
 main[class*="bg-[#070E1E]"] {
   background-color: #F4F6F9 !important;
 }
 
 /* Cards, sidebars, top headers & surfaces */
-.bg-\[\#0B1528\],
-div[class*="bg-[#0B1528]"],
-section[class*="bg-[#0B1528]"],
-.bg-\[\#0F1C36\],
-div[class*="bg-[#0F1C36]"],
-.bg-\[\#0A1224\],
+.bg-\[\#0B1528\]:not(footer):not(footer *),
+div[class*="bg-[#0B1528]"]:not(footer *),
+section[class*="bg-[#0B1528]"]:not(footer *),
+.bg-\[\#0F1C36\]:not(footer):not(footer *),
+div[class*="bg-[#0F1C36]"]:not(footer *),
+.bg-\[\#0A1224\]:not(footer):not(footer *),
 aside[class*="bg-[#0A1224]"] {
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
 }
 
 /* Sub-panels, wells, chip backgrounds */
-.bg-\[\#070E1E\],
-.bg-\[\#080E1C\],
-.bg-\[\#080E1D\],
-div[class*="bg-[#070E1E]"],
-div[class*="bg-[#080E1C]"],
-div[class*="bg-[#080E1D]"] {
+.bg-\[\#070E1E\]:not(footer):not(footer *),
+.bg-\[\#080E1C\]:not(footer):not(footer *),
+.bg-\[\#080E1D\]:not(footer):not(footer *),
+div[class*="bg-[#070E1E]"]:not(footer *),
+div[class*="bg-[#080E1C]"]:not(footer *),
+div[class*="bg-[#080E1D]"]:not(footer *) {
   background-color: #F8FAFC !important;
   border-color: #E2E8F0 !important;
 }
@@ -175,46 +179,98 @@ div[class*="bg-[#080E1D]"] {
 /* Official deep navy footer (retained as standard on India.gov.in / MyGov) */
 footer.bg-\[\#050B17\],
 footer[class*="bg-[#050B17]"],
+footer,
 .gov-dark-footer {
   background-color: #0A192F !important;
   color: #E2E8F0 !important;
 }
 
+/* Footer card elements: dark navy with subtle borders and crisp contrast */
+footer div[class*="bg-[#0B1528]"],
+footer div[class*="bg-[#091122]"],
+footer div[class*="bg-[#112240]"],
+footer [class*="bg-[#0B1528]"],
+footer [class*="bg-[#091122]"],
+footer [class*="bg-[#112240]"],
+footer .bg-\[\#0B1528\],
+footer .bg-\[\#091122\],
+footer .bg-\[\#112240\] {
+  background-color: #112240 !important;
+  border-color: #1E3A5F !important;
+  color: #E2E8F0 !important;
+}
+
+footer h3,
+footer h4,
+footer h5,
+footer strong {
+  color: #FFFFFF !important;
+}
+
+footer p,
+footer li,
+footer span:not(.text-sky-400):not(.text-sky-300):not(.text-amber-400):not(.bg-sky-600 *) {
+  color: #CBD5E1 !important;
+}
+
 /* Clean slate borders */
-[class*="border-slate-800"],
-[class*="border-slate-700"] {
+[class*="border-slate-800"]:not(footer *),
+[class*="border-slate-700"]:not(footer *) {
   border-color: #E2E8F0 !important;
 }
 
 /* Remap dark slate chips, tags, and small badges to accessible light badges */
-span.bg-slate-800,
-span.bg-slate-900,
-span.bg-slate-700,
+span.bg-slate-800:not(footer *),
+span.bg-slate-900:not(footer *),
+span.bg-slate-700:not(footer *),
 div.bg-slate-800:not(button):not(footer *),
 [class*="bg-slate-800"]:not(button):not(footer *):not(aside button) {
   background-color: #F1F5F9 !important;
   border-color: #CBD5E1 !important;
   color: #334155 !important;
 }
-span.bg-slate-800 *,
-span.bg-slate-900 *,
-span.bg-slate-700 * {
+span.bg-slate-800:not(footer *) *,
+span.bg-slate-900:not(footer *) *,
+span.bg-slate-700:not(footer *) * {
   color: #334155 !important;
 }
 
-/* Form inputs & text fields in light mode */
-input.bg-\[\#080E1D\],
-input.bg-\[\#0B1528\],
-input.bg-\[\#070E1E\],
-textarea.bg-\[\#080E1D\],
-textarea.bg-\[\#0B1528\],
-textarea.bg-\[\#070E1E\],
-select.bg-\[\#080E1D\],
-select.bg-\[\#0B1528\],
-select.bg-\[\#070E1E\] {
+/* Form inputs, textareas & selects in light mode */
+input,
+textarea,
+select,
+.gov-input,
+.gov-select {
   background-color: #FFFFFF !important;
   color: #0F172A !important;
   border-color: #CBD5E1 !important;
+}
+
+/* Universal select and dropdown options styling guarantee */
+select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+select option,
+option,
+option.text-white,
+option[class*="text-white"],
+option[class*="bg-[#0B1528]"],
+option[class*="bg-[#0F1C36]"] {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+select option:checked,
+option:checked {
+  background-color: #0284C7 !important;
+  color: #FFFFFF !important;
+}
+
+/* Form labels contrast guarantee */
+label:not(footer *):not(button *):not(.gov-button-primary *) {
+  color: #334155 !important;
 }
 
 input::placeholder,
@@ -248,7 +304,10 @@ h6:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sk
 
 /* Text white overrides on non-button content elements */
 span.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-purple-600 *):not(.bg-rose-600 *):not(.bg-amber-600 *),
-div.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *) {
+div.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *),
+p.text-white:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *),
+select.text-white,
+option.text-white {
   color: #0F172A !important;
 }
 

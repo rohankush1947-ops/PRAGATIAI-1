@@ -158,9 +158,9 @@ export const AIMatching: React.FC = () => {
       </div>
 
       {/* Challenge Context Strip with Dropdown Selector */}
-      <div className="p-4 rounded-xl bg-[#0B1528] border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+      <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div className="space-y-1 flex-1">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
             Selected Department Challenge
           </span>
           {challenges.length > 1 ? (
@@ -169,32 +169,32 @@ export const AIMatching: React.FC = () => {
                 id="challenge-selector"
                 value={selectedChallengeId}
                 onChange={(e) => handleChallengeChange(e.target.value)}
-                className="w-full bg-[#0F1C36] text-sm font-bold text-white border border-slate-700 rounded-lg py-1.5 px-3 pr-8 focus:outline-none focus:border-sky-500 appearance-none cursor-pointer"
+                className="w-full bg-white text-sm font-bold text-slate-900 border border-slate-300 rounded-lg py-1.5 px-3 pr-8 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 appearance-none cursor-pointer shadow-sm"
               >
                 {challenges.map(c => (
-                  <option key={c.id} value={c.id} className="bg-[#0B1528] text-white">
+                  <option key={c.id} value={c.id} className="bg-white text-slate-900">
                     {c.title} ({c.department})
                   </option>
                 ))}
               </select>
-              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none" />
+              <ChevronDown className="w-4 h-4 text-slate-500 absolute right-2.5 top-2.5 pointer-events-none" />
             </div>
           ) : (
-            <h4 className="text-sm font-bold text-white mt-0.5">
+            <h4 className="text-sm font-bold text-slate-900 mt-0.5">
               {selectedChallenge?.title}
             </h4>
           )}
-          <div className="flex items-center gap-2 text-slate-400 text-[11px] mt-0.5">
-            <Building2 className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-            <span>{selectedChallenge?.department}</span>
-            <span className="text-slate-600">•</span>
-            <span className="text-sky-300 font-medium">{selectedChallenge?.category}</span>
+          <div className="flex items-center gap-2 text-slate-500 text-[11px] mt-0.5">
+            <Building2 className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+            <span className="text-slate-700 font-medium">{selectedChallenge?.department}</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-sky-700 font-semibold">{selectedChallenge?.category}</span>
           </div>
         </div>
 
         <Link
           to="/government/challenges"
-          className="text-xs font-medium text-sky-400 hover:text-sky-300 shrink-0 flex items-center gap-1 self-start sm:self-center"
+          className="text-xs font-semibold text-sky-600 hover:text-sky-700 shrink-0 flex items-center gap-1 self-start sm:self-center"
         >
           <span>All Challenges</span>
           <ArrowRight className="w-3.5 h-3.5" />
