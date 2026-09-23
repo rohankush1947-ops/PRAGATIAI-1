@@ -40,3 +40,7 @@ lerna-debug.log*
 *.sln
 *.sw?
 Thumbs.db
+
+# Runtime Database
+pragati_database.json
+**/pragati_database.json

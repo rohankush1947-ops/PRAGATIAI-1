@@ -25,7 +25,7 @@ export class GeminiProvider implements IAIProvider {
 
   constructor(config: AIProviderConfig) {
     this.apiKey = config.apiKey;
-    this.model = config.model || 'gemini-2.5-flash';
+    this.model = config.model || 'gemini-3.6-flash';
     this.baseUrl = config.baseUrl || 'https://generativelanguage.googleapis.com/v1beta';
     this.timeoutMs = config.timeoutMs || 20000;
   }
@@ -39,57 +39,72 @@ export class GeminiProvider implements IAIProvider {
       throw new Error('Gemini API key is not configured or contains placeholder value.');
     }
 
-    const endpoint = `${this.baseUrl}/models/${this.model}:generateContent?key=${encodeURIComponent(this.apiKey)}`;
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
+    const candidateModels = Array.from(new Set([this.model, 'gemini-3.6-flash', 'gemini-3.5-flash']));
+    let lastError: any = null;
 
-    const body: any = {
-      contents: [
-        {
-          role: 'user',
-          parts: [{ text: prompt }]
+    for (const modelName of candidateModels) {
+      const endpoint = `${this.baseUrl}/models/${modelName}:generateContent?key=${encodeURIComponent(this.apiKey)}`;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
+
+      const body: any = {
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: prompt }]
+          }
+        ],
+        generationConfig: {
+          responseMimeType: 'application/json',
+          temperature: 0.15,
+          topP: 0.95
         }
-      ],
-      generationConfig: {
-        responseMimeType: 'application/json',
-        temperature: 0.15,
-        topP: 0.95
-      }
-    };
-
-    if (systemInstruction) {
-      body.systemInstruction = {
-        parts: [{ text: systemInstruction }]
       };
-    }
 
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body),
-        signal: controller.signal
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Gemini API error [${response.status}]: ${errorText.substring(0, 300)}`);
+      if (systemInstruction) {
+        body.systemInstruction = {
+          parts: [{ text: systemInstruction }]
+        };
       }
 
-      const result = await response.json();
-      const candidateText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': this.apiKey
+          },
+          body: JSON.stringify(body),
+          signal: controller.signal
+        });
 
-      if (!candidateText) {
-        throw new Error('Gemini response did not contain text content.');
+        if (!response.ok) {
+          const errorText = await response.text();
+          lastError = new Error(`Gemini API error (${modelName}) [${response.status}]: ${errorText.substring(0, 300)}`);
+          if (response.status === 503 || response.status === 404) {
+            continue;
+          }
+          throw lastError;
+        }
+
+        const result = await response.json();
+        const candidateText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!candidateText) {
+          throw new Error('Gemini response did not contain text content.');
+        }
+
+        const cleaned = cleanJsonText(candidateText);
+        return JSON.parse(cleaned) as T;
+      } catch (err: any) {
+        lastError = err;
+        continue;
+      } finally {
+        clearTimeout(timeout);
       }
-
-      const cleaned = cleanJsonText(candidateText);
-      return JSON.parse(cleaned) as T;
-    } finally {
-      clearTimeout(timeout);
     }
+
+    throw lastError || new Error('Gemini API call failed across all candidate models.');
   }
 }
 
@@ -206,7 +221,7 @@ export function getAIProvider(): IAIProvider | null {
   const config: AIProviderConfig = {
     provider: providerType,
     apiKey,
-    model: model || (providerType === 'gemini' ? 'gemini-2.5-flash' : providerType === 'groq' ? 'llama-3.3-70b-versatile' : 'gpt-4o-mini'),
+    model: model || (providerType === 'gemini' ? 'gemini-3.6-flash' : providerType === 'groq' ? 'llama-3.3-70b-versatile' : 'gpt-4o-mini'),
     baseUrl
   };
 
