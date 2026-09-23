@@ -176,14 +176,87 @@ export async function generateChallengeWithGemini(prompt: string): Promise<Gemin
     }
   }
 
-  // 3. Contextual fallback if offline or API limit exceeded
+  // 3. Intelligent Contextual Matching Engine
   const lower = trimmed.toLowerCase();
-  let matched = AI_CHALLENGE_TEMPLATES[0].generated;
-  if (lower.includes('crop') || lower.includes('pest') || lower.includes('farm') || lower.includes('agri')) {
-    matched = AI_CHALLENGE_TEMPLATES[1].generated;
+  let matched: StructuredRFP;
+
+  if (
+    lower.includes('traffic') || 
+    lower.includes('signal') || 
+    lower.includes('congestion') || 
+    lower.includes('intersection') || 
+    lower.includes('vehicle') ||
+    lower.includes('urban mobility') ||
+    lower.includes('transport')
+  ) {
+    const trafficTemplate = AI_CHALLENGE_TEMPLATES.find(t => 
+      t.prompt.toLowerCase().includes('traffic') || t.generated.category === 'Urban Mobility'
+    );
+    matched = (trafficTemplate ? trafficTemplate.generated : AI_CHALLENGE_TEMPLATES[0].generated) as StructuredRFP;
+  } else if (
+    lower.includes('crop') || 
+    lower.includes('pest') || 
+    lower.includes('farm') || 
+    lower.includes('agri') ||
+    lower.includes('harvest')
+  ) {
+    const agriTemplate = AI_CHALLENGE_TEMPLATES.find(t => 
+      t.prompt.toLowerCase().includes('pest') || t.generated.category === 'Agritech & Food Security'
+    );
+    matched = (agriTemplate ? agriTemplate.generated : AI_CHALLENGE_TEMPLATES[1].generated) as StructuredRFP;
+  } else if (
+    lower.includes('water') || 
+    lower.includes('pipeline') || 
+    lower.includes('leak') || 
+    lower.includes('jal') ||
+    lower.includes('sewage')
+  ) {
+    const waterTemplate = AI_CHALLENGE_TEMPLATES.find(t => 
+      t.prompt.toLowerCase().includes('water') || t.generated.category === 'Water Management'
+    );
+    matched = (waterTemplate ? waterTemplate.generated : AI_CHALLENGE_TEMPLATES[0].generated) as StructuredRFP;
+  } else if (
+    lower.includes('pothole') || 
+    lower.includes('road') || 
+    lower.includes('highway') || 
+    lower.includes('pavement') ||
+    lower.includes('asphalt')
+  ) {
+    matched = AI_CHALLENGE_TEMPLATES[0].generated as StructuredRFP;
+  } else {
+    // Dynamic synthesis based on user's exact problem
+    matched = {
+      title: `AI-Powered Innovation Challenge: ${trimmed.slice(0, 60)}`,
+      department: 'Concerned State Department / Municipal Authority',
+      category: 'General Public Innovation',
+      techArea: ['Edge AI', 'IoT Sensing', 'Data Analytics', 'Computer Vision'],
+      budgetRange: '₹35 - 50 Lakhs',
+      pilotDuration: '90 Days',
+      currentSituation: `Current operations for: "${trimmed}" lack automated real-time intelligence and rely on legacy manual workflows.`,
+      problemDescription: trimmed,
+      targetOutcome: `Deploy a verifiable deep-tech pilot to solve: "${trimmed}" with measurable citizen impact and operational efficiency.`,
+      suggestedKpis: [
+        { name: 'Core Operational Success Rate', target: '≥ 90%', unit: '%' },
+        { name: 'Turnaround Latency Improvement', target: '≥ 50%', unit: '%' },
+        { name: 'System Accuracy', target: '≥ 92%', unit: '%' }
+      ],
+      pilotScope: 'Controlled 90-day sandbox pilot deployment with measurable performance benchmarks across designated municipal zones.',
+      eligibilityRequirements: [
+        'DPIIT Registered Startup (Age < 7 years)',
+        'Demonstrable deep-tech IP or deployed proof-of-concept',
+        'Field operational compliance for Indian public sector deployments'
+      ],
+      evaluationCriteria: [
+        { name: 'Technical Capability & Core Innovation', weight: 25 },
+        { name: 'Field Feasibility & Operating Robustness', weight: 20 },
+        { name: 'Scalability & State IT/GIS Integration', weight: 20 },
+        { name: 'Cost Effectiveness per Unit Outcome', weight: 15 },
+        { name: 'Public Impact & Citizen Benefit', weight: 20 }
+      ]
+    };
   }
 
-  // Customize title and problem description with user's input
+  // Customize title and problem description with user's input if not synthesizing
   const contextualized: StructuredRFP = {
     ...matched,
     problemDescription: trimmed.length > 20 ? trimmed : matched.problemDescription

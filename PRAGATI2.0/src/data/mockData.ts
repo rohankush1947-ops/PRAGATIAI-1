@@ -164,6 +164,36 @@ export const INITIAL_CHALLENGES: Challenge[] = [
 
 export const MOCK_STARTUPS: Startup[] = [
   {
+    id: 'startup-trafficpulse',
+    name: 'TrafficPulse AI',
+    tagline: 'Edge AI Sensors & Dynamic Adaptive Traffic Signal Optimization for Urban Corridors',
+    domain: 'Smart Mobility & Urban Traffic AI',
+    techStack: ['Edge AI Sensors', 'Computer Vision', 'LiDAR & Radar Fusion', 'SCATS/ITMS API', 'Reinforcement Learning'],
+    location: 'Bengaluru, Karnataka',
+    stage: 'Growth (Series A)',
+    foundedYear: 2022,
+    pilotReadiness: 'High',
+    eligibilityStatus: 'Eligible',
+    teamSize: 34,
+    revenueRange: '₹4.5 Cr (FY 2025-26)',
+    completedPilotsCount: 5,
+    certifications: ['DPIIT Recognized (DIPP77123)', 'ISO 9001:2015', 'Make in India Certified', 'MoRTH ITS Certified'],
+    matchScore: 96,
+    matchBreakdown: {
+      techMatch: 98,
+      domainExperience: 96,
+      pilotReadiness: 95,
+      scalability: 94,
+      eligibility: 100
+    },
+    overview: 'TrafficPulse AI deploys intelligent edge-computer vision cameras and mmWave radar sensors at municipal intersections. By analyzing live vehicle queue length, non-lane density, and emergency vehicle sirens, its reinforcement learning algorithm dynamically recalculates green signal timings in real-time, slashing junction delays by up to 32%.',
+    pastProjects: [
+      { name: 'Bengaluru Hebbal Junction Adaptive Signal Pilot', client: 'Bengaluru Traffic Police (BTP)', impact: 'Reduced peak-hour corridor wait times by 28% across 6 junctions' },
+      { name: 'Ahmedabad BRTS Corridor Green Wave Project', client: 'Ahmedabad Urban Transport', impact: 'Prioritized BRTS bus passage with 99.4% on-time corridor transit' },
+      { name: 'Delhi Police Automated Red-Light & Congestion Feasibility', client: 'Delhi Traffic Police', impact: 'Monitored 45,000 vehicles/hour under dense mixed traffic' }
+    ]
+  },
+  {
     id: 'startup-roadvision',
     name: 'RoadVision AI',
     tagline: 'Edge AI Computer Vision for Road Infrastructure & Asset Intelligence',
@@ -682,6 +712,71 @@ export const AI_CHALLENGE_TEMPLATES = [
         { name: "Field Scalability", weight: 25 },
         { name: "Smallholder Farmer Impact", weight: 25 },
         { name: "Cost per Acre", weight: 20 }
+      ]
+    }
+  },
+  {
+    prompt: "Smart traffic management using AI sensors for urban congestion",
+    generated: {
+      title: "AI-Powered Real-Time Urban Traffic Congestion Management & Adaptive Signal Control System",
+      department: "Municipal Corporation & Traffic Police Department",
+      category: "Urban Mobility",
+      techArea: ["Computer Vision", "Edge AI", "IoT Sensors", "Reinforcement Learning", "Traffic Flow Modeling"],
+      budgetRange: "₹45 - 60 Lakhs",
+      pilotDuration: "120 Days",
+      currentSituation: "Urban intersections rely on static timer-based signal cycles or manual police intervention. This static timing fails during sudden traffic surges, causing excessive vehicle idling, high fuel wastage, and emergency vehicle delays.",
+      problemDescription: "Deploy intelligent edge-AI camera and radar sensor networks that dynamically detect vehicle queue lengths, calculate multimodal traffic density, and adjust signal green-times in sub-second latency while prioritizing emergency ambulances.",
+      targetOutcome: "Reduce peak-hour corridor commute times by ≥ 25%, ensure 100% emergency vehicle green-wave preemption, and cut intersection idling emissions by 20%.",
+      suggestedKpis: [
+        { name: "Reduction in Peak-Hour Corridor Delay", target: "≥ 25%", unit: "%" },
+        { name: "Emergency Vehicle Preemption Success", target: "100%", unit: "%" },
+        { name: "Vehicle Classification Accuracy under Mixed Traffic", target: "≥ 92%", unit: "%" },
+        { name: "Edge-to-Signal Controller Latency", target: "≤ 2", unit: "sec" }
+      ],
+      pilotScope: "Deploy edge-AI camera sensors and adaptive signal controllers across 6 consecutive high-traffic intersections along a 4 km urban corridor integrated with the city command center (ICCC).",
+      eligibilityRequirements: [
+        "DPIIT Registered Startup (Age < 7 years)",
+        "Demonstrated proprietary Computer Vision / Edge AI capability for Indian mixed traffic",
+        "Ability to interface with SCATS/CoTCS or standard ITMS signal controllers",
+        "Local fail-safe fallback to fixed cycles during power/network interruption"
+      ],
+      evaluationCriteria: [
+        { name: "Technical Capability & Core Innovation", weight: 25 },
+        { name: "Field Feasibility & Indian Mixed Traffic Robustness", weight: 20 },
+        { name: "Scalability & State IT/GIS Integration", weight: 20 },
+        { name: "Cost Effectiveness per Unit Outcome", weight: 15 },
+        { name: "Public Impact & Citizen Benefit", weight: 20 }
+      ]
+    }
+  },
+  {
+    prompt: "Municipal water distribution suffers 35% non-revenue water loss from underground pipeline leakages.",
+    generated: {
+      title: "IoT Edge Acoustic Sensing & GIS Digital Twin for Underground Water Leakage Localization",
+      department: "Ministry of Jal Shakti / Municipal Water Board",
+      category: "Water Management",
+      techArea: ["Acoustic IoT Sensors", "LoRaWAN", "Digital Twin", "Fast Fourier Transform AI", "GIS Hydro-Mapping"],
+      budgetRange: "₹40 - 55 Lakhs",
+      pilotDuration: "90 Days",
+      currentSituation: "Underground pipe bursts and pinhole leaks remain undetected for months until surface subsidence occurs, wasting up to 35% treated municipal drinking water.",
+      problemDescription: "Clamp-on IoT acoustic micro-sensors transmitting vibration harmonics via LoRaWAN to detect pressurized pipeline cavitation and localize hidden underground leaks within 2 meters.",
+      targetOutcome: "Reduce non-revenue water (NRW) loss by ≥ 18% across the pilot sector and identify hidden leaks within 48 hours of occurrence.",
+      suggestedKpis: [
+        { name: "Leak Localization Precision", target: "≤ 2 meters", unit: "m" },
+        { name: "Reduction in Non-Revenue Water Loss", target: "≥ 18%", unit: "%" },
+        { name: "Acoustic Detection Sensitivity", target: "≥ 92%", unit: "%" }
+      ],
+      pilotScope: "Instrument 25 km of pressurized water distribution pipeline across 2 urban municipal wards with 100 clamp-on acoustic IoT nodes.",
+      eligibilityRequirements: [
+        "DPIIT Registered Startup",
+        "IP in low-power acoustic signal processing",
+        "Battery life ≥ 3 years for underground telemetry nodes"
+      ],
+      evaluationCriteria: [
+        { name: "Acoustic Signal Processing Accuracy", weight: 30 },
+        { name: "Field Ruggedness & Battery Autonomy", weight: 25 },
+        { name: "GIS Platform Integration", weight: 25 },
+        { name: "Cost per km Monitored", weight: 20 }
       ]
     }
   }

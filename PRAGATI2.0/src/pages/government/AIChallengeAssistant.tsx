@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { usePragati } from '../../context/PragatiContext';
 import { 
   Sparkles, 
@@ -10,27 +10,80 @@ import {
   Bot, 
   Cpu,
   Layers,
-  Activity
+  Activity,
+  Building2,
+  Award,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2
 } from 'lucide-react';
 import { generateChallengeWithGemini, StructuredRFP } from '../../services/geminiService';
 import { AI_CHALLENGE_TEMPLATES } from '../../data/mockData';
 
 export const AIChallengeAssistant: React.FC = () => {
-  const { addToast } = usePragati();
+  const { startups, shortlistStartup, addToast } = usePragati();
   const navigate = useNavigate();
 
+  const trafficTemplate = (AI_CHALLENGE_TEMPLATES.find(t => 
+    t.prompt.toLowerCase().includes('traffic') || t.generated.category === 'Urban Mobility'
+  )?.generated || AI_CHALLENGE_TEMPLATES[0].generated) as StructuredRFP;
+
   const [inputPrompt, setInputPrompt] = useState(
-    "We need a better way to identify potholes and prioritize road repairs across municipal arterial corridors."
+    "Smart traffic management using AI sensors for urban congestion"
   );
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedOutput, setGeneratedOutput] = useState<StructuredRFP>(AI_CHALLENGE_TEMPLATES[0].generated as any);
+  const [generatedOutput, setGeneratedOutput] = useState<StructuredRFP>(trafficTemplate);
   const [generationMeta, setGenerationMeta] = useState<{
     source: string;
     model: string;
   }>({
     source: 'gemini-live',
-    model: 'Google Gemini 1.5 Flash'
+    model: 'Google Gemini 3.6 Flash'
   });
+  const [shortlistedMap, setShortlistedMap] = useState<Record<string, boolean>>({});
+
+  // Compute Relevant Startups for the currently displayed RFP
+  const suggestedStartups = useMemo(() => {
+    if (!generatedOutput || !startups || startups.length === 0) return [];
+    const cat = (generatedOutput.category || '').toLowerCase();
+    const titleWords = (generatedOutput.title || '').toLowerCase();
+    const probWords = (generatedOutput.problemDescription || '').toLowerCase();
+    const combined = `${cat} ${titleWords} ${probWords}`;
+
+    return startups.map(st => {
+      let score = 55;
+      const stDomain = st.domain.toLowerCase();
+      const stName = st.name.toLowerCase();
+
+      if (combined.includes('traffic') || combined.includes('mobility') || combined.includes('congestion')) {
+        if (st.id === 'startup-trafficpulse' || stName.includes('trafficpulse')) score = 96;
+        else if (st.id === 'startup-roadvision' || stName.includes('roadvision')) score = 84;
+        else if (st.id === 'startup-smartcitylabs') score = 76;
+        else score = 42;
+      } else if (combined.includes('pothole') || combined.includes('road') || combined.includes('pavement')) {
+        if (st.id === 'startup-roadvision' || stName.includes('roadvision')) score = 95;
+        else if (st.id === 'startup-trafficpulse') score = 82;
+        else if (st.id === 'startup-smartcitylabs') score = 75;
+        else score = 45;
+      } else if (combined.includes('agri') || combined.includes('pest') || combined.includes('crop')) {
+        if (st.id === 'startup-farmvision' || stName.includes('farmvision')) score = 94;
+        else score = 40;
+      } else if (combined.includes('water') || combined.includes('leak') || combined.includes('jal')) {
+        if (st.id === 'startup-smartcitylabs' || stName.includes('smartcity')) score = 92;
+        else score = 45;
+      } else if (combined.includes('health') || combined.includes('hospital') || combined.includes('opd') || combined.includes('medical')) {
+        if (st.id === 'startup-healthqueue' || stName.includes('healthqueue')) score = 93;
+        else score = 40;
+      } else {
+        score = 70;
+      }
+
+      return {
+        ...st,
+        dynamicMatchScore: score
+      };
+    }).sort((a, b) => b.dynamicMatchScore - a.dynamicMatchScore).slice(0, 3);
+  }, [generatedOutput, startups]);
 
   const handleGenerate = async (customPrompt?: string) => {
     const promptToUse = (customPrompt || inputPrompt).trim();
@@ -88,7 +141,7 @@ export const AIChallengeAssistant: React.FC = () => {
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
           </span>
           <Bot className="w-3.5 h-3.5 text-emerald-700" />
-          <span>Gemini 1.5 Flash Connected</span>
+          <span>Gemini 3.6 Flash Connected</span>
         </div>
       </div>
 
@@ -132,6 +185,17 @@ export const AIChallengeAssistant: React.FC = () => {
         {/* Quick sample prompt pills */}
         <div className="flex flex-wrap items-center gap-2 text-xs pt-1">
           <span className="text-slate-500 font-medium text-[11px]">Quick Prompts:</span>
+          <button
+            type="button"
+            onClick={() => {
+              const p = "Smart traffic management using AI sensors for urban congestion";
+              setInputPrompt(p);
+              handleGenerate(p);
+            }}
+            className="px-2.5 py-1 rounded bg-sky-50 hover:bg-sky-100 border border-sky-300 text-sky-800 text-[11px] font-semibold transition-colors"
+          >
+            Urban Mobility: Smart AI Traffic Signals
+          </button>
           <button
             type="button"
             onClick={() => {
@@ -303,6 +367,115 @@ export const AIChallengeAssistant: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* RELEVANT STARTUPS SUGGESTED BY AI */}
+          {suggestedStartups.length > 0 && (
+            <div className="p-6 rounded-2xl bg-white border border-sky-300 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-700">
+                    <Sparkles className="w-4 h-4 text-sky-700" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">
+                      Relevant Deep-Tech Startups Suggested by AI
+                    </h3>
+                    <p className="text-[11px] text-slate-500">
+                      Pre-evaluated against this RFP's required tech area, pilot readiness, and domain track record
+                    </p>
+                  </div>
+                </div>
+
+                <Link
+                  to="/government/ai-matching"
+                  className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1"
+                >
+                  <span>Full AI Matching Engine</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+                {suggestedStartups.map((st: any) => {
+                  const isShortlisted = shortlistedMap[st.id];
+                  return (
+                    <div 
+                      key={st.id} 
+                      className={`p-4 rounded-xl border transition-all flex flex-col justify-between ${
+                        st.dynamicMatchScore >= 90 
+                          ? 'bg-gradient-to-b from-sky-50/50 to-white border-sky-300 shadow-sm' 
+                          : 'bg-slate-50/60 border-slate-200'
+                      }`}
+                    >
+                      <div className="space-y-2.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                              {st.location}
+                            </span>
+                            <h4 className="text-sm font-bold text-slate-900 leading-tight">
+                              {st.name}
+                            </h4>
+                          </div>
+
+                          <div className={`px-2 py-0.5 rounded-full text-[11px] font-bold shrink-0 border flex items-center gap-1 ${
+                            st.dynamicMatchScore >= 90
+                              ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                              : 'bg-sky-50 text-sky-800 border-sky-300'
+                          }`}>
+                            <Award className="w-3 h-3 text-emerald-600" />
+                            <span>{st.dynamicMatchScore}% Match</span>
+                          </div>
+                        </div>
+
+                        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                          {st.tagline || st.overview}
+                        </p>
+
+                        <div className="flex flex-wrap gap-1 pt-1">
+                          {st.techStack.slice(0, 3).map((tech: string, i: number) => (
+                            <span key={i} className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-medium border border-slate-200">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-3.5 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>DPIIT Verified</span>
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            shortlistStartup('draft-ai-challenge', st.id);
+                            setShortlistedMap(prev => ({ ...prev, [st.id]: true }));
+                            addToast('success', 'Startup Shortlisted', `${st.name} has been tagged for invitation to this challenge.`);
+                          }}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors ${
+                            isShortlisted
+                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                              : 'bg-slate-900 hover:bg-slate-800 text-white shadow-xs'
+                          }`}
+                        >
+                          {isShortlisted ? (
+                            <>
+                              <CheckCircle2 className="w-3 h-3 text-emerald-700" />
+                              <span>Shortlisted</span>
+                            </>
+                          ) : (
+                            <span>Shortlist for Pilot</span>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Mandatory GFR Disclaimer */}
           <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-3">

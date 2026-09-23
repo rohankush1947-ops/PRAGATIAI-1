@@ -69,6 +69,20 @@ export const initDb = (): DatabaseSchema => {
 
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
     inMemoryDb = JSON.parse(raw);
+    if (inMemoryDb && inMemoryDb.startups) {
+      let updated = false;
+      for (const st of MOCK_STARTUPS) {
+        if (!inMemoryDb.startups.some((existing: any) => existing.id === st.id)) {
+          inMemoryDb.startups.unshift(st);
+          updated = true;
+        }
+      }
+      if (updated) {
+        try {
+          fs.writeFileSync(DB_FILE, JSON.stringify(inMemoryDb, null, 2), 'utf-8');
+        } catch (_) {}
+      }
+    }
     return inMemoryDb!;
   } catch (err) {
     console.error('Error reading database file, reinitializing with seed data:', err);
