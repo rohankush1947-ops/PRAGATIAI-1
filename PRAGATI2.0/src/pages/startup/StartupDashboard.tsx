@@ -17,6 +17,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
+import { LifecyclePipelineStepper } from '../../components/common/LifecyclePipelineStepper';
 
 export const StartupDashboard: React.FC = () => {
   const { challenges, applications, pilots } = usePragati();
@@ -99,61 +100,12 @@ export const StartupDashboard: React.FC = () => {
         })}
       </div>
 
-      {/* APPLICATION PIPELINE (PROMPT SPECIFIED 7 STAGES) */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-4">
-          <div>
-            <h3 className="text-base font-bold text-slate-900">
-              Application & Procurement Pipeline
-            </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Current lifecycle status for: <strong className="text-sky-700">AI-Based Pothole Detection (PWD)</strong>
-            </p>
-          </div>
-          <span className="text-xs text-emerald-400 font-semibold bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-800">
-            Active in Pilot Stage
-          </span>
-        </div>
-
-        {/* 7-Step Horizontal Pipeline */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
-          {pipelineStages.map((stage, idx) => {
-            const isCompleted = stage.status === 'Completed';
-            const isInProgress = stage.status === 'In Progress';
-            return (
-              <div
-                key={idx}
-                className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 transition-all ${
-                  isCompleted
-                    ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-                    : isInProgress
-                    ? 'bg-sky-950/40 border-sky-500/60 ring-2 ring-sky-500/30 text-white'
-                    : 'bg-[#070E1E] border-slate-800 text-slate-400'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono font-bold">0{idx + 1}</span>
-                  {isCompleted ? (
-                    <span className="text-emerald-400 text-[10px] font-bold">✓ DONE</span>
-                  ) : isInProgress ? (
-                    <span className="text-sky-400 text-[10px] font-bold animate-pulse">ACTIVE</span>
-                  ) : (
-                    <span className="text-slate-400 text-[10px]">NEXT</span>
-                  )}
-                </div>
-
-                <div className="font-bold text-xs leading-snug">
-                  {stage.stage}
-                </div>
-
-                <div className="text-[10px] opacity-80 truncate">
-                  {stage.date}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      {/* APPLICATION & PROCUREMENT PIPELINE (PRAGATI INNOVATION LIFECYCLE) */}
+      <LifecyclePipelineStepper 
+        currentStage="pilot_project"
+        challengeId="ch-pwd-pothole-01"
+        challengeTitle="Active Opportunity: AI-Based Pothole Detection & Road Monitoring (PWD)"
+      />
 
       {/* QUICK ACTIONS & ACTIVE ENGAGEMENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { Modal } from '../../components/common/Modal';
+import { LifecyclePipelineStepper } from '../../components/common/LifecyclePipelineStepper';
 
 export const GovChallenges: React.FC = () => {
   const { challenges, createChallenge, addToast } = usePragati();
@@ -226,6 +227,9 @@ export const GovChallenges: React.FC = () => {
           </Link>
         </div>
       </div>
+
+      {/* Innovation Lifecycle Stepper */}
+      <LifecyclePipelineStepper currentStage="create_challenge" />
 
       {/* Filter Tabs & Search */}
       <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
