@@ -38,16 +38,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
+// Health check endpoints
+const healthHandler = (req: express.Request, res: express.Response) => {
   res.json({
     status: 'ok',
     product: 'PRAGATI AI Backend API',
     team: 'Pragyan',
     event: 'Smart India Hackathon 2026 Prototype',
+    environment: process.env.VERCEL ? 'vercel-serverless' : 'standalone-node',
     timestamp: new Date().toISOString()
   });
-});
+};
+
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
+app.get('/api', healthHandler);
 
 // Mount Routes
 app.use('/api/challenges', challengesRouter);
@@ -62,12 +67,14 @@ app.use('/api/notifications', notificationsRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/ai/matching', aiMatchingRouter);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`\n======================================================`);
-  console.log(`PRAGATI AI Backend Server active on http://127.0.0.1:${PORT}`);
-  console.log(`Health Check: http://127.0.0.1:${PORT}/api/health`);
-  console.log(`======================================================\n`);
-});
+// Start server (only in standalone Node mode, not inside Vercel serverless functions)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n======================================================`);
+    console.log(`PRAGATI AI Backend Server active on http://127.0.0.1:${PORT}`);
+    console.log(`Health Check: http://127.0.0.1:${PORT}/api/health`);
+    console.log(`======================================================\n`);
+  });
+}
 
 export default app;

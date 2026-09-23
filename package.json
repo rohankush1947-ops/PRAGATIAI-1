@@ -10,5 +10,10 @@
     "build": "npm --prefix PRAGATI2.0 install && npm --prefix PRAGATI2.0 run build && node -e \"const fs=require('fs'); if(fs.existsSync('PRAGATI2.0/dist')) fs.cpSync('PRAGATI2.0/dist', 'dist', {recursive:true});\"",
     "lint": "npm --prefix PRAGATI2.0 run lint",
     "preview": "npm --prefix PRAGATI2.0 run preview"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
   }
 }

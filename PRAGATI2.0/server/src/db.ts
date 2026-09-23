@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { fileURLToPath } from 'url';
 import { 
   INITIAL_CHALLENGES, 
@@ -16,8 +17,10 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DATA_DIR = path.join(__dirname, '..', 'data');
-const DB_FILE = path.join(DATA_DIR, 'database.json');
+const DATA_DIR = process.env.VERCEL ? os.tmpdir() : path.join(__dirname, '..', 'data');
+const DB_FILE = path.join(DATA_DIR, 'pragati_database.json');
+
+let inMemoryDb: DatabaseSchema | null = null;
 
 export interface DatabaseSchema {
   challenges: any[];
@@ -44,23 +47,38 @@ const getInitialData = (): DatabaseSchema => ({
 });
 
 export const initDb = (): DatabaseSchema => {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-
-  if (!fs.existsSync(DB_FILE)) {
-    const initialData = getInitialData();
-    fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
-    return initialData;
+  if (inMemoryDb) {
+    return inMemoryDb;
   }
 
   try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+
+    if (!fs.existsSync(DB_FILE)) {
+      const initialData = getInitialData();
+      try {
+        fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
+      } catch (writeErr) {
+        console.warn('Could not write database file, operating with in-memory store:', writeErr);
+      }
+      inMemoryDb = initialData;
+      return initialData;
+    }
+
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
-    return JSON.parse(raw);
+    inMemoryDb = JSON.parse(raw);
+    return inMemoryDb!;
   } catch (err) {
     console.error('Error reading database file, reinitializing with seed data:', err);
     const initialData = getInitialData();
-    fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
+    inMemoryDb = initialData;
+    try {
+      fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
+    } catch (e) {
+      // In-memory fallback
+    }
     return initialData;
   }
 };
@@ -70,10 +88,15 @@ export const getDb = (): DatabaseSchema => {
 };
 
 export const saveDb = (data: DatabaseSchema) => {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  inMemoryDb = data;
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (err) {
+    console.warn('Could not persist database to disk, preserved in memory:', err);
   }
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
 };
 
 export const resetDb = (): DatabaseSchema => {

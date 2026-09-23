@@ -28,6 +28,11 @@ async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
     throw new Error(`API error (${response.status}): ${errorText}`);
   }
 
+  const contentType = response.headers.get('content-type') || '';
+  if (contentType && !contentType.includes('application/json')) {
+    throw new Error(`API error: expected JSON but received ${contentType}`);
+  }
+
   return response.json() as Promise<T>;
 }
 

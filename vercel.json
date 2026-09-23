@@ -4,6 +4,10 @@
   "outputDirectory": "PRAGATI2.0/dist",
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
