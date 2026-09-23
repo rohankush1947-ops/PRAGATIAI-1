@@ -27,6 +27,32 @@ router.post('/', (req, res) => {
     ch.applicationsCount = (ch.applicationsCount || 0) + 1;
   }
 
+  // Create corresponding expert evaluation queue item
+  if (!db.evaluations) db.evaluations = [];
+  const newEval = {
+    id: `eval-${newApp.id}`,
+    applicationId: newApp.id,
+    challengeId: newApp.challengeId,
+    challengeTitle: newApp.challengeTitle,
+    startupId: newApp.startupId,
+    startupName: newApp.startupName,
+    evaluatorName: 'Dr. Arvind Swaminathan',
+    evaluatorSpecialization: 'IIT Madras AI & Infrastructure Panel',
+    date: newApp.submissionDate,
+    scores: {
+      technicalCapability: 0,
+      innovation: 0,
+      scalability: 0,
+      costEffectiveness: 0,
+      impact: 0
+    },
+    totalScore: 0,
+    recommendation: 'Under Review',
+    remarks: 'Awaiting expert technical panel review and rubric scoring.',
+    isSubmitted: false
+  };
+  db.evaluations.unshift(newEval);
+
   // Create notification
   db.notifications.unshift({
     id: `notif-${Date.now()}`,

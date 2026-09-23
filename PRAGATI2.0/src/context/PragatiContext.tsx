@@ -640,6 +640,30 @@ const [auditLogs, setAuditLogs] =
       ...prev
     ]);
 
+    const newEvalItem: ExpertEvaluation = {
+      id: `eval-${newApp.id}`,
+      applicationId: newApp.id,
+      challengeId: newApp.challengeId,
+      challengeTitle: newApp.challengeTitle,
+      startupId: newApp.startupId,
+      startupName: newApp.startupName,
+      evaluatorName: 'Dr. Arvind Swaminathan',
+      evaluatorSpecialization: 'IIT Madras AI & Infrastructure Panel',
+      date: newApp.submissionDate || new Date().toISOString().split('T')[0],
+      scores: {
+        technicalCapability: 0,
+        innovation: 0,
+        scalability: 0,
+        costEffectiveness: 0,
+        impact: 0
+      },
+      totalScore: 0,
+      recommendation: 'Under Review' as any,
+      remarks: 'Awaiting expert technical panel review and rubric scoring.',
+      isSubmitted: false
+    };
+    setEvaluations(prev => [newEvalItem, ...prev.filter(e => e.id !== newEvalItem.id)]);
+
     setChallenges(prev =>
       prev.map(c =>
         c.id === appData.challengeId
@@ -683,6 +707,30 @@ const [auditLogs, setAuditLogs] =
     };
 
     setApplications(prev => [fallbackApp, ...prev]);
+
+    const fallbackEvalItem: ExpertEvaluation = {
+      id: `eval-${fallbackApp.id}`,
+      applicationId: fallbackApp.id,
+      challengeId: fallbackApp.challengeId,
+      challengeTitle: fallbackApp.challengeTitle,
+      startupId: fallbackApp.startupId,
+      startupName: fallbackApp.startupName,
+      evaluatorName: 'Dr. Arvind Swaminathan',
+      evaluatorSpecialization: 'IIT Madras AI & Infrastructure Panel',
+      date: fallbackApp.submissionDate || new Date().toISOString().split('T')[0],
+      scores: {
+        technicalCapability: 0,
+        innovation: 0,
+        scalability: 0,
+        costEffectiveness: 0,
+        impact: 0
+      },
+      totalScore: 0,
+      recommendation: 'Under Review' as any,
+      remarks: 'Awaiting expert technical panel review and rubric scoring.',
+      isSubmitted: false
+    };
+    setEvaluations(prev => [fallbackEvalItem, ...prev.filter(e => e.id !== fallbackEvalItem.id)]);
 
     setChallenges(prev =>
       prev.map(c =>
