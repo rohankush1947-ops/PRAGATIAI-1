@@ -13,6 +13,7 @@ import {
   INITIAL_AUDIT_LOGS, 
   INITIAL_NOTIFICATIONS 
 } from '../../src/data/mockData.ts';
+import { persistToSupabase, loadFromSupabase } from './supabase.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +22,7 @@ const DATA_DIR = process.env.VERCEL ? os.tmpdir() : path.join(__dirname, '..', '
 const DB_FILE = path.join(DATA_DIR, 'pragati_database.json');
 
 let inMemoryDb: DatabaseSchema | null = null;
+let supabaseSyncInitiated = false;
 
 export interface DatabaseSchema {
   challenges: any[];
@@ -83,6 +85,24 @@ export const initDb = (): DatabaseSchema => {
         } catch (_) {}
       }
     }
+    // Background asynchronous sync with Supabase Cloud if available
+    if (!supabaseSyncInitiated) {
+      supabaseSyncInitiated = true;
+      loadFromSupabase()
+        .then(remoteData => {
+          if (remoteData && inMemoryDb) {
+            Object.assign(inMemoryDb, remoteData);
+            try {
+              fs.writeFileSync(DB_FILE, JSON.stringify(inMemoryDb, null, 2), 'utf-8');
+            } catch (_) {}
+            console.log('⚡ Pragati database synchronized with Supabase Cloud');
+          }
+        })
+        .catch(err => {
+          console.warn('Initial Supabase sync check:', err.message);
+        });
+    }
+
     return inMemoryDb!;
   } catch (err) {
     console.error('Error reading database file, reinitializing with seed data:', err);
@@ -111,6 +131,9 @@ export const saveDb = (data: DatabaseSchema) => {
   } catch (err) {
     console.warn('Could not persist database to disk, preserved in memory:', err);
   }
+
+  // Asynchronously mirror changes to Supabase Cloud
+  persistToSupabase(data).catch(() => {});
 };
 
 export const resetDb = (): DatabaseSchema => {

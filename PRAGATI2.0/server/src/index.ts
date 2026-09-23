@@ -16,6 +16,7 @@ import notificationsRouter from './routes/notifications.js';
 import adminRouter from './routes/admin.js';
 import aiMatchingRouter from './routes/aiMatching.js';
 import aiChallengeRouter from './routes/aiChallenge.js';
+import supabaseRouter from './routes/supabase.js';
 
 dotenv.config();
 
@@ -69,6 +70,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/ai/matching', aiMatchingRouter);
 app.use('/api/ai/challenges', aiChallengeRouter);
 app.use('/api/ai/generate-challenge', aiChallengeRouter);
+app.use('/api/supabase', supabaseRouter);
 
 // Start server (only in standalone Node mode, not inside Vercel serverless functions)
 if (!process.env.VERCEL) {
