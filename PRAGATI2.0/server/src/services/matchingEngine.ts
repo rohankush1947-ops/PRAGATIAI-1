@@ -61,9 +61,13 @@ export interface MatchingEvaluationResult {
 
 // Structured domain dictionary for precision sector determination
 const DOMAIN_SECTORS: Record<string, { label: string; keywords: string[] }> = {
-  transport_infra: {
-    label: 'Road Infrastructure & Intelligent Transport',
-    keywords: ['pothole', 'road', 'pavement', 'highway', 'transport', 'traffic', 'pwd', 'arterial', 'bolero', 'tata ace', 'vehicle', 'distress', 'fissure', 'smart infrastructure']
+  urban_mobility: {
+    label: 'Smart Mobility, Traffic & Intelligent Transport Systems (ITS)',
+    keywords: ['traffic', 'signal', 'congestion', 'intersection', 'adaptive signal', 'urban mobility', 'scats', 'itms', 'transit', 'commuter', 'brts', 'vehicle count', 'signal control', 'traffic police', 'traffic management', 'mmwave', 'traffic flow', 'urban congestion']
+  },
+  road_infra: {
+    label: 'Road Infrastructure, Surface & Pavement Distress',
+    keywords: ['pothole', 'road', 'pavement', 'highway', 'transport', 'pwd', 'nhai', 'arterial', 'bolero', 'tata ace', 'vehicle', 'distress', 'fissure', 'smart infrastructure', 'rutting', 'crack', 'asphalt', 'roughness index', 'iri']
   },
   agriculture: {
     label: 'Agritech & Precision Agriculture',
@@ -221,10 +225,18 @@ function calculateTechnologyMatch(startup: any, challenge: any): { score: number
     score += 5;
   }
 
-  if (clusterMatches >= 2 && score < 85) score = 85 + Math.min(10, clusterMatches * 3);
-  if (clusterMatches === 0 && directStackHits === 0) score = Math.min(35, Math.max(20, score));
+  // Realistic technical alignment: only reward if genuine stack or cluster overlap exists
+  if (directStackHits >= 2 && clusterMatches >= 1) {
+    score = Math.max(score, 88 + Math.min(10, directStackHits * 3));
+  } else if (directStackHits === 0 && clusterMatches === 0) {
+    score = Math.min(20, score);
+  } else if (directStackHits === 0 && clusterMatches <= 1) {
+    score = Math.min(35, score);
+  } else if (directStackHits === 0) {
+    score = Math.min(48, score);
+  }
 
-  score = Math.min(98, Math.max(20, score));
+  score = Math.min(98, Math.max(15, score));
 
   let desc = '';
   if (matchedTerms.length >= 2) {
@@ -272,16 +284,16 @@ function calculateDomainMatch(startup: any, challenge: any): { score: number; de
     level = 'Adjacent Domain';
     desc = `Transferable sector experience in ${startup.domain} with proven relevance to ${challenge.category}.`;
   } else if (sectorMatches === 1) {
-    score = 55;
+    score = 50;
     level = 'Secondary Domain';
     desc = `Peripheral alignment with ${targetSector.label}; candidate operates primarily in ${startup.domain}.`;
   } else {
-    score = Math.max(22, 35 - (startup.completedPilotsCount > 0 ? 0 : 8));
+    score = 15;
     level = 'Divergent Domain';
-    desc = `Specialized in ${startup.domain}, which diverges from the core ${challenge.category} objective.`;
+    desc = `Specialized in ${startup.domain}, which is completely divergent from the core ${challenge.category || 'RFP'} objective.`;
   }
 
-  return { score: Math.min(99, Math.max(20, score)), desc, domainMatchLevel: level };
+  return { score: Math.min(99, Math.max(10, score)), desc, domainMatchLevel: level };
 }
 
 /**
@@ -501,27 +513,44 @@ export function evaluateChallengeMatches(
       const scalability = calculateScalability(st, challenge);
       const eligibility = calculateEligibility(st, challenge);
 
-      const overall = Math.round(
-        tech.score * weights.technology +
-        domain.score * weights.domain +
-        exp.score * weights.experience +
-        readiness.score * weights.pilotReadiness +
-        scalability.score * weights.scalability +
-        eligibility.score * weights.eligibility
-      );
+      // Domain Gate: Irrelevant startups cannot get recommended
+      const isDomainIncompatible = domain.domainMatchLevel === 'Divergent Domain' || domain.score < 30;
+
+      let overall: number;
+      if (isDomainIncompatible) {
+        overall = Math.round(Math.min(35, domain.score * 0.5 + tech.score * 0.3 + exp.score * 0.2));
+      } else {
+        overall = Math.round(
+          tech.score * weights.technology +
+          domain.score * weights.domain +
+          exp.score * weights.experience +
+          readiness.score * weights.pilotReadiness +
+          scalability.score * weights.scalability +
+          eligibility.score * weights.eligibility
+        );
+      }
 
       // Confidence tier
       let confidenceTier: StartupMatchEvaluation['confidenceTier'] = 'High Conviction';
-      if (overall >= 88) confidenceTier = 'High Conviction';
-      else if (overall >= 78) confidenceTier = 'Moderate Match';
-      else if (overall >= 68) confidenceTier = 'Conditional Match';
-      else confidenceTier = 'Low Compatibility';
+      if (isDomainIncompatible || overall < 45) {
+        confidenceTier = 'Low Compatibility';
+      } else if (overall >= 88) {
+        confidenceTier = 'High Conviction';
+      } else if (overall >= 78) {
+        confidenceTier = 'Moderate Match';
+      } else if (overall >= 68) {
+        confidenceTier = 'Conditional Match';
+      } else {
+        confidenceTier = 'Low Compatibility';
+      }
 
       const confidence = `${Math.min(99.8, Math.max(65.0, overall * 0.98 + (overall > 85 ? 4.5 : 1.2))).toFixed(1)}%`;
 
       // Explainable Rationale
       let explanation = '';
-      if (overall >= 88) {
+      if (isDomainIncompatible) {
+        explanation = `Incompatible Domain: ${st.name} specializes in ${st.domain}, which does not match the operational needs or sector of "${challenge.title}". Not recommended for this public tender.`;
+      } else if (overall >= 88) {
         explanation = `Strong match based on high technology compatibility, direct domain alignment (${domain.domainMatchLevel.toLowerCase()}), and verified ${readiness.level.toLowerCase()} pilot readiness. ${tech.desc} ${exp.desc}`;
       } else if (overall >= 75) {
         explanation = `Viable candidate with solid technical qualifications and ${domain.domainMatchLevel.toLowerCase()}. ${tech.desc} May benefit from targeted pilot milestone monitoring.`;

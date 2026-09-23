@@ -58,11 +58,28 @@ Given an unstructured problem statement, output ONLY a valid JSON object strictl
 
 function cleanJsonText(raw: string): string {
   let text = raw.trim();
-  if (text.startsWith('```json')) {
-    text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-  } else if (text.startsWith('```')) {
-    text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
+  const jsonBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (jsonBlockMatch) {
+    text = jsonBlockMatch[1].trim();
   }
+  
+  const firstBrace = text.indexOf('{');
+  const firstBracket = text.indexOf('[');
+  let startIdx = -1;
+  let endIdx = -1;
+
+  if (firstBrace !== -1 && (firstBracket === -1 || firstBrace < firstBracket)) {
+    startIdx = firstBrace;
+    endIdx = text.lastIndexOf('}');
+  } else if (firstBracket !== -1) {
+    startIdx = firstBracket;
+    endIdx = text.lastIndexOf(']');
+  }
+
+  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+    return text.substring(startIdx, endIdx + 1).trim();
+  }
+
   return text.trim();
 }
 

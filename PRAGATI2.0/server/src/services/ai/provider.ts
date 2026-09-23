@@ -5,11 +5,28 @@ import { IAIProvider, AIProviderConfig } from './types.js';
  */
 function cleanJsonText(raw: string): string {
   let text = raw.trim();
-  if (text.startsWith('```json')) {
-    text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-  } else if (text.startsWith('```')) {
-    text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
+  const jsonBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (jsonBlockMatch) {
+    text = jsonBlockMatch[1].trim();
   }
+  
+  const firstBrace = text.indexOf('{');
+  const firstBracket = text.indexOf('[');
+  let startIdx = -1;
+  let endIdx = -1;
+
+  if (firstBrace !== -1 && (firstBracket === -1 || firstBrace < firstBracket)) {
+    startIdx = firstBrace;
+    endIdx = text.lastIndexOf('}');
+  } else if (firstBracket !== -1) {
+    startIdx = firstBracket;
+    endIdx = text.lastIndexOf(']');
+  }
+
+  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+    return text.substring(startIdx, endIdx + 1).trim();
+  }
+
   return text.trim();
 }
 
@@ -27,7 +44,7 @@ export class GeminiProvider implements IAIProvider {
     this.apiKey = config.apiKey;
     this.model = config.model || 'gemini-3.6-flash';
     this.baseUrl = config.baseUrl || 'https://generativelanguage.googleapis.com/v1beta';
-    this.timeoutMs = config.timeoutMs || 20000;
+        this.timeoutMs = config.timeoutMs || 45000;
   }
 
   isConfigured(): boolean {
@@ -39,10 +56,14 @@ export class GeminiProvider implements IAIProvider {
       throw new Error('Gemini API key is not configured or contains placeholder value.');
     }
 
-    const candidateModels = Array.from(new Set([this.model, 'gemini-3.6-flash', 'gemini-3.5-flash']));
+    const candidateModels = Array.from(new Set([this.model, 'gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.5-flash']));
     let lastError: any = null;
 
-    for (const modelName of candidateModels) {
+    for (let i = 0; i < candidateModels.length; i++) {
+      const modelName = candidateModels[i];
+      if (i > 0) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+      }
       const endpoint = `${this.baseUrl}/models/${modelName}:generateContent?key=${encodeURIComponent(this.apiKey)}`;
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
@@ -81,7 +102,8 @@ export class GeminiProvider implements IAIProvider {
         if (!response.ok) {
           const errorText = await response.text();
           lastError = new Error(`Gemini API error (${modelName}) [${response.status}]: ${errorText.substring(0, 300)}`);
-          if (response.status === 503 || response.status === 404) {
+          console.warn(`[GeminiProvider] Model ${modelName} returned status ${response.status}: ${errorText.substring(0, 150)}`);
+          if (response.status === 503 || response.status === 404 || response.status === 429) {
             continue;
           }
           throw lastError;
@@ -91,12 +113,19 @@ export class GeminiProvider implements IAIProvider {
         const candidateText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (!candidateText) {
+          console.warn(`[GeminiProvider] Model ${modelName} returned response without candidate text.`);
           throw new Error('Gemini response did not contain text content.');
         }
 
         const cleaned = cleanJsonText(candidateText);
-        return JSON.parse(cleaned) as T;
+        try {
+          return JSON.parse(cleaned) as T;
+        } catch (jsonErr: any) {
+          console.warn(`[GeminiProvider] Model ${modelName} JSON.parse failed. Raw text preview: ${candidateText.substring(0, 200)}`);
+          throw jsonErr;
+        }
       } catch (err: any) {
+        console.warn(`[GeminiProvider] Attempt with model ${modelName} failed: ${err.message}`);
         lastError = err;
         continue;
       } finally {

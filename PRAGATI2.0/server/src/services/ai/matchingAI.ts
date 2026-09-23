@@ -66,18 +66,28 @@ function buildPrompt(challenge: ChallengeInput, startups: StartupInput[]): { sys
   const system = `You are the PragatiAI Senior Technical Evaluator and AI Matching Specialist for the Government of India Smart India Hackathon 2026.
 Your duty is to conduct an objective, grounded, explainable evaluation of startup capabilities against a government RFP challenge.
 
-Rules:
-1. Base all scores and statements strictly on the provided challenge RFP and startup capabilities.
-2. DO NOT fabricate qualifications, certifications, or past deployments not mentioned in the startup profiles.
-3. Output MUST be valid JSON conforming strictly to the requested schema.
-4. Provide actionable, explainable rationale explaining precisely why each startup matches or has technical gaps.`;
+MANDATORY EVALUATION RULES:
+1. STRICT DOMAIN & SECTOR RELEVANCE:
+   - Carefully check the Challenge Sector/Category, Problem Statement, and Department.
+   - If a startup operates in an irrelevant or divergent domain (e.g. an EdTech or Healthcare startup for a Traffic or Road challenge, or an Agriculture startup for Hospital bed logistics):
+     * domainCompatibilityScore MUST be between 0 and 20.
+     * semanticRelevanceScore MUST be between 0 and 20.
+     * requirementCoverageScore MUST be between 0 and 20.
+     * In the "gaps" array, explicitly state: "Domain Mismatch: Operates in [Domain], which does not address [Challenge Sector]".
+     * In the "explanation", explicitly state: "Irrelevant Domain: [Startup] specializes in [Domain] and cannot address this [Challenge Category] problem."
+     * DO NOT award high scores merely because a startup uses generic programming languages, basic AI, or cloud infrastructure.
+2. DIRECT & ADJACENT DOMAIN MATCHES:
+   - For startups that genuinely operate in the challenge's sector (e.g. Smart Mobility, Traffic AI, Computer Vision, Road Infrastructure for an urban traffic/road problem):
+     * Evaluate their actual technical stack, sensor deployment experience, and pilot track record with realistic high scores (75-98).
+3. Base all scores strictly on the provided challenge RFP and startup capabilities. DO NOT fabricate qualifications.
+4. Output MUST be valid JSON conforming strictly to the requested schema.`;
 
   const challengeSummary = {
     id: challenge.id,
     title: challenge.title,
     department: challenge.department,
     category: challenge.category,
-    description: challenge.description || 'Government public infrastructure deployment challenge.',
+    description: challenge.description || challenge.problemDescription || 'Government public infrastructure deployment challenge.',
     techArea: challenge.techArea || [],
     requiredCapabilities: challenge.requiredCapabilities || [],
     eligibility: challenge.eligibility || {},
@@ -90,7 +100,7 @@ Rules:
     tagline: s.tagline || '',
     domain: s.domain,
     stage: s.stage || 'Growth',
-    description: s.description || '',
+    description: s.description || s.overview || '',
     techStack: s.techStack || [],
     coreCapabilities: s.coreCapabilities || [],
     patents: s.patents || [],
@@ -111,14 +121,14 @@ ${JSON.stringify(startupSummaries, null, 2)}
 
 INSTRUCTIONS:
 Evaluate each startup on:
-1. semanticRelevanceScore (0-100): Semantic understanding of how well the startup's solution addresses the challenge's core problem statement.
+1. semanticRelevanceScore (0-100): Semantic understanding of how well the startup's solution addresses the challenge's core problem statement. (Must be < 25 if domain is irrelevant!)
 2. technologyCompatibilityScore (0-100): Overlap and depth in the required tech stack and modern frameworks.
-3. domainCompatibilityScore (0-100): Sector expertise (e.g. transport, agritech, healthcare, municipal utilities).
+3. domainCompatibilityScore (0-100): Sector expertise (e.g. transport, agritech, healthcare, municipal utilities). (Must be < 20 if domain is divergent!)
 4. requirementCoverageScore (0-100): Extent to which required capabilities and constraints are addressed.
 5. scalabilityScore (0-100): Architectural readiness to scale across districts or state deployments.
 6. confidenceScore (0.50 to 0.99): Algorithmic conviction level based on verified data points.
 7. strengths: Array of 2 to 3 concise bullet points with verified technical strengths.
-8. gaps: Array of 1 to 2 concise risk factors, missing capabilities, or advisory considerations.
+8. gaps: Array of 1 to 2 concise risk factors, missing capabilities, or out-of-domain notices.
 9. explanation: 2 to 3 sentences explaining the technical rationale for this evaluation.
 
 OUTPUT FORMAT:
@@ -270,23 +280,36 @@ export async function executeAIMatching(
         continue;
       }
 
-      // Hybrid calculation
-      const overall = Math.round(
-        semScore * normWeights.semantic +
-        techScore * normWeights.technology +
-        domScore * normWeights.domain +
-        reqScore * normWeights.requirements +
-        statutory.eligibilityScore * normWeights.eligibility +
-        statutory.readinessScore * normWeights.readiness +
-        scaleScore * normWeights.scalability
-      );
+      // Domain Incompatibility Gate: If domain or semantic relevance is low, penalize out-of-domain startups
+      const isDomainIncompatible = domScore < 35 || semScore < 30;
+
+      let overall: number;
+      if (isDomainIncompatible) {
+        // Severely cap score so irrelevant startups cannot score high on statutory credentials alone
+        overall = Math.round(Math.min(35, domScore * 0.5 + semScore * 0.3 + techScore * 0.2));
+      } else {
+        overall = Math.round(
+          semScore * normWeights.semantic +
+          techScore * normWeights.technology +
+          domScore * normWeights.domain +
+          reqScore * normWeights.requirements +
+          statutory.eligibilityScore * normWeights.eligibility +
+          statutory.readinessScore * normWeights.readiness +
+          scaleScore * normWeights.scalability
+        );
+      }
 
       // Confidence tier
       let confidenceTier: StartupMatchEvaluation['confidenceTier'] = 'High Conviction';
-      if (overall >= 88) confidenceTier = 'High Conviction';
-      else if (overall >= 78) confidenceTier = 'Moderate Match';
-      else if (overall >= 68) confidenceTier = 'Conditional Match';
-      else confidenceTier = 'Low Compatibility';
+      if (isDomainIncompatible || overall < 45) {
+        confidenceTier = 'Low Compatibility';
+      } else if (overall >= 88) {
+        confidenceTier = 'High Conviction';
+      } else if (overall >= 75) {
+        confidenceTier = 'Moderate Match';
+      } else {
+        confidenceTier = 'Conditional Match';
+      }
 
       const confidence = `${(confRatio * 100).toFixed(1)}%`;
 
@@ -336,17 +359,21 @@ export async function executeAIMatching(
         }
       ];
 
-      const strengths = aiEval?.strengths && aiEval.strengths.length > 0 
-        ? aiEval.strengths 
-        : [`Domain alignment in ${st.domain}`, `Documented stack in ${(st.techStack || []).slice(0, 2).join(', ') || 'AI'}`];
+      const strengths = isDomainIncompatible
+        ? [`Verified statutory status: ${st.dpiitRegistered ? 'DPIIT Recognized' : 'Registered'}`]
+        : (aiEval?.strengths && aiEval.strengths.length > 0 
+          ? aiEval.strengths 
+          : [`Domain alignment in ${st.domain}`, `Documented stack in ${(st.techStack || []).slice(0, 2).join(', ') || 'AI'}`]);
 
-      const riskFactors = aiEval?.gaps && aiEval.gaps.length > 0 
-        ? aiEval.gaps 
-        : [`Pilot execution timeline depends on hardware availability`];
+      const riskFactors = isDomainIncompatible
+        ? [`Critical Domain Mismatch: Specializes in ${st.domain}, which diverges from the core RFP requirement (${challenge.category || 'target domain'}).`, ...(aiEval?.gaps || [])]
+        : (aiEval?.gaps && aiEval.gaps.length > 0 
+          ? aiEval.gaps 
+          : [`Pilot execution timeline depends on hardware availability`]);
 
-      const explanation = aiEval?.explanation 
-        ? aiEval.explanation 
-        : `${st.name} demonstrates a viable technical profile with ${techScore}% technology alignment and ${domScore}% sector relevance.`;
+      const explanation = isDomainIncompatible
+        ? `Incompatible Domain: ${st.name} specializes in ${st.domain}, which does not match the operational needs of "${challenge.title}". Not recommended for this public tender.`
+        : (aiEval?.explanation || `${st.name} demonstrates a viable technical profile with ${techScore}% technology alignment and ${domScore}% sector relevance.`);
 
       evaluatedList.push({
         rank: 0,
