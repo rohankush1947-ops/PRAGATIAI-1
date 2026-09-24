@@ -106,4 +106,31 @@ router.post('/:id/validation', (req, res) => {
   res.json(pilot);
 });
 
+// GET pilot by ID
+router.get('/:id', (req, res) => {
+  const db = getDb();
+  const pilot = db.pilots.find(p => p.id === req.params.id || p.challengeId === req.params.id);
+  if (!pilot) {
+    return res.status(404).json({ error: 'Pilot not found' });
+  }
+  res.json(pilot);
+});
+
+// PUT update pilot progress/milestone
+router.put('/:id/progress', (req, res) => {
+  const db = getDb();
+  const pilot = db.pilots.find(p => p.id === req.params.id);
+  if (!pilot) {
+    return res.status(404).json({ error: 'Pilot not found' });
+  }
+
+  const { progressPercent, milestones, kpis } = req.body;
+  if (typeof progressPercent === 'number') pilot.progressPercent = progressPercent;
+  if (Array.isArray(milestones)) pilot.milestones = milestones;
+  if (Array.isArray(kpis)) pilot.kpis = kpis;
+
+  saveDb(db);
+  res.json(pilot);
+});
+
 export default router;

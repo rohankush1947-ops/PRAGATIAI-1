@@ -82,13 +82,19 @@ export const api = {
 
   // Applications
   getApplications: () => fetchJson<Application[]>('/applications'),
+  getApplicationById: (id: string) => fetchJson<Application>(`/applications/${id}`),
   submitApplication: (application: any) => fetchJson<Application>('/applications', {
     method: 'POST',
     body: JSON.stringify(application)
   }),
+  updateApplicationStatus: (id: string, status: string) => fetchJson<Application>(`/applications/${id}/status`, {
+    method: 'PUT',
+    body: JSON.stringify({ status })
+  }),
 
   // Evaluations
   getEvaluations: () => fetchJson<ExpertEvaluation[]>('/evaluations'),
+  getEvaluationById: (id: string) => fetchJson<ExpertEvaluation>(`/evaluations/${id}`),
   submitEvaluation: (id: string, scores: any, recommendation: string, remarks: string) => 
     fetchJson<ExpertEvaluation>(`/evaluations/${id}`, {
       method: 'POST',
@@ -97,6 +103,7 @@ export const api = {
 
   // Pilots
   getPilots: () => fetchJson<PilotProject[]>('/pilots'),
+  getPilotById: (id: string) => fetchJson<PilotProject>(`/pilots/${id}`),
   startPilot: (applicationId: string) => fetchJson<PilotProject>('/pilots/start', {
     method: 'POST',
     body: JSON.stringify({ applicationId })
@@ -105,6 +112,11 @@ export const api = {
     fetchJson<PilotProject>(`/pilots/${pilotId}/validation`, {
       method: 'POST',
       body: JSON.stringify({ decision, remarks })
+    }),
+  updatePilotProgress: (pilotId: string, progress: { progressPercent?: number; milestones?: any[]; kpis?: any[] }) =>
+    fetchJson<PilotProject>(`/pilots/${pilotId}/progress`, {
+      method: 'PUT',
+      body: JSON.stringify(progress)
     }),
 
   // Procurement

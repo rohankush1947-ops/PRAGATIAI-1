@@ -174,176 +174,233 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
 
   /* =========================================================
      STARTUPS
-     Still local/demo data for now.
   ========================================================= */
-
- const [startups, setStartups] =
-  useState<Startup[]>(MOCK_STARTUPS);
+  const [startups, setStartups] = useState<Startup[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}startups`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return MOCK_STARTUPS;
+  });
 
   useEffect(() => {
-  const loadStartups = async () => {
     try {
-      const data = await api.getStartups();
-      setStartups(data);
-    } catch (error) {
-      console.error(
-        'Failed to load startups:',
-        error
-      );
-    }
-  };
-
-  loadStartups();
-}, []);
-
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}startups`, JSON.stringify(startups));
+    } catch (e) {}
+  }, [startups]);
 
   /* =========================================================
      APPLICATIONS
-     Still local/demo data for now.
   ========================================================= */
+  const [applications, setApplications] = useState<Application[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}applications`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_APPLICATIONS;
+  });
 
- const [applications, setApplications] =
-  useState<Application[]>(INITIAL_APPLICATIONS);
+  useEffect(() => {
+    try {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}applications`, JSON.stringify(applications));
+    } catch (e) {}
+  }, [applications]);
 
   /* =========================================================
      EVALUATIONS
   ========================================================= */
-
-  const [evaluations, setEvaluations] =
-  useState<ExpertEvaluation[]>(INITIAL_EVALUATIONS);
+  const [evaluations, setEvaluations] = useState<ExpertEvaluation[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}evaluations`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_EVALUATIONS;
+  });
 
   useEffect(() => {
-  const loadEvaluations = async () => {
     try {
-      const data = await api.getEvaluations();
-      setEvaluations(data);
-    } catch (error) {
-      console.error('Failed to load evaluations:', error);
-    }
-  };
-
-  loadEvaluations();
-}, []);
-
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}evaluations`, JSON.stringify(evaluations));
+    } catch (e) {}
+  }, [evaluations]);
 
   /* =========================================================
      PILOTS
   ========================================================= */
-
- const [pilots, setPilots] =
-  useState<PilotProject[]>(INITIAL_PILOTS);
+  const [pilots, setPilots] = useState<PilotProject[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}pilots`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_PILOTS;
+  });
 
   useEffect(() => {
-  const loadPilots = async () => {
     try {
-      const data = await api.getPilots();
-      setPilots(data);
-    } catch (error) {
-      console.error(
-        'Failed to load pilots:',
-        error
-      );
-    }
-  };
-
-  loadPilots();
-}, []);
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}pilots`, JSON.stringify(pilots));
+    } catch (e) {}
+  }, [pilots]);
 
   /* =========================================================
      PROCUREMENT
   ========================================================= */
-
-  const [procurementContracts, setProcurementContracts] =
-    useState<ProcurementContract[]>(INITIAL_PROCUREMENT);
-
-  useEffect(() => {
-    const loadProcurement = async () => {
-      try {
-        const data = await api.getProcurement();
-        setProcurementContracts(data);
-      } catch (error) {
-        console.error(
-          'Failed to load procurement contracts:',
-          error
-        );
+  const [procurementContracts, setProcurementContracts] = useState<ProcurementContract[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}procurementContracts`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
-    };
-
-    loadProcurement();
-  }, []);
+    } catch (e) {}
+    return INITIAL_PROCUREMENT;
+  });
 
   useEffect(() => {
-  const loadScaleUp = async () => {
     try {
-      const data = await api.getScaleUp();
-      setScaleUpPlan(data);
-    } catch (error) {
-      console.error(
-        'Failed to load scale-up plan:',
-        error
-      );
-    }
-  };
-
-  loadScaleUp();
-}, []);
-
-useEffect(() => {
-  const loadAuditLogs = async () => {
-    try {
-      const data = await api.getAuditLogs();
-      setAuditLogs(data);
-    } catch (error) {
-      console.error(
-        'Failed to load audit logs:',
-        error
-      );
-    }
-  };
-
-  loadAuditLogs();
-}, []);
-
-useEffect(() => {
-  const loadNotifications = async () => {
-    try {
-      const data = await api.getNotifications();
-      setNotifications(data);
-    } catch (error) {
-      console.error(
-        'Failed to load notifications:',
-        error
-      );
-    }
-  };
-
-  loadNotifications();
-}, []);
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}procurementContracts`, JSON.stringify(procurementContracts));
+    } catch (e) {}
+  }, [procurementContracts]);
 
   /* =========================================================
      SCALE-UP
   ========================================================= */
+  const [scaleUpPlan, setScaleUpPlan] = useState<ScaleUpPlan>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}scaleUpPlan`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && typeof parsed === 'object') return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_SCALE_UP;
+  });
 
-  const [scaleUpPlan, setScaleUpPlan] =
-  useState<ScaleUpPlan>(INITIAL_SCALE_UP);
-
+  useEffect(() => {
+    try {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}scaleUpPlan`, JSON.stringify(scaleUpPlan));
+    } catch (e) {}
+  }, [scaleUpPlan]);
 
   /* =========================================================
      AUDIT LOGS
   ========================================================= */
+  const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}auditLogs`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_AUDIT_LOGS;
+  });
 
-const [auditLogs, setAuditLogs] =
-  useState<AuditLogEntry[]>(INITIAL_AUDIT_LOGS);
+  useEffect(() => {
+    try {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}auditLogs`, JSON.stringify(auditLogs));
+    } catch (e) {}
+  }, [auditLogs]);
 
   /* =========================================================
      NOTIFICATIONS
   ========================================================= */
+  const [notifications, setNotifications] = useState<AppNotification[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}notifications`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_NOTIFICATIONS;
+  });
 
-  const [notifications, setNotifications] =
-  useState<AppNotification[]>(INITIAL_NOTIFICATIONS);
+  useEffect(() => {
+    try {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}notifications`, JSON.stringify(notifications));
+    } catch (e) {}
+  }, [notifications]);
 
-  const [toasts, setToasts] =
-  useState<ToastMessage[]>([]);
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+  /* =========================================================
+     REAL-TIME MULTI-DEVICE DATA SYNCHRONIZATION
+     Fetches all entities from backend on mount, window focus,
+     and periodic 30-second background polling
+  ========================================================= */
+  const syncAllData = async () => {
+    try {
+      const [remoteCh, remoteSt, remoteApps, remoteEvals, remotePilots, remoteProc, remoteScale, remoteLogs, remoteNotifs] =
+        await Promise.allSettled([
+          api.getChallenges(),
+          api.getStartups(),
+          api.getApplications(),
+          api.getEvaluations(),
+          api.getPilots(),
+          api.getProcurement(),
+          api.getScaleUp(),
+          api.getAuditLogs(),
+          api.getNotifications()
+        ]);
+
+      if (remoteCh.status === 'fulfilled' && Array.isArray(remoteCh.value) && remoteCh.value.length > 0) {
+        setChallenges(remoteCh.value);
+      }
+      if (remoteSt.status === 'fulfilled' && Array.isArray(remoteSt.value) && remoteSt.value.length > 0) {
+        setStartups(remoteSt.value);
+      }
+      if (remoteApps.status === 'fulfilled' && Array.isArray(remoteApps.value) && remoteApps.value.length > 0) {
+        setApplications(remoteApps.value);
+      }
+      if (remoteEvals.status === 'fulfilled' && Array.isArray(remoteEvals.value) && remoteEvals.value.length > 0) {
+        setEvaluations(remoteEvals.value);
+      }
+      if (remotePilots.status === 'fulfilled' && Array.isArray(remotePilots.value) && remotePilots.value.length > 0) {
+        setPilots(remotePilots.value);
+      }
+      if (remoteProc.status === 'fulfilled' && Array.isArray(remoteProc.value) && remoteProc.value.length > 0) {
+        setProcurementContracts(remoteProc.value);
+      }
+      if (remoteScale.status === 'fulfilled' && remoteScale.value) {
+        setScaleUpPlan(remoteScale.value);
+      }
+      if (remoteLogs.status === 'fulfilled' && Array.isArray(remoteLogs.value) && remoteLogs.value.length > 0) {
+        setAuditLogs(remoteLogs.value);
+      }
+      if (remoteNotifs.status === 'fulfilled' && Array.isArray(remoteNotifs.value) && remoteNotifs.value.length > 0) {
+        setNotifications(remoteNotifs.value);
+      }
+    } catch (err) {
+      console.warn('Real-time sync check fallback to local:', err);
+    }
+  };
+
+  useEffect(() => {
+    syncAllData();
+
+    const handleFocus = () => {
+      syncAllData();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    const interval = setInterval(syncAllData, 30000);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+    };
+  }, []);
 
 
   /* =========================================================

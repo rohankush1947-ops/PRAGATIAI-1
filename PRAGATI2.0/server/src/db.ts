@@ -66,6 +66,24 @@ export const initDb = (): DatabaseSchema => {
         console.warn('Could not write database file, operating with in-memory store:', writeErr);
       }
       inMemoryDb = initialData;
+
+      if (!supabaseSyncInitiated) {
+        supabaseSyncInitiated = true;
+        loadFromSupabase()
+          .then(remoteData => {
+            if (remoteData && inMemoryDb) {
+              Object.assign(inMemoryDb, remoteData);
+              try {
+                fs.writeFileSync(DB_FILE, JSON.stringify(inMemoryDb, null, 2), 'utf-8');
+              } catch (_) {}
+              console.log('⚡ Pragati database synchronized with Supabase Cloud on initial boot');
+            }
+          })
+          .catch(err => {
+            console.warn('Initial Supabase sync check:', err.message);
+          });
+      }
+
       return initialData;
     }
 

@@ -9,6 +9,16 @@ router.get('/', (req, res) => {
   res.json(db.evaluations);
 });
 
+// GET evaluation by ID
+router.get('/:id', (req, res) => {
+  const db = getDb();
+  const evalItem = db.evaluations.find(e => e.id === req.params.id || e.applicationId === req.params.id || e.challengeId === req.params.id);
+  if (!evalItem) {
+    return res.status(404).json({ error: 'Evaluation not found' });
+  }
+  res.json(evalItem);
+});
+
 // POST submit evaluation
 router.post('/:id', (req, res) => {
   const db = getDb();

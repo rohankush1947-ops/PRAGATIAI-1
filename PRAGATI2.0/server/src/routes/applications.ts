@@ -75,4 +75,54 @@ router.post('/', (req, res) => {
   res.status(201).json(newApp);
 });
 
+// GET application by ID
+router.get('/:id', (req, res) => {
+  const db = getDb();
+  const app = db.applications.find(a => a.id === req.params.id);
+  if (!app) {
+    return res.status(404).json({ error: 'Application not found' });
+  }
+  res.json(app);
+});
+
+// PUT update application
+router.put('/:id', (req, res) => {
+  const db = getDb();
+  const idx = db.applications.findIndex(a => a.id === req.params.id);
+  if (idx === -1) {
+    return res.status(404).json({ error: 'Application not found' });
+  }
+
+  db.applications[idx] = {
+    ...db.applications[idx],
+    ...req.body,
+    id: req.params.id
+  };
+
+  saveDb(db);
+  res.json(db.applications[idx]);
+});
+
+// PUT update application status
+router.put('/:id/status', (req, res) => {
+  const db = getDb();
+  const app = db.applications.find(a => a.id === req.params.id);
+  if (!app) {
+    return res.status(404).json({ error: 'Application not found' });
+  }
+
+  const { status } = req.body;
+  app.status = status;
+
+  addAuditLog(
+    'Application Status Updated',
+    `Application ${app.id} status updated to ${status} for ${app.startupName}`,
+    'Government Officer',
+    'Procurement Officer'
+  );
+
+  saveDb(db);
+  res.json(app);
+});
+
 export default router;
