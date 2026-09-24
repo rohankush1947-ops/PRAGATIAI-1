@@ -570,8 +570,8 @@ export const GovDashboard: React.FC = () => {
         <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-white">Challenges by Department</h3>
-              <p className="text-xs text-slate-400">Active outcome challenges and allocation</p>
+              <h3 className="text-sm font-bold text-slate-900">Challenges by Department</h3>
+              <p className="text-xs text-slate-500">Active outcome challenges and allocation</p>
             </div>
             <span className="text-xs text-sky-400 font-semibold">12 Total</span>
           </div>

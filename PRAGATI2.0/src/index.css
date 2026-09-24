@@ -13,8 +13,8 @@
     --gov-surface: #FFFFFF;
     --gov-card-border: #E2E8F0;
     --gov-text-heading: #0F172A;
-    --gov-text-body: #334155;
-    --gov-text-muted: #64748B;
+    --gov-text-body: #1E293B;
+    --gov-text-muted: #475569;
   }
 
   body {
@@ -54,7 +54,7 @@
   }
 
   .gov-input {
-    @apply w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent transition-all;
+    @apply w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent transition-all;
   }
 
   .gov-select {
@@ -66,7 +66,7 @@
   }
 
   .gov-button-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-sm transition-all duration-150;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 shadow-sm transition-all duration-150;
   }
 
   .gov-button-outline {
@@ -75,20 +75,18 @@
 }
 
 /* ============================================================
-   GOVERNMENT PORTAL LIGHT THEME REMAPPING
-   Transforms arbitrary dark utility classes across all pages
-   to clean, accessible, official government light theme.
+   GLOBAL HIGH-CONTRAST & ACCESSIBLE THEME ENGINE
+   Guarantees WCAG 2.1 AA+ contrast compliance across all light,
+   dark, gradient, and stateful background transitions.
    ============================================================ */
 
-/* Neutralize and transform all dark gradients into clean government light surfaces */
+/* 1. SURFACE BACKGROUND HARMONIZATION */
+/* Transform legacy dark surfaces to clean official government light surfaces */
 div[class*="from-[#0B1528]"],
 div[class*="from-[#0F1C36]"],
 div[class*="from-[#070E1E]"],
 div[class*="from-[#080E1C]"],
 div[class*="from-[#0A1224]"],
-div[class*="from-emerald-950"],
-div[class*="from-sky-950"],
-div[class*="from-slate-900"]:not(footer):not(button):not(a),
 div[class*="via-[#0B1528]"],
 div[class*="via-[#0F1C36]"],
 div[class*="to-[#0B1528]"],
@@ -102,17 +100,17 @@ section[class*="from-[#0F1C36]"] {
 
 /* Page canvas backgrounds */
 .bg-\[\#070E1E\]:not(footer):not(footer *),
-div[class*="bg-[#070E1E]"]:not(.border-emerald-500\/40):not(.border-sky-500\/40):not(.border-purple-500\/40):not(footer *),
+div[class*="bg-[#070E1E]"]:not(footer *):not([class*="font-mono"]):not([class*="from-"]):not([class*="to-"]),
 main[class*="bg-[#070E1E]"] {
   background-color: #F4F6F9 !important;
 }
 
-/* Cards, sidebars, top headers & surfaces */
-.bg-\[\#0B1528\]:not(footer):not(footer *),
-div[class*="bg-[#0B1528]"]:not(footer *),
+/* Cards, sidebars, top headers & surface containers */
+.bg-\[\#0B1528\]:not(footer):not(footer *):not(button):not(a.bg-sky-700):not([class*="from-"]),
+div[class*="bg-[#0B1528]"]:not(footer *):not(button):not([class*="from-"]),
 section[class*="bg-[#0B1528]"]:not(footer *),
-.bg-\[\#0F1C36\]:not(footer):not(footer *),
-div[class*="bg-[#0F1C36]"]:not(footer *),
+.bg-\[\#0F1C36\]:not(footer):not(footer *):not(button):not([class*="from-"]),
+div[class*="bg-[#0F1C36]"]:not(footer *):not(button):not([class*="from-"]),
 .bg-\[\#0A1224\]:not(footer):not(footer *),
 aside[class*="bg-[#0A1224]"] {
   background-color: #FFFFFF !important;
@@ -120,198 +118,391 @@ aside[class*="bg-[#0A1224]"] {
 }
 
 /* Sub-panels, wells, chip backgrounds */
-.bg-\[\#070E1E\]:not(footer):not(footer *),
-.bg-\[\#080E1C\]:not(footer):not(footer *),
-.bg-\[\#080E1D\]:not(footer):not(footer *),
-div[class*="bg-[#070E1E]"]:not(footer *),
-div[class*="bg-[#080E1C]"]:not(footer *),
-div[class*="bg-[#080E1D]"]:not(footer *) {
+.bg-\[\#080E1C\]:not(footer):not(footer *):not(button),
+.bg-\[\#080E1D\]:not(footer):not(footer *):not(button),
+div[class*="bg-[#080E1C]"]:not(footer *):not(button),
+div[class*="bg-[#080E1D]"]:not(footer *):not(button) {
   background-color: #F8FAFC !important;
   border-color: #E2E8F0 !important;
 }
 
-/* Remap 950-tints to accessible light government pastels */
-[class*="bg-sky-950"] {
+/* Remap tinted 950 backgrounds to accessible pastel tiles */
+[class*="bg-sky-950"]:not(button):not(footer *) {
   background-color: #F0F9FF !important;
   border-color: #BAE6FD !important;
   color: #0369A1 !important;
 }
-[class*="bg-sky-950"] * {
+[class*="bg-sky-950"]:not(button):not(footer *) p,
+[class*="bg-sky-950"]:not(button):not(footer *) span:not(button *):not([class*="text-white"]),
+[class*="bg-sky-950"]:not(button):not(footer *) div:not(button *):not([class*="text-white"]) {
   color: #0369A1 !important;
 }
 
-[class*="bg-emerald-950"] {
+[class*="bg-emerald-950"]:not(button):not(footer *) {
   background-color: #ECFDF5 !important;
   border-color: #A7F3D0 !important;
   color: #047857 !important;
 }
-[class*="bg-emerald-950"] * {
+[class*="bg-emerald-950"]:not(button):not(footer *) p,
+[class*="bg-emerald-950"]:not(button):not(footer *) span:not(button *):not([class*="text-white"]),
+[class*="bg-emerald-950"]:not(button):not(footer *) div:not(button *):not([class*="text-white"]) {
   color: #047857 !important;
 }
 
-[class*="bg-amber-950"] {
+[class*="bg-amber-950"]:not(button):not(footer *) {
   background-color: #FFFBEB !important;
   border-color: #FDE68A !important;
   color: #B45309 !important;
 }
-[class*="bg-amber-950"] * {
+[class*="bg-amber-950"]:not(button):not(footer *) p,
+[class*="bg-amber-950"]:not(button):not(footer *) span:not(button *):not([class*="text-white"]),
+[class*="bg-amber-950"]:not(button):not(footer *) div:not(button *):not([class*="text-white"]) {
   color: #B45309 !important;
 }
 
-[class*="bg-rose-950"] {
+[class*="bg-rose-950"]:not(button):not(footer *) {
   background-color: #FFF1F2 !important;
   border-color: #FECDD3 !important;
   color: #BE123C !important;
 }
-[class*="bg-rose-950"] * {
+[class*="bg-rose-950"]:not(button):not(footer *) p,
+[class*="bg-rose-950"]:not(button):not(footer *) span:not(button *):not([class*="text-white"]),
+[class*="bg-rose-950"]:not(button):not(footer *) div:not(button *):not([class*="text-white"]) {
   color: #BE123C !important;
 }
 
-[class*="bg-purple-950"] {
+[class*="bg-purple-950"]:not(button):not(footer *) {
   background-color: #FAF5FF !important;
   border-color: #E9D5FF !important;
   color: #6B21A8 !important;
 }
-[class*="bg-purple-950"] * {
+[class*="bg-purple-950"]:not(button):not(footer *) p,
+[class*="bg-purple-950"]:not(button):not(footer *) span:not(button *):not([class*="text-white"]),
+[class*="bg-purple-950"]:not(button):not(footer *) div:not(button *):not([class*="text-white"]) {
   color: #6B21A8 !important;
 }
 
-/* Official deep navy footer (retained as standard on India.gov.in / MyGov) */
-footer.bg-\[\#050B17\],
-footer[class*="bg-[#050B17]"],
-footer,
-.gov-dark-footer {
-  background-color: #0A192F !important;
-  color: #E2E8F0 !important;
-}
-
-/* Footer card elements: dark navy with subtle borders and crisp contrast */
-footer div[class*="bg-[#0B1528]"],
-footer div[class*="bg-[#091122]"],
-footer div[class*="bg-[#112240]"],
-footer [class*="bg-[#0B1528]"],
-footer [class*="bg-[#091122]"],
-footer [class*="bg-[#112240]"],
-footer .bg-\[\#0B1528\],
-footer .bg-\[\#091122\],
-footer .bg-\[\#112240\] {
-  background-color: #112240 !important;
-  border-color: #1E3A5F !important;
-  color: #E2E8F0 !important;
-}
-
-footer h3,
-footer h4,
-footer h5,
-footer strong {
-  color: #FFFFFF !important;
-}
-
-footer p,
-footer li,
-footer span:not(.text-sky-400):not(.text-sky-300):not(.text-amber-400):not(.bg-sky-600 *) {
-  color: #CBD5E1 !important;
-}
-
 /* Clean slate borders */
-[class*="border-slate-800"]:not(footer *),
-[class*="border-slate-700"]:not(footer *) {
+[class*="border-slate-800"]:not(footer *):not([class*="gov-top-bar"] *),
+[class*="border-slate-700"]:not(footer *):not([class*="gov-top-bar"] *) {
   border-color: #E2E8F0 !important;
 }
 
-/* Remap dark slate chips, tags, and small badges to accessible light badges */
-span.bg-slate-800:not(footer *),
-span.bg-slate-900:not(footer *),
-span.bg-slate-700:not(footer *),
-div.bg-slate-800:not(button):not(footer *),
-[class*="bg-slate-800"]:not(button):not(footer *):not(aside button) {
-  background-color: #F1F5F9 !important;
-  border-color: #CBD5E1 !important;
-  color: #334155 !important;
-}
-span.bg-slate-800:not(footer *) *,
-span.bg-slate-900:not(footer *) *,
-span.bg-slate-700:not(footer *) * {
-  color: #334155 !important;
-}
+/* ============================================================
+   2. CONTEXT-AWARE TYPOGRAPHY & CONTRAST GOVERNANCE
+   ============================================================ */
 
-/* Form inputs, textareas & selects in light mode */
-input,
-textarea,
-select,
-.gov-input,
-.gov-select {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
-}
-
-/* Universal select and dropdown options styling guarantee */
-select {
-  background-color: #FFFFFF !important;
+/* A. DEFAULT LIGHT SURFACES (Cards, Page Canvas, Modals, Tables) */
+/* Headings on light surfaces must be deep slate #0F172A regardless of remnant text-white classes */
+h1:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-indigo-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]),
+h2:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-indigo-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]),
+h3:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-indigo-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]),
+h4:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-indigo-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]),
+h5:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-indigo-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]),
+h6:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-indigo-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]) {
   color: #0F172A !important;
 }
 
-select option,
-option,
-option.text-white,
-option[class*="text-white"],
-option[class*="bg-[#0B1528]"],
-option[class*="bg-[#0F1C36]"] {
-  background-color: #FFFFFF !important;
+/* Ensure headings on converted white surfaces never show white text */
+div[class*="bg-[#0B1528]"]:not(footer *):not(button) h1,
+div[class*="bg-[#0B1528]"]:not(footer *):not(button) h2,
+div[class*="bg-[#0B1528]"]:not(footer *):not(button) h3,
+div[class*="bg-[#0B1528]"]:not(footer *):not(button) h4,
+div[class*="bg-[#0F1C36]"]:not(footer *):not(button) h1,
+div[class*="bg-[#0F1C36]"]:not(footer *):not(button) h2,
+div[class*="bg-[#0F1C36]"]:not(footer *):not(button) h3,
+div[class*="bg-[#0F1C36]"]:not(footer *):not(button) h4,
+div[class*="bg-[#070E1E]"]:not(footer *):not(button) h1,
+div[class*="bg-[#070E1E]"]:not(footer *):not(button) h2,
+div[class*="bg-[#070E1E]"]:not(footer *):not(button) h3 {
   color: #0F172A !important;
 }
 
-select option:checked,
-option:checked {
-  background-color: #0284C7 !important;
-  color: #FFFFFF !important;
-}
-
-/* Form labels contrast guarantee */
-label:not(footer *):not(button *):not(.gov-button-primary *) {
-  color: #334155 !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #94A3B8 !important;
-}
-
-/* Headings inside content surfaces */
-h1:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
-h2:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
-h3:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
-h4:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
-h5:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *),
-h6:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *) {
-  color: #0F172A !important;
-}
-
-/* Slate text remaps on light surfaces - exempt buttons, links, and navigation */
-.text-slate-100:not(button *):not(a *):not(footer *):not(.gov-top-bar *),
-.text-slate-200:not(button *):not(a *):not(footer *):not(.gov-top-bar *) {
+/* Light surface slate text remapping (elevating low-contrast grays) */
+.text-slate-100:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]),
+.text-slate-200:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]) {
   color: #1E293B !important;
 }
 
-.text-slate-300:not(button *):not(a *):not(footer *):not(.gov-top-bar *) {
+.text-slate-300:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-slate-9"]):not([class*="from-sky-"]):not([class*="from-blue-"]),
+.text-gray-200:not(button *):not(footer *):not([class*="gov-top-bar"] *),
+.text-gray-300:not(button *):not(footer *):not([class*="gov-top-bar"] *),
+.text-zinc-200:not(button *):not(footer *):not([class*="gov-top-bar"] *),
+.text-zinc-300:not(button *):not(footer *):not([class*="gov-top-bar"] *) {
   color: #334155 !important;
 }
 
-.text-slate-400:not(button *):not(a *):not(footer *):not(.gov-top-bar *) {
-  color: #64748B !important;
+/* Muted secondary labels & metadata: bump from #94A3B8/64748B to accessible #475569 (contrast > 5.5:1) */
+.text-slate-400:not(button *):not(a.bg-sky-700 *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="from-"]),
+.text-slate-500:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="from-"]),
+.text-gray-400:not(button *):not(footer *):not([class*="gov-top-bar"] *),
+.text-gray-500:not(button *):not(footer *):not([class*="gov-top-bar"] *) {
+  color: #475569 !important;
 }
 
-/* Text white overrides on non-button content elements */
-span.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-purple-600 *):not(.bg-rose-600 *):not(.bg-amber-600 *),
-div.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *),
-p.text-white:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sky-700 *):not(.bg-emerald-600 *):not(.bg-blue-600 *),
+/* Form labels high-contrast guarantee */
+label:not(footer *):not(button *):not(.gov-button-primary *):not([class*="gov-top-bar"] *) {
+  color: #334155 !important;
+  font-weight: 500;
+}
+
+/* Neutralize stray white text on remapped light surfaces */
+span.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-emerald-"]):not([class*="bg-purple-"]):not([class*="bg-rose-"]):not([class*="bg-amber-"]):not([class*="bg-slate-9"]):not([class*="bg-slate-8"]):not([class*="from-"]):not([class*="to-"]),
+div.text-white:not(button *):not(a.bg-sky-700 *):not(a.bg-sky-600 *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-emerald-"]):not([class*="bg-purple-"]):not([class*="bg-rose-"]):not([class*="bg-amber-"]):not([class*="bg-slate-9"]):not([class*="bg-slate-8"]):not([class*="from-"]):not([class*="to-"]),
+p.text-white:not(button *):not(footer *):not([class*="gov-top-bar"] *):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-emerald-"]):not([class*="bg-purple-"]):not([class*="bg-rose-"]):not([class*="bg-amber-"]):not([class*="bg-slate-9"]):not([class*="bg-slate-8"]):not([class*="from-"]):not([class*="to-"]),
 select.text-white,
 option.text-white {
   color: #0F172A !important;
 }
 
-/* Sidebar navigation link labels & icons guarantee */
+/* Accessible pastel & accent color remaps on light surfaces (prevent washed out cyan/green/yellow) */
+span.text-sky-200:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+p.text-sky-200:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+div.text-sky-200:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+span.text-sky-300:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+p.text-sky-300:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+div.text-sky-300:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+span.text-sky-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+p.text-sky-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+div.text-sky-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]) {
+  color: #0284C7 !important;
+}
+
+span.text-emerald-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-emerald-"]),
+p.text-emerald-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-emerald-"]),
+div.text-emerald-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-emerald-"]) {
+  color: #047857 !important;
+}
+
+span.text-amber-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-amber-"]),
+p.text-amber-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-amber-"]),
+div.text-amber-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-amber-"]) {
+  color: #B45309 !important;
+}
+
+span.text-rose-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-rose-"]),
+p.text-rose-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-rose-"]),
+div.text-rose-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-rose-"]) {
+  color: #BE123C !important;
+}
+
+span.text-purple-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-purple-"]),
+p.text-purple-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-purple-"]),
+div.text-purple-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="from-"]):not([class*="bg-purple-"]) {
+  color: #6B21A8 !important;
+}
+
+/* ============================================================
+   3. INTENTIONAL DARK CONTEXTS & GRADIENTS
+   ============================================================ */
+
+/* A. Authentic Government Top Strip (SIH / Indian Gov Ribbon) */
+.gov-top-bar,
+div[class*="gov-top-bar"] {
+  background-color: #0B2545 !important;
+  color: #E2E8F0 !important;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.8) !important;
+}
+.gov-top-bar *,
+div[class*="gov-top-bar"] * {
+  color: #E2E8F0 !important;
+}
+.gov-top-bar strong,
+.gov-top-bar span.font-bold,
+.gov-top-bar span.font-semibold,
+.gov-top-bar span.text-white,
+div[class*="gov-top-bar"] strong,
+div[class*="gov-top-bar"] span.font-bold,
+div[class*="gov-top-bar"] span.font-semibold,
+div[class*="gov-top-bar"] span.text-white {
+  color: #FFFFFF !important;
+}
+.gov-top-bar .text-sky-300,
+.gov-top-bar .text-sky-400,
+div[class*="gov-top-bar"] .text-sky-300,
+div[class*="gov-top-bar"] .text-sky-400 {
+  color: #7DD3FC !important;
+}
+.gov-top-bar .text-slate-500,
+div[class*="gov-top-bar"] .text-slate-500 {
+  color: #94A3B8 !important;
+}
+.gov-top-bar button,
+div[class*="gov-top-bar"] button {
+  background-color: #133763 !important;
+  border-color: #1E3A5F !important;
+  color: #E2E8F0 !important;
+}
+.gov-top-bar button:hover,
+div[class*="gov-top-bar"] button:hover {
+  background-color: #1D4E89 !important;
+  color: #FFFFFF !important;
+}
+.gov-top-bar button *,
+div[class*="gov-top-bar"] button * {
+  color: inherit !important;
+}
+
+/* B. Deep Navy Footer (India.gov.in standard) */
+footer,
+footer.bg-\[\#050B17\],
+footer[class*="bg-[#050B17]"],
+.gov-dark-footer {
+  background-color: #0A192F !important;
+  color: #CBD5E1 !important;
+}
+footer h1, footer h2, footer h3, footer h4, footer h5, footer h6,
+footer strong,
+footer .text-white {
+  color: #FFFFFF !important;
+}
+footer p, footer li, footer span:not([class*="text-sky"]):not([class*="text-emerald"]):not([class*="text-amber"]):not([class*="bg-sky-600"] *) {
+  color: #CBD5E1 !important;
+}
+footer a:not(.bg-sky-600):not(.bg-sky-700) {
+  color: #94A3B8 !important;
+}
+footer a:hover {
+  color: #FFFFFF !important;
+}
+footer div[class*="bg-[#0B1528]"],
+footer div[class*="bg-[#091122]"],
+footer div[class*="bg-[#112240]"],
+footer [class*="bg-[#0B1528]"],
+footer [class*="bg-[#091122]"],
+footer [class*="bg-[#112240]"] {
+  background-color: #112240 !important;
+  border-color: #1E3A5F !important;
+  color: #CBD5E1 !important;
+}
+
+/* C. Dark Gradient Hero & Callout Cards (e.g. Scale-Up Outcome card on landing) */
+div[class*="from-sky-700"][class*="to-blue-900"],
+div[class*="from-sky-800"],
+div[class*="from-blue-800"],
+div[class*="from-slate-900"] {
+  color: #FFFFFF !important;
+}
+div[class*="from-sky-700"][class*="to-blue-900"] h1,
+div[class*="from-sky-700"][class*="to-blue-900"] h2,
+div[class*="from-sky-700"][class*="to-blue-900"] h3,
+div[class*="from-sky-700"][class*="to-blue-900"] h4,
+div[class*="from-sky-800"] h1,
+div[class*="from-sky-800"] h2,
+div[class*="from-sky-800"] h3,
+div[class*="from-blue-800"] h1,
+div[class*="from-blue-800"] h2,
+div[class*="from-blue-800"] h3 {
+  color: #FFFFFF !important;
+}
+div[class*="from-sky-700"][class*="to-blue-900"] p,
+div[class*="from-sky-800"] p,
+div[class*="from-blue-800"] p {
+  color: #E0F2FE !important;
+}
+div[class*="from-sky-700"][class*="to-blue-900"] span.text-sky-200,
+div[class*="from-sky-800"] span.text-sky-200 {
+  color: #BAE6FD !important;
+}
+div[class*="from-sky-700"][class*="to-blue-900"] a.bg-white,
+div[class*="from-sky-800"] a.bg-white {
+  background-color: #FFFFFF !important;
+  color: #0C4A6E !important;
+}
+div[class*="from-sky-700"][class*="to-blue-900"] a.bg-white:hover,
+div[class*="from-sky-800"] a.bg-white:hover {
+  background-color: #F0F9FF !important;
+  color: #0369A1 !important;
+}
+
+/* ============================================================
+   4. INTERACTIVE BUTTONS, TABS & HOVER STATES
+   ============================================================ */
+
+/* Inactive tabs / neutral utility buttons (mapped to clean white surface with dark slate text) */
+button.bg-\[\#0B1528\],
+button[class*="bg-[#0B1528]"]:not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+button[class*="bg-[#0F1C36]"]:not([class*="bg-sky-"]):not([class*="bg-blue-"]),
+button[class*="bg-[#0F1D38]"]:not([class*="bg-sky-"]):not([class*="bg-blue-"]) {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #334155 !important;
+}
+button.bg-\[\#0B1528\] *,
+button[class*="bg-[#0B1528]"] *:not(svg),
+button[class*="bg-[#0F1C36]"] *:not(svg),
+button[class*="bg-[#0F1D38]"] *:not(svg) {
+  color: #334155 !important;
+}
+button.bg-\[\#0B1528\] svg,
+button[class*="bg-[#0B1528]"] svg,
+button[class*="bg-[#0F1C36]"] svg {
+  color: #64748B !important;
+}
+
+/* Inactive tabs hover state */
+button.bg-\[\#0B1528\]:hover,
+button[class*="bg-[#0B1528]"]:hover,
+button[class*="bg-[#0F1C36]"]:hover,
+button[class*="bg-[#0F1D38]"]:hover {
+  background-color: #F8FAFC !important;
+  border-color: #94A3B8 !important;
+  color: #0F172A !important;
+}
+button.bg-\[\#0B1528\]:hover *,
+button[class*="bg-[#0B1528]"]:hover *,
+button[class*="bg-[#0F1C36]"]:hover * {
+  color: #0F172A !important;
+}
+button.bg-\[\#0B1528\]:hover svg,
+button[class*="bg-[#0B1528]"]:hover svg {
+  color: #0284C7 !important;
+}
+
+/* Solid colored action buttons - crisp high-contrast white text guarantee */
+.bg-sky-600, .bg-sky-700, .bg-sky-800,
+.bg-emerald-600, .bg-emerald-700,
+.bg-blue-600, .bg-blue-700, .bg-blue-800,
+.bg-purple-600, .bg-purple-700,
+.bg-indigo-600, .bg-indigo-700,
+.bg-teal-600, .bg-teal-700,
+.bg-rose-600, .bg-rose-700,
+.bg-amber-600, .bg-amber-700,
+button.bg-sky-600, button.bg-sky-700, button.bg-sky-800,
+button.bg-emerald-600, button.bg-emerald-700,
+button.bg-blue-600, button.bg-blue-700,
+button.bg-purple-600, button.bg-purple-700,
+button.bg-rose-600, button.bg-amber-600,
+a.bg-sky-600, a.bg-sky-700, a.bg-sky-800,
+a.bg-emerald-600, a.bg-blue-600,
+.gov-button-primary {
+  color: #FFFFFF !important;
+}
+button.bg-sky-600 *, button.bg-sky-700 *, button.bg-sky-800 *,
+button.bg-emerald-600 *, button.bg-emerald-700 *,
+button.bg-blue-600 *, button.bg-blue-700 *,
+button.bg-purple-600 *, button.bg-purple-700 *, button.bg-indigo-600 *,
+button.bg-rose-600 *, button.bg-amber-600 *,
+a.bg-sky-600 *, a.bg-sky-700 *, a.bg-sky-800 *,
+a.bg-emerald-600 *, a.bg-blue-600 *,
+.gov-button-primary * {
+  color: #FFFFFF !important;
+}
+
+/* Dark slate and navy action buttons */
+button.bg-slate-800, button.bg-slate-900,
+button[class*="bg-slate-800"], button[class*="bg-slate-900"],
+a.bg-slate-800, a.bg-slate-900 {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+}
+button.bg-slate-800 *, button.bg-slate-900 *,
+button[class*="bg-slate-800"] *, button[class*="bg-slate-900"] *,
+a.bg-slate-800 *, a.bg-slate-900 * {
+  color: #FFFFFF !important;
+}
+
+/* Sidebar navigation links */
 aside nav a span,
 aside .space-y-1 a span {
   color: #334155 !important;
@@ -328,57 +519,69 @@ aside nav a:hover svg,
 aside .space-y-1 a:hover svg {
   color: #0284C7 !important;
 }
+aside nav a.bg-sky-700,
+aside .space-y-1 a.bg-sky-700 {
+  background-color: #0369A1 !important;
+  color: #FFFFFF !important;
+}
 aside nav a.bg-sky-700 span,
 aside .space-y-1 a.bg-sky-700 span,
 aside nav a.bg-sky-700 svg,
 aside .space-y-1 a.bg-sky-700 svg {
   color: #FFFFFF !important;
 }
+aside [class*="text-slate-500"] {
+  color: #475569 !important;
+}
 
-/* Solid colored action buttons and badges - crisp white text */
-.bg-sky-600, .bg-sky-700, .bg-sky-800,
-.bg-emerald-600, .bg-emerald-700,
-.bg-blue-600, .bg-blue-700, .bg-blue-800,
-.bg-purple-600, .bg-purple-700,
-.bg-indigo-600, .bg-indigo-700,
-.bg-teal-600, .bg-teal-700,
-.bg-rose-600, .bg-rose-700,
-.bg-amber-600, .bg-amber-700,
-button.bg-sky-600 *, button.bg-sky-700 *, button.bg-sky-800 *,
-button.bg-emerald-600 *, button.bg-emerald-700 *,
-button.bg-blue-600 *, button.bg-blue-700 *,
-button.bg-purple-600 *, button.bg-purple-700 *, button.bg-indigo-600 *,
-button.bg-rose-600 *, button.bg-amber-600 *,
-a.bg-sky-600 *, a.bg-sky-700 *, a.bg-sky-800 *,
-a.bg-emerald-600 *, a.bg-blue-600 *,
-.gov-button-primary, .gov-button-primary * {
+/* ============================================================
+   5. FORM INPUTS, TEXTAREAS & SELECT DROPDOWNS
+   ============================================================ */
+input,
+textarea,
+select,
+.gov-input,
+.gov-select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #64748B !important;
+  opacity: 1 !important;
+}
+
+select option,
+option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+select option:checked,
+option:checked {
+  background-color: #0284C7 !important;
   color: #FFFFFF !important;
 }
 
-/* Dark slate and navy action buttons - crisp high contrast white text */
-button[class*="bg-slate-800"],
-button[class*="bg-slate-900"],
-button[class*="bg-slate-700"],
-button[class*="bg-[#0F1C36]"],
-button[class*="bg-[#0B1528]"],
-a[class*="bg-slate-800"],
-a[class*="bg-slate-900"] {
-  color: #FFFFFF !important;
+/* ============================================================
+   6. CHARTS & RECHARTS TOOLTIPS HIGH-CONTRAST FIX
+   ============================================================ */
+.recharts-default-tooltip {
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
+  color: #0F172A !important;
+  padding: 8px 12px !important;
 }
-
-button[class*="bg-slate-800"] span,
-button[class*="bg-slate-800"] strong,
-button[class*="bg-slate-900"] span,
-button[class*="bg-slate-900"] strong,
-button[class*="bg-slate-700"] span,
-button[class*="bg-slate-700"] strong,
-button[class*="bg-[#0F1C36]"] span,
-button[class*="bg-[#0F1C36]"] strong,
-button[class*="bg-[#0B1528]"] span,
-button[class*="bg-[#0B1528]"] strong,
-a[class*="bg-slate-800"] span,
-a[class*="bg-slate-900"] span {
-  color: #FFFFFF !important;
+.recharts-tooltip-item,
+.recharts-tooltip-item-name,
+.recharts-tooltip-item-value,
+.recharts-tooltip-label {
+  color: #0F172A !important;
+  font-weight: 600 !important;
 }
 
 /* Subtle glowing pulse */
@@ -390,4 +593,3 @@ a[class*="bg-slate-900"] span {
 .animate-pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
 }
-
