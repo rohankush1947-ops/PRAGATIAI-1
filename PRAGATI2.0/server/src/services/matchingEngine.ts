@@ -614,7 +614,7 @@ function calculatePilotReadiness(startup: any): { score: number; desc: string; l
   } else if (readiness === 'Medium') {
     desc = `Medium readiness: Core technology functional but requires minor field calibration before full deployment.`;
   } else {
-    desc = `Low readiness: Product in earlier prototype iteration requiring integration and testing cycles.`;
+    desc = `Low readiness: Product in earlier engineering iteration requiring integration and testing cycles.`;
   }
 
   return { score, desc, level: readiness };

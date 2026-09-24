@@ -46,8 +46,8 @@ const healthHandler = (req: express.Request, res: express.Response) => {
   res.json({
     status: 'ok',
     product: 'PRAGATI AI Backend API',
-    team: 'Pragyan',
-    event: 'Smart India Hackathon 2026 Prototype',
+    version: '2.0.0',
+    platform: 'Government Innovation & Procurement Platform',
     environment: process.env.VERCEL ? 'vercel-serverless' : 'standalone-node',
     timestamp: new Date().toISOString()
   });

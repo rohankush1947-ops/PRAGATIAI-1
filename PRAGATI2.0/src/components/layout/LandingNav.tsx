@@ -24,9 +24,9 @@ export const LandingNav: React.FC = () => {
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="font-semibold text-white tracking-wide">Government of India Innovation Initiative</span>
           <span className="text-slate-500">|</span>
-          <span className="hidden sm:inline">Smart India Hackathon (SIH 2026) Prototype — Team <strong className="text-sky-300 font-bold">Pragyan</strong></span>
+          <span className="hidden sm:inline">AI-Powered Public Innovation & Startup Procurement Platform</span>
           <span className="hidden md:inline text-slate-500">|</span>
-          <span className="hidden md:inline text-slate-300">Public Procurement & Startup Scaling Platform</span>
+          <span className="hidden md:inline text-slate-300">National Enterprise Gov-Tech Framework</span>
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export const LandingNav: React.FC = () => {
                 to="/login"
                 className="px-4 py-2 text-sm font-semibold bg-sky-700 hover:bg-sky-800 text-white rounded-lg shadow-sm flex items-center gap-1.5 transition-all hover:translate-y-[-1px]"
               >
-                <span>Launch Demo</span>
+                <span>Get Started</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -87,7 +87,7 @@ export const LandingNav: React.FC = () => {
                 to="/login"
                 className="px-3 py-1.5 text-xs font-semibold bg-sky-700 text-white rounded-lg"
               >
-                Launch Demo
+                Get Started
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -122,7 +122,7 @@ export const LandingNav: React.FC = () => {
               to="/government/dashboard"
               className="flex-1 text-center py-2 text-sm font-semibold bg-sky-600 text-white rounded-lg"
             >
-              Live Demo
+              Enter Portal
             </Link>
           </div>
         </div>

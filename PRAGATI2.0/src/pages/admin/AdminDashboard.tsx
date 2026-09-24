@@ -139,7 +139,7 @@ export const AdminDashboard: React.FC = () => {
               Platform Administration
             </span>
             <span className="text-slate-400">•</span>
-            <span className="text-xs text-slate-500 font-medium">Smart India Hackathon 2026</span>
+            <span className="text-xs text-slate-500 font-medium">Enterprise Governance Framework</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             PragatiAI System Governance
@@ -154,7 +154,7 @@ export const AdminDashboard: React.FC = () => {
           className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-xs font-semibold text-slate-700 flex items-center gap-2 transition-colors self-start md:self-auto shadow-sm"
         >
           <RefreshCw className="w-4 h-4 text-sky-600" />
-          <span>Reset Prototype Data</span>
+          <span>Reset Platform Data</span>
         </button>
       </div>
 

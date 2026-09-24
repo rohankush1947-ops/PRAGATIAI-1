@@ -296,7 +296,7 @@ div.text-purple-400:not(footer *):not([class*="gov-top-bar"] *):not([class*="fro
    3. INTENTIONAL DARK CONTEXTS & GRADIENTS
    ============================================================ */
 
-/* A. Authentic Government Top Strip (SIH / Indian Gov Ribbon) */
+/* A. Authentic Government Top Strip (National Gov Ribbon) */
 .gov-top-bar,
 div[class*="gov-top-bar"] {
   background-color: #0B2545 !important;

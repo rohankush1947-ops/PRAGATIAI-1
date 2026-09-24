@@ -188,24 +188,24 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
       {/* Authentic Indian Government Tricolor Header Strip */}
       <div className="h-1 w-full bg-gradient-to-r from-[#FF671F] via-white to-[#046A38] shrink-0" />
 
-      {/* Top SIH 2026 Prototype Status Banner */}
+      {/* Top Production Status Banner */}
       <div className="gov-top-bar bg-[#0B2545] border-b border-slate-700/80 px-4 py-1.5 text-xs text-slate-200 flex items-center justify-between z-30 shadow-sm">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
           <span className="font-bold text-white tracking-wide">PRAGATI AI</span>
           <span className="text-slate-500">|</span>
-          <span className="text-slate-200 hidden sm:inline">Smart India Hackathon 2026 Prototype — Team Pragyan</span>
+          <span className="text-slate-200 hidden sm:inline">AI-Powered Government Innovation Platform</span>
           <span className="text-slate-500 hidden md:inline">|</span>
-          <span className="text-sky-300 hidden md:inline text-[11px] font-mono">Demo Story: PWD × RoadVision AI</span>
+          <span className="text-sky-300 hidden md:inline text-[11px] font-mono">Public Innovation Procurement Lifecycle</span>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={resetDemoData}
-            title="Reset to default prototype state"
+            title="Reset workspace state"
             className="flex items-center gap-1.5 text-[11px] text-slate-200 hover:text-white bg-[#133763] hover:bg-[#1a477d] px-2.5 py-0.5 rounded border border-sky-900/60 transition-colors"
           >
             <RefreshCw className="w-3 h-3 text-sky-400" />
-            <span className="hidden sm:inline">Reset Demo</span>
+            <span className="hidden sm:inline">Reset Workspace</span>
           </button>
           <Link
             to="/"
@@ -301,7 +301,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           {/* Sidebar Footer collapse toggle */}
           <div className="p-3 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 bg-slate-50">
             {!sidebarCollapsed && (
-              <span className="text-[11px] text-slate-400">SIH 2026 Prototype</span>
+              <span className="text-[11px] text-slate-400">PragatiAI v2.0</span>
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -536,7 +536,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                     {currentRole === 'government' ? 'Er. Rajeshwar Rao' : currentRole === 'startup' ? 'Ananya Deshmukh' : currentRole === 'expert' ? 'Dr. A. Swaminathan' : 'Pragati Admin'}
                   </div>
                   <div className="text-[10px] text-slate-500 font-medium">
-                    {currentRole === 'government' ? 'Chief Engineer (PWD)' : currentRole === 'startup' ? 'Founder, RoadVision AI' : currentRole === 'expert' ? 'Evaluation Chair, IITM' : 'SIH 2026 Admin'}
+                    {currentRole === 'government' ? 'Chief Engineer (PWD)' : currentRole === 'startup' ? 'Founder, RoadVision AI' : currentRole === 'expert' ? 'Evaluation Chair, IITM' : 'Platform System Admin'}
                   </div>
                 </div>
               </div>

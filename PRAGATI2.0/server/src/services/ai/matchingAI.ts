@@ -66,7 +66,7 @@ function normalizeHybridWeights(weights?: Partial<HybridMatchingWeights>): Hybri
  * Constructs prompt for external AI provider
  */
 function buildPrompt(challenge: ChallengeInput, startups: StartupInput[]): { system: string; user: string } {
-  const system = `You are the PragatiAI Senior Technical Evaluator and AI Matching Specialist for the Government of India Smart India Hackathon 2026.
+  const system = `You are the PragatiAI Senior Technical Evaluator and AI Matching Specialist for the Government of India National Innovation Procurement Platform.
 Your duty is to conduct an objective, grounded, explainable evaluation of startup capabilities against a specific government RFP challenge.
 
 MANDATORY EVALUATION RULES:

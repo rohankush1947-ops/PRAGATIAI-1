@@ -97,7 +97,7 @@ export const CreateChallengeWizard: React.FC = () => {
       startupAgeYears: 7,
       turnover: 'Up to ₹25 Cr (DPIIT Recognized)',
       minExperienceYears: 2,
-      techRequirements: ['Proprietary computer vision model', 'Edge hardware prototype ready'],
+      techRequirements: ['Proprietary computer vision model', 'Edge hardware solution ready'],
       certifications: ['DPIIT Startup Certificate', 'ISO 9001 / ISO 27001']
     },
 
@@ -581,7 +581,7 @@ export const CreateChallengeWizard: React.FC = () => {
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" defaultChecked className="rounded border-slate-300 text-sky-600" />
-                <span>Fast-track qualification for prototypes with Technology Readiness Level (TRL) ≥ 6</span>
+                <span>Fast-track qualification for solutions with Technology Readiness Level (TRL) ≥ 6</span>
               </label>
             </div>
           </div>

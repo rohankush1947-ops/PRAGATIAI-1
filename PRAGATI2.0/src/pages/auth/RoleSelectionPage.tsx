@@ -33,7 +33,7 @@ export const RoleSelectionPage: React.FC = () => {
       path: '/government/dashboard',
       accentColor: 'border-sky-200 hover:border-sky-500',
       buttonClass: 'bg-sky-700 hover:bg-sky-800 text-white',
-      badgeText: 'Primary Demo Persona'
+      badgeText: 'Department Authority'
     },
     {
       id: 'startup' as UserRole,
@@ -44,7 +44,7 @@ export const RoleSelectionPage: React.FC = () => {
       path: '/startup/dashboard',
       accentColor: 'border-emerald-200 hover:border-emerald-500',
       buttonClass: 'bg-emerald-700 hover:bg-emerald-800 text-white',
-      badgeText: '94% Match Story'
+      badgeText: 'DPIIT Innovator'
     },
     {
       id: 'expert' as UserRole,
@@ -87,7 +87,7 @@ export const RoleSelectionPage: React.FC = () => {
                 PRAGATI <span className="text-sky-700">AI</span>
               </span>
               <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">
-                SIH 2026 Prototype
+                Government Innovation Platform
               </span>
             </div>
           </Link>
@@ -98,7 +98,7 @@ export const RoleSelectionPage: React.FC = () => {
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-xs text-slate-700 transition-colors shadow-xs"
             >
               <RefreshCw className="w-3.5 h-3.5 text-sky-700" />
-              <span>Reset Demo Data</span>
+              <span>Reset Workspace Data</span>
             </button>
             <Link
               to="/"
@@ -169,17 +169,17 @@ export const RoleSelectionPage: React.FC = () => {
           })}
         </div>
 
-        {/* Storyline callout */}
+        {/* Innovation Lifecycle Callout */}
         <div className="mt-8 p-4 rounded-xl bg-white border border-slate-200 shadow-sm text-center">
           <p className="text-xs text-slate-700 leading-relaxed">
-            <strong className="text-sky-800">Integrated Demo Storyline:</strong> Public Works Department created an AI Pothole Detection challenge → RoadVision AI matched with 94% compatibility → Scored 91/100 by IIT Madras evaluator → Field pilot achieved 94.2% accuracy → Authorized for statewide scale.
+            <strong className="text-sky-800">End-to-End Innovation Lifecycle:</strong> Department Problem Formulation → Explainable AI Discovery & Matching → Independent Technical Evaluation → Controlled Field Piloting → Transparent Milestone Procurement.
           </p>
         </div>
       </main>
 
       {/* Mini footer */}
       <footer className="py-4 border-t border-slate-200 bg-white text-center text-xs text-slate-500 relative z-10">
-        PragatiAI — Smart India Hackathon 2026 Prototype • Team Pragyan
+        PragatiAI — National Innovation & Procurement Platform
       </footer>
     </div>
   );

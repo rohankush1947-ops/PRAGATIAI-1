@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#112240] border border-slate-700/80 text-xs text-sky-300">
               <Award className="w-4 h-4 text-amber-400" />
-              <span>Smart India Hackathon 2026</span>
+              <span>National Innovation Framework</span>
             </div>
           </div>
 
@@ -61,41 +61,41 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 4: Evaluator Demo Controls */}
+          {/* Col 4: Platform System Actions */}
           <div className="bg-[#112240] p-4 rounded-xl border border-slate-700/80 space-y-3 shadow-md">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-              <span className="text-sky-400 font-extrabold tracking-wide">SIH Demo Controls</span>
+              <span className="text-sky-400 font-extrabold tracking-wide">Platform Controls</span>
             </h4>
             <p className="text-[11px] text-slate-300 leading-normal">
-              Team: <strong className="text-white font-bold">Pragyan</strong><br />
-              All data is local mock data tailored to the PWD & RoadVision AI demo journey.
+              PRAGATI AI Production Portal<br />
+              Session workspace with automated state persistence and audit synchronization.
             </p>
             <button
               onClick={resetDemoData}
               className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-white bg-sky-700 hover:bg-sky-600 rounded-lg border border-sky-500/50 shadow-sm transition-all"
             >
               <RefreshCw className="w-3.5 h-3.5 text-sky-200" />
-              <span>Reset Demo State</span>
+              <span>Reset Workspace Data</span>
             </button>
           </div>
         </div>
 
-        {/* SIH 2026 Disclaimer Box */}
+        {/* Advisory Disclaimer Box */}
         <div className="p-4 rounded-xl bg-[#112240] border border-sky-800/40 text-center my-6">
           <p className="text-xs text-slate-200 font-medium leading-relaxed max-w-4xl mx-auto">
-            <strong className="text-sky-400 font-bold">Notice:</strong> PragatiAI is a prototype developed for Smart India Hackathon 2026. AI recommendations are advisory and final decisions remain with authorized government officials. Does not constitute actual government procurement, certified verification, or contractual obligation.
+            <strong className="text-sky-400 font-bold">Advisory Notice:</strong> PragatiAI is an AI-powered public procurement and innovation enablement platform. AI recommendations and evaluations are advisory and final procurement decisions remain with authorized departmental officers in compliance with General Financial Rules (GFR).
           </p>
         </div>
 
         {/* Bottom copyright */}
         <div className="pt-6 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-3">
           <div>
-            © 2026 PRAGATI AI. Developed by Team <strong>Pragyan</strong> for Smart India Hackathon 2026.
+            © 2026 PRAGATI AI. All Rights Reserved. National Innovation & Procurement Platform.
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-slate-400">Built for SIH 2026</span>
+            <span className="text-slate-400">Government Innovation Framework</span>
             <span className="text-slate-600">•</span>
-            <span className="text-slate-400">Government Tech SaaS</span>
+            <span className="text-slate-400">Enterprise Gov-Tech</span>
           </div>
         </div>
       </div>

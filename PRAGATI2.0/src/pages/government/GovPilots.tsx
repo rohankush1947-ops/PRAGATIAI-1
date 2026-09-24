@@ -439,7 +439,7 @@ export const GovPilots: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
           <div>
             <span className="text-slate-500 font-medium block text-[11px]">Primary Objective</span>
-            <p className="text-slate-800 font-medium mt-0.5">{activePilot.objective || 'Operational verification of deep-tech prototype under municipal conditions.'}</p>
+            <p className="text-slate-800 font-medium mt-0.5">{activePilot.objective || 'Operational verification of deep-tech solution under municipal conditions.'}</p>
           </div>
           <div>
             <span className="text-slate-500 font-medium block text-[11px]">Supervising Officer</span>

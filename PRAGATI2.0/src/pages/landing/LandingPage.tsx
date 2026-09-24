@@ -103,9 +103,9 @@ export const LandingPage: React.FC = () => {
             {/* Tagline Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-sky-300 text-xs font-semibold text-sky-800 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-sky-600 animate-pulse" />
-              <span>Smart India Hackathon 2026 Prototype</span>
+              <span>AI-Powered Government Innovation Platform</span>
               <span className="text-slate-400">•</span>
-              <span className="text-slate-600 font-medium">Startup-Friendly Public Procurement</span>
+              <span className="text-slate-600 font-medium">Transparent Public Procurement</span>
             </div>
 
             {/* Headline */}
@@ -138,7 +138,7 @@ export const LandingPage: React.FC = () => {
               </a>
             </div>
 
-            {/* Prototype Demo Stats */}
+            {/* Platform Overview Stats */}
             <div className="pt-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
                 <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm backdrop-blur-sm">
@@ -159,7 +159,7 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
               <p className="text-[11px] text-slate-500 italic mt-2.5">
-                *Representative figures from prototype demonstration dataset
+                *Representative figures across active government innovation programs
               </p>
             </div>
           </div>
@@ -200,11 +200,11 @@ export const LandingPage: React.FC = () => {
                 ))}
               </div>
 
-              {/* Active demo flow banner */}
+              {/* Active workflow highlight */}
               <div className="mt-6 p-3 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-slate-700">
                   <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span><strong>Live Prototype Story:</strong> PWD Bengaluru North × RoadVision AI Pothole Monitoring</span>
+                  <span><strong>Featured Innovation Track:</strong> Public Works Department × RoadVision AI Infrastructure Monitoring</span>
                 </div>
                 <button
                   onClick={() => handleRoleSelect('government', '/government/validation')}
@@ -376,7 +376,7 @@ export const LandingPage: React.FC = () => {
                   to="/login"
                   className="w-full text-center py-2 px-3 bg-white hover:bg-slate-100 text-sky-900 rounded-lg text-xs font-bold block transition-colors shadow-sm"
                 >
-                  Enter Demonstration Hub
+                  Enter Platform Hub
                 </Link>
               </div>
             </div>

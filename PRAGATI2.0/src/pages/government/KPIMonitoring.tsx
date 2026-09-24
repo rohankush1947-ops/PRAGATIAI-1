@@ -256,7 +256,7 @@ export const KPIMonitoring: React.FC = () => {
           </span>
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
             <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
-            Demo Benchmark Telemetry
+            Baseline Operational Telemetry
           </span>
         </div>
         <span className="text-[11px] text-slate-600">

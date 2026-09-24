@@ -21,7 +21,7 @@ router.get('/stats', (req, res) => {
 // POST reset demo data
 router.post('/reset-demo', (req, res) => {
   const resetData = resetDb();
-  addAuditLog('System Reset', 'Demo data reinitialized to SIH 2026 default state', 'Platform Admin', 'Admin System');
+  addAuditLog('System Reset', 'Platform data reinitialized to system default state', 'Platform Admin', 'Admin System');
   res.json({ success: true, message: 'Database reset to default seed state' });
 });
 
