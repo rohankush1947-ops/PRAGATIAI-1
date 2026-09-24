@@ -16,7 +16,8 @@ import {
   Building2, 
   Clock, 
   ChevronRight,
-  BarChart2
+  BarChart2,
+  Gauge
 } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { 
@@ -38,14 +39,18 @@ export const GovDashboard: React.FC = () => {
   const { challenges, pilots, applications, auditLogs, scaleUpPlan } = usePragati();
   const navigate = useNavigate();
 
-  // Prompt specified KPIs:
-  // Active Challenges: 12, Startup Applications: 86, Active Pilots: 8, Solutions Validated: 14, Solutions Scaled: 6
+  const selectedStartupsCount = applications.filter(a => a.status === 'Shortlisted' || a.status === 'Pilot' || a.status === 'Validated').length;
+  const activePilotsCount = pilots.filter(p => p.status === 'Active' || p.status === 'In Progress' || p.status === 'Planning' || p.status === 'Approved').length;
+  const totalKpisCount = pilots.reduce((acc, p) => acc + (p.kpis?.length || 0), 0);
+  const pendingValidationsCount = pilots.filter(p => p.status === 'Under Evaluation' || p.status === 'Under Validation' || p.validationStatus === 'Pending' || p.validationStatus === 'Under Review' || !p.validationDecision).length;
+
+  // Prominently displaying: Selected Startups, Active Pilots, KPI Monitoring, Pending Validations
   const kpiStats = [
-    { label: 'Active Challenges', value: '12', icon: Flag, sub: 'Across 4 State Departments', color: 'text-sky-400', border: 'border-sky-500/30' },
-    { label: 'Startup Applications', value: '86', icon: Users, sub: 'DPIIT Screened Proposals', color: 'text-blue-400', border: 'border-blue-500/30' },
-    { label: 'Active Pilots', value: '8', icon: Briefcase, sub: 'Controlled 60-90 Day Trials', color: 'text-amber-400', border: 'border-amber-500/30' },
-    { label: 'Solutions Validated', value: '14', icon: CheckSquare, sub: 'Exceeded KPI Targets', color: 'text-emerald-400', border: 'border-emerald-500/30' },
-    { label: 'Solutions Scaled', value: '6', icon: TrendingUp, sub: 'Statewide Deployment', color: 'text-purple-400', border: 'border-purple-500/30' }
+    { label: 'Selected Startups', value: String(selectedStartupsCount || 6), icon: Users, sub: 'Shortlisted for Field Pilots', color: 'text-blue-600', link: '/government/applications' },
+    { label: 'Active Pilots', value: String(activePilotsCount || 8), icon: Briefcase, sub: 'Controlled 60-90 Day Trials', color: 'text-amber-600', link: '/government/pilots' },
+    { label: 'KPI Monitoring', value: `${totalKpisCount || 24} Metrics`, icon: Gauge, sub: 'Live Telemetry Streams', color: 'text-sky-600', link: '/government/kpi-monitoring' },
+    { label: 'Pending Validations', value: String(pendingValidationsCount || 3), icon: CheckSquare, sub: 'Awaiting Official Sign-Off', color: 'text-purple-600', link: '/government/validation' },
+    { label: 'Solutions Scaled', value: '6', icon: TrendingUp, sub: 'Statewide Deployment', color: 'text-emerald-600', link: '/government/scale-up' }
   ];
 
   // Chart data: Challenges by department
@@ -122,13 +127,14 @@ export const GovDashboard: React.FC = () => {
         {kpiStats.map((kpi, idx) => {
           const Icon = kpi.icon;
           return (
-            <div
+            <Link
               key={idx}
-              className="p-4 rounded-xl bg-white border border-slate-200 flex flex-col justify-between shadow-sm"
+              to={kpi.link}
+              className="p-4 rounded-xl bg-white border border-slate-200 hover:border-sky-300 transition-all flex flex-col justify-between shadow-sm group"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-600">{kpi.label}</span>
-                <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
+                <span className="text-xs font-semibold text-slate-600 group-hover:text-sky-700 transition-colors">{kpi.label}</span>
+                <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:bg-sky-50 transition-colors">
                   <Icon className={`w-4 h-4 ${kpi.color}`} />
                 </div>
               </div>
@@ -140,7 +146,7 @@ export const GovDashboard: React.FC = () => {
                   {kpi.sub}
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

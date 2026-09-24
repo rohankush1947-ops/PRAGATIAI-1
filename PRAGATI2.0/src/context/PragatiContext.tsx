@@ -8,6 +8,10 @@ import {
   Application,
   ExpertEvaluation,
   PilotProject,
+  PilotKPI,
+  PilotLifecycleStatus,
+  PilotValidationDecision,
+  PilotValidationStatus,
   ProcurementContract,
   ScaleUpPlan,
   AuditLogEntry,
@@ -80,12 +84,30 @@ interface PragatiContextType {
  ) => Promise<void>;
 
   startPilot: (applicationId: string) => Promise<void>;
+  createPilotProject: (pilotData: Partial<PilotProject>) => Promise<PilotProject>;
+  updatePilotStatus: (
+    pilotId: string, 
+    status: PilotLifecycleStatus, 
+    notes?: string, 
+    authorizedOfficial?: string
+  ) => Promise<void>;
+  recordKPIMeasurement: (
+    pilotId: string, 
+    kpi: Partial<PilotKPI>
+  ) => Promise<void>;
 
   updateValidationDecision: (
     pilotId: string,
-    decision: 'Scale' | 'Modify' | 'Stop' | 'Continue Pilot',
-    remarks: string
-  ) => void;
+    decision: PilotValidationDecision,
+    remarks: string,
+    extra?: {
+      officialObservations?: string;
+      evidenceNotes?: string;
+      validationStatus?: PilotValidationStatus;
+      authorizedOfficial?: string;
+      validationScore?: number;
+    }
+  ) => Promise<void>;
 
   releaseProcurementMilestone: (
   contractId: string,
@@ -1077,69 +1099,362 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
   /* =========================================================
+     PILOT PROJECT MANAGEMENT & LIFECYCLE
+  ========================================================= */
+
+  const createPilotProject = async (
+    pilotData: Partial<PilotProject>
+  ): Promise<PilotProject> => {
+    try {
+      const newPilot = await api.createPilot(pilotData);
+      setPilots(prev => [newPilot, ...prev.filter(p => p.id !== newPilot.id)]);
+
+      if (pilotData.startupId && pilotData.challengeId) {
+        setApplications(prev =>
+          prev.map(a =>
+            (a.startupId === pilotData.startupId || a.startupName === pilotData.startupName) &&
+            (a.challengeId === pilotData.challengeId || a.challengeTitle === pilotData.challengeTitle)
+              ? { ...a, status: 'Pilot' }
+              : a
+          )
+        );
+        setChallenges(prev =>
+          prev.map(c =>
+            c.id === pilotData.challengeId || c.title === pilotData.challengeTitle
+              ? { ...c, status: 'Pilot Active' }
+              : c
+          )
+        );
+      }
+
+      addAuditLog(
+        'Pilot Created',
+        `Pilot project created for ${newPilot.startupName} under ${newPilot.challengeTitle}. Duration: ${newPilot.pilotDuration}`,
+        'Government Officer',
+        newPilot.governmentOfficer || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
+      );
+
+      addNotification(
+        'Pilot Project Created',
+        `Controlled pilot project sanctioned for ${newPilot.startupName}.`,
+        'pilot'
+      );
+
+      addToast(
+        'success',
+        'Pilot Created',
+        `Pilot project "${newPilot.title || newPilot.challengeTitle}" created successfully.`
+      );
+
+      return newPilot;
+    } catch (err) {
+      console.warn('Backend API unavailable, creating pilot locally:', err);
+      const fallbackPilot: PilotProject = {
+        id: `pilot-${Date.now().toString(36)}`,
+        title: pilotData.title || `${pilotData.startupName} Field Pilot`,
+        challengeId: pilotData.challengeId || 'ch-custom',
+        challengeTitle: pilotData.challengeTitle || 'Innovation Challenge',
+        startupId: pilotData.startupId || `startup-${Date.now().toString(36)}`,
+        startupName: pilotData.startupName || 'Innovative Startup',
+        department: pilotData.department || 'Public Works Department',
+        pilotLocation: pilotData.pilotLocation || 'Bengaluru Urban Corridor',
+        objective: pilotData.objective || 'Operational capability and contract KPI verification',
+        pilotDuration: pilotData.pilotDuration || '90 Days',
+        startDate: pilotData.startDate || new Date().toISOString().split('T')[0],
+        endDate: pilotData.endDate || new Date(Date.now() + 90 * 86400000).toISOString().split('T')[0],
+        governmentOfficer: pilotData.governmentOfficer || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        expectedOutcomes: pilotData.expectedOutcomes || 'Verified performance benchmarks',
+        budget: pilotData.budget || '₹35,00,000',
+        notes: pilotData.notes || '',
+        status: pilotData.status || 'Planning',
+        progressPercent: pilotData.status === 'Active' ? 10 : 0,
+        validationStatus: 'Pending',
+        milestones: [
+          { id: 'm1', title: 'Pilot Agreement & Legal Clearance', date: 'Day 1', status: 'Completed', deliverables: 'Tripartite legal agreement signed' },
+          { id: 'm2', title: 'Sensor Deployment & Site Preparation', date: 'Day 15', status: 'In Progress', deliverables: 'Field hardware ready' },
+          { id: 'm3', title: 'Data Ingestion & Baseline Calibration', date: 'Day 35', status: 'Upcoming', deliverables: 'Baseline metric datasets established' },
+          { id: 'm4', title: 'Operational Stress Testing', date: 'Day 60', status: 'Upcoming', deliverables: 'Full-load performance verification' },
+          { id: 'm5', title: 'Independent KPI Auditing', date: 'Day 75', status: 'Upcoming', deliverables: 'Third-party engineer sign-off' },
+          { id: 'm6', title: 'Outcome Report & Validation Gateway', date: 'Day 90', status: 'Upcoming', deliverables: 'Final outcome validation dossier' }
+        ],
+        kpis: Array.isArray(pilotData.kpis) && pilotData.kpis.length > 0 ? pilotData.kpis : [
+          { name: 'Detection Accuracy', description: 'Accuracy in field operations', baseline: '80%', baselineNum: 80, target: '≥ 90%', actual: '0%', unit: '%', status: 'On Track', targetNum: 90, actualNum: 0, isUserEntered: false },
+          { name: 'Inference Latency', description: 'Max edge computation response time', baseline: '500ms', baselineNum: 500, target: '≤ 200ms', actual: '0ms', unit: 'ms', status: 'On Track', targetNum: 200, actualNum: 0, isUserEntered: false },
+          { name: 'System Uptime', description: 'Continuous uninterrupted operation', baseline: '95%', baselineNum: 95, target: '≥ 99%', actual: '0%', unit: '%', status: 'On Track', targetNum: 99, actualNum: 0, isUserEntered: false },
+          { name: 'Road Coverage', description: 'Corridor coverage percentage', baseline: '50%', baselineNum: 50, target: '≥ 80%', actual: '0%', unit: '%', status: 'On Track', targetNum: 80, actualNum: 0, isUserEntered: false }
+        ]
+      };
+
+      setPilots(prev => [fallbackPilot, ...prev.filter(p => p.id !== fallbackPilot.id)]);
+
+      if (pilotData.startupId && pilotData.challengeId) {
+        setApplications(prev =>
+          prev.map(a =>
+            (a.startupId === pilotData.startupId || a.startupName === pilotData.startupName) &&
+            (a.challengeId === pilotData.challengeId || a.challengeTitle === pilotData.challengeTitle)
+              ? { ...a, status: 'Pilot' }
+              : a
+          )
+        );
+        setChallenges(prev =>
+          prev.map(c =>
+            c.id === pilotData.challengeId || c.title === pilotData.challengeTitle
+              ? { ...c, status: 'Pilot Active' }
+              : c
+          )
+        );
+      }
+
+      addAuditLog(
+        'Pilot Created',
+        `Pilot project created for ${fallbackPilot.startupName} under ${fallbackPilot.challengeTitle}. Duration: ${fallbackPilot.pilotDuration}`,
+        'Government Officer',
+        fallbackPilot.governmentOfficer
+      );
+
+      addNotification(
+        'Pilot Project Created',
+        `Controlled pilot project sanctioned for ${fallbackPilot.startupName}.`,
+        'pilot'
+      );
+
+      addToast(
+        'success',
+        'Pilot Created',
+        `Pilot project "${fallbackPilot.title || fallbackPilot.challengeTitle}" created.`
+      );
+
+      return fallbackPilot;
+    }
+  };
+
+  const updatePilotStatus = async (
+    pilotId: string,
+    status: PilotLifecycleStatus,
+    notes?: string,
+    authorizedOfficial?: string
+  ): Promise<void> => {
+    try {
+      const updatedPilot = await api.updatePilotStatus(pilotId, status, notes, authorizedOfficial);
+      setPilots(prev => prev.map(p => p.id === pilotId ? updatedPilot : p));
+
+      let auditAction = 'Pilot Status Updated';
+      if (status === 'Approved') auditAction = 'Pilot Approved';
+      else if (status === 'Active') auditAction = 'Pilot Activated';
+      else if (status === 'Under Evaluation' || status === 'Completed') auditAction = 'Pilot Completed';
+
+      addAuditLog(
+        auditAction,
+        `Pilot status transitioned to "${status}" for ${updatedPilot.startupName}.`,
+        'Government Officer',
+        authorizedOfficial || updatedPilot.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
+      );
+
+      addNotification(
+        `Pilot ${status}`,
+        `Pilot project for ${updatedPilot.startupName} is now ${status}.`,
+        'pilot'
+      );
+
+      addToast(
+        'success',
+        'Pilot Status Updated',
+        `Pilot lifecycle status changed to ${status}.`
+      );
+    } catch (err) {
+      console.warn('Backend API unavailable, updating pilot status locally:', err);
+      setPilots(prev => prev.map(p => {
+        if (p.id === pilotId) {
+          const newProgress = status === 'Active' && p.progressPercent < 25 ? 25 : (status === 'Under Evaluation' || status === 'Completed' ? 100 : p.progressPercent);
+          return {
+            ...p,
+            status,
+            progressPercent: newProgress,
+            notes: notes || p.notes,
+            validationStatus: status === 'Under Evaluation' ? 'Under Review' : p.validationStatus,
+            authorizedOfficial: authorizedOfficial || p.authorizedOfficial
+          };
+        }
+        return p;
+      }));
+
+      const p = pilots.find(x => x.id === pilotId);
+      const startupName = p?.startupName || 'Startup';
+      let auditAction = 'Pilot Status Updated';
+      if (status === 'Approved') auditAction = 'Pilot Approved';
+      else if (status === 'Active') auditAction = 'Pilot Activated';
+      else if (status === 'Under Evaluation' || status === 'Completed') auditAction = 'Pilot Completed';
+
+      addAuditLog(
+        auditAction,
+        `Pilot status transitioned to "${status}" for ${startupName}.`,
+        'Government Officer',
+        authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
+      );
+
+      addNotification(
+        `Pilot ${status}`,
+        `Pilot project for ${startupName} is now ${status}.`,
+        'pilot'
+      );
+
+      addToast(
+        'success',
+        'Pilot Status Updated',
+        `Pilot lifecycle status changed to ${status}.`
+      );
+    }
+  };
+
+  const recordKPIMeasurement = async (
+    pilotId: string,
+    kpi: Partial<PilotKPI>
+  ): Promise<void> => {
+    try {
+      const updatedPilot = await api.recordKPIMeasurement(pilotId, kpi);
+      setPilots(prev => prev.map(p => p.id === pilotId ? updatedPilot : p));
+
+      addAuditLog(
+        'KPI Recorded',
+        `Recorded KPI measurement "${kpi.name}" (Actual: ${kpi.actual}, Target: ${kpi.target}) for ${updatedPilot.startupName}`,
+        'Government Officer',
+        updatedPilot.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
+      );
+
+      addNotification(
+        'KPI Telemetry Recorded',
+        `New metric recorded for ${updatedPilot.startupName}: ${kpi.name} = ${kpi.actual}`,
+        'pilot'
+      );
+
+      addToast(
+        'success',
+        'KPI Recorded',
+        `KPI "${kpi.name}" recorded at ${kpi.actual} (${kpi.status}).`
+      );
+    } catch (err) {
+      console.warn('Backend API unavailable, recording KPI locally:', err);
+      const parsedTargetNum = typeof kpi.targetNum === 'number' ? kpi.targetNum : (parseFloat(String(kpi.target).replace(/[^0-9.]/g, '')) || 0);
+      const parsedActualNum = typeof kpi.actualNum === 'number' ? kpi.actualNum : (parseFloat(String(kpi.actual).replace(/[^0-9.]/g, '')) || 0);
+      const parsedBaselineNum = typeof kpi.baselineNum === 'number' ? kpi.baselineNum : (kpi.baseline ? (parseFloat(String(kpi.baseline).replace(/[^0-9.]/g, '')) || 0) : undefined);
+
+      const kpiEntry: PilotKPI = {
+        name: kpi.name || 'Custom KPI',
+        description: kpi.description || '',
+        baseline: kpi.baseline || '',
+        baselineNum: parsedBaselineNum,
+        target: kpi.target || '100%',
+        actual: kpi.actual || '0%',
+        unit: kpi.unit || '',
+        status: (kpi.status as any) || 'On Track',
+        targetNum: parsedTargetNum,
+        actualNum: parsedActualNum,
+        measurementDate: kpi.measurementDate || new Date().toISOString().split('T')[0],
+        evidenceNotes: kpi.evidenceNotes || '',
+        isUserEntered: true
+      };
+
+      setPilots(prev => prev.map(p => {
+        if (p.id === pilotId) {
+          const currentKpis = p.kpis || [];
+          const idx = currentKpis.findIndex(k => k.name.trim().toLowerCase() === kpiEntry.name.trim().toLowerCase());
+          let nextKpis: PilotKPI[];
+          if (idx >= 0) {
+            nextKpis = [...currentKpis];
+            nextKpis[idx] = kpiEntry;
+          } else {
+            nextKpis = [...currentKpis, kpiEntry];
+          }
+          return {
+            ...p,
+            kpis: nextKpis
+          };
+        }
+        return p;
+      }));
+
+      const p = pilots.find(x => x.id === pilotId);
+      const sName = p?.startupName || 'Startup';
+      addAuditLog(
+        'KPI Recorded',
+        `Recorded KPI measurement "${kpiEntry.name}" (Actual: ${kpiEntry.actual}, Target: ${kpiEntry.target}) for ${sName}`,
+        'Government Officer',
+        'Er. Rajeshwar Rao, Chief Engineer, PWD'
+      );
+
+      addNotification(
+        'KPI Telemetry Recorded',
+        `New metric recorded for ${sName}: ${kpiEntry.name} = ${kpiEntry.actual}`,
+        'pilot'
+      );
+
+      addToast(
+        'success',
+        'KPI Recorded',
+        `KPI "${kpiEntry.name}" recorded at ${kpiEntry.actual} (${kpiEntry.status}).`
+      );
+    }
+  };
+
+  /* =========================================================
      VALIDATION DECISION
   ========================================================= */
 
  const updateValidationDecision = async (
   pilotId: string,
-  decision:
-    | 'Scale'
-    | 'Modify'
-    | 'Stop'
-    | 'Continue Pilot',
-  remarks: string
+  decision: PilotValidationDecision,
+  remarks: string,
+  extra?: {
+    officialObservations?: string;
+    evidenceNotes?: string;
+    validationStatus?: PilotValidationStatus;
+    authorizedOfficial?: string;
+    validationScore?: number;
+  }
 ): Promise<void> => {
   try {
-    const updatedPilot =
-      await api.recordValidationDecision(
-        pilotId,
-        decision,
-        remarks
-      );
+    const updatedPilot = await api.recordValidationDecision(
+      pilotId,
+      decision,
+      remarks,
+      extra
+    );
 
     setPilots(prev =>
-      prev.map(p =>
-        p.id === pilotId
-          ? updatedPilot
-          : p
-      )
+      prev.map(p => p.id === pilotId ? updatedPilot : p)
     );
 
-    const pilot = pilots.find(
-      p => p.id === pilotId
-    );
+    const pilot = pilots.find(p => p.id === pilotId);
 
     if (pilot) {
       if (decision === 'Scale') {
         setChallenges(prev =>
           prev.map(c =>
-            c.id === pilot.challengeId
-              ? {
-                  ...c,
-                  status: 'Scaled'
-                }
-              : c
+            c.id === pilot.challengeId ? { ...c, status: 'Scaled' } : c
           )
         );
 
         setApplications(prev =>
           prev.map(a =>
-            a.startupId === pilot.startupId &&
-            a.challengeId === pilot.challengeId
-              ? {
-                  ...a,
-                  status: 'Validated'
-                }
+            a.startupId === pilot.startupId && a.challengeId === pilot.challengeId
+              ? { ...a, status: 'Validated' }
               : a
           )
         );
       }
 
       addAuditLog(
-        'Pilot Validation Decision Logged',
+        'Outcome Validation Submitted',
+        `Outcome validation report finalized for ${pilot.startupName} under ${pilot.challengeTitle}.`,
+        'Government Officer',
+        extra?.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
+      );
+
+      addAuditLog(
+        'Validation Decision Recorded',
         `Decision "${decision.toUpperCase()}" authorized for ${pilot.startupName}. Remarks: ${remarks}`,
         'Government Officer',
-        'Chief Engineer PWD'
+        extra?.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
       );
 
       addNotification(
@@ -1149,9 +1464,7 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
       );
 
       addToast(
-        decision === 'Scale'
-          ? 'success'
-          : 'info',
+        decision === 'Scale' ? 'success' : 'info',
         `Validation Decision: ${decision}`,
         `Authorized human decision recorded for ${pilot.startupName}.`
       );
@@ -1164,6 +1477,8 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const pilot = pilots.find(p => p.id === pilotId);
     if (pilot) {
+      const nextStatus = decision === 'Scale' ? ('Scale Approved' as const) : decision === 'Close' || decision === 'Stop' ? ('Completed' as const) : decision === 'Re-pilot' || decision === 'Continue Pilot' ? ('Active' as const) : ('Validated' as const);
+
       setPilots(prev =>
         prev.map(p =>
           p.id === pilotId
@@ -1171,8 +1486,13 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
                 ...p, 
                 validationDecision: decision, 
                 validationRemarks: remarks, 
+                officialObservations: extra?.officialObservations || remarks,
+                evidenceNotes: extra?.evidenceNotes || p.evidenceNotes,
+                validationStatus: extra?.validationStatus || 'Validated',
+                validationScore: typeof extra?.validationScore === 'number' ? extra.validationScore : p.validationScore,
                 decisionDate: new Date().toISOString().split('T')[0],
-                status: decision === 'Scale' ? ('Scale Approved' as const) : ('In Progress' as const) 
+                status: nextStatus,
+                authorizedOfficial: extra?.authorizedOfficial || p.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
               }
             : p
         )
@@ -1181,33 +1501,31 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
       if (decision === 'Scale') {
         setChallenges(prev =>
           prev.map(c =>
-            c.id === pilot.challengeId
-              ? {
-                  ...c,
-                  status: 'Scaled'
-                }
-              : c
+            c.id === pilot.challengeId ? { ...c, status: 'Scaled' } : c
           )
         );
 
         setApplications(prev =>
           prev.map(a =>
-            a.startupId === pilot.startupId &&
-            a.challengeId === pilot.challengeId
-              ? {
-                  ...a,
-                  status: 'Validated'
-                }
+            a.startupId === pilot.startupId && a.challengeId === pilot.challengeId
+              ? { ...a, status: 'Validated' }
               : a
           )
         );
       }
 
       addAuditLog(
-        'Pilot Validation Decision Logged',
+        'Outcome Validation Submitted',
+        `Outcome validation report finalized for ${pilot.startupName} under ${pilot.challengeTitle}.`,
+        'Government Officer',
+        extra?.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
+      );
+
+      addAuditLog(
+        'Validation Decision Recorded',
         `Decision "${decision.toUpperCase()}" authorized for ${pilot.startupName}. Remarks: ${remarks}`,
         'Government Officer',
-        'Chief Engineer PWD'
+        extra?.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'
       );
 
       addNotification(
@@ -1217,9 +1535,7 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
       );
 
       addToast(
-        decision === 'Scale'
-          ? 'success'
-          : 'info',
+        decision === 'Scale' ? 'success' : 'info',
         `Validation Decision: ${decision}`,
         `Authorized human decision recorded for ${pilot.startupName}.`
       );
@@ -1651,6 +1967,9 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
         submitEvaluation,
 
         startPilot,
+        createPilotProject,
+        updatePilotStatus,
+        recordKPIMeasurement,
         updateValidationDecision,
 
         releaseProcurementMilestone,

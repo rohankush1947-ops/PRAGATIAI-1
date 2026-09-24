@@ -109,28 +109,53 @@ export const StartupDashboard: React.FC = () => {
 
       {/* QUICK ACTIONS & ACTIVE ENGAGEMENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Active Engagement Card */}
+        {/* Selected Application, Pilot & KPI Outcome Card */}
         <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-900">Active Government Pilot</h3>
-            <StatusBadge status="In Progress" />
+            <div className="flex items-center gap-2">
+              <Briefcase className="w-4 h-4 text-emerald-600" />
+              <h3 className="text-sm font-bold text-slate-900">Selected Application & Pilot Project</h3>
+            </div>
+            <StatusBadge status={pilots[0]?.status || 'In Progress'} />
           </div>
 
-          <div className="space-y-2 text-xs">
-            <h4 className="text-sm font-bold text-sky-700">
-              AI-Based Pothole Detection and Road Condition Monitoring
-            </h4>
-            <p className="text-slate-600 leading-relaxed">
-              Client: Public Works Department, Bengaluru North Division (520 km highway corridor).
-            </p>
-            <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] mt-2">
-              <div>
-                <span className="text-slate-500 block">Current Accuracy:</span>
-                <span className="text-emerald-700 font-bold">94.2% (Target 90%)</span>
+          <div className="space-y-3 text-xs">
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Selected Application</span>
+              <h4 className="text-sm font-bold text-slate-900">{applications[0]?.challengeTitle || 'Pothole Detection and Road Condition Monitoring'}</h4>
+              <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                <span>Application Status: <strong className="text-emerald-700">{applications[0]?.status || 'Selected'}</strong></span>
+                <span>•</span>
+                <span>Dept: {applications[0]?.department || 'PWD'}</span>
               </div>
-              <div>
-                <span className="text-slate-500 block">Milestone 1 Payment:</span>
-                <span className="text-emerald-700 font-bold">₹11.55L Disbursed</span>
+            </div>
+
+            <div className="p-3 rounded-xl bg-sky-50/60 border border-sky-200 space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700">Sanctioned Pilot Trial</span>
+              <h4 className="text-sm font-bold text-slate-900">{pilots[0]?.title || pilots[0]?.challengeTitle}</h4>
+              <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                <span>Pilot Status: <strong className="text-sky-700">{pilots[0]?.status}</strong></span>
+                <span>•</span>
+                <span>Progress: <strong className="font-mono text-emerald-700">{pilots[0]?.progressPercent}%</strong></span>
+              </div>
+            </div>
+
+            {/* KPI / Outcome information */}
+            <div className="space-y-1.5 pt-1">
+              <span className="text-[11px] font-bold text-slate-700 block uppercase tracking-wider">
+                Telemetry KPIs & Outcome Status
+              </span>
+              <div className="grid grid-cols-2 gap-2 text-[11px]">
+                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                  <span className="text-slate-500 block">Detection Accuracy</span>
+                  <span className="text-emerald-700 font-bold font-mono">94.2%</span>
+                  <span className="text-[10px] text-slate-400 block">Target: ≥ 90% (Exceeded)</span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                  <span className="text-slate-500 block">Validation Outcome</span>
+                  <span className="text-sky-700 font-bold">{pilots[0]?.validationDecision || 'Scale Approved'}</span>
+                  <span className="text-[10px] text-slate-400 block">GFR Statutory Clearance</span>
+                </div>
               </div>
             </div>
           </div>
@@ -138,9 +163,16 @@ export const StartupDashboard: React.FC = () => {
           <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
             <Link
               to="/startup/pilots"
-              className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1"
+              className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
             >
               <span>Manage Pilot Deliverables</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              to="/government/kpi-monitoring"
+              className="text-xs font-semibold text-sky-700 hover:text-sky-800 flex items-center gap-1"
+            >
+              <span>Live Telemetry</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

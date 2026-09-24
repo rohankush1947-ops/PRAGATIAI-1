@@ -127,33 +127,82 @@ export interface PilotMilestone {
   deliverables: string;
 }
 
+export type PilotKPIStatus = 
+  | 'On Track' 
+  | 'At Risk' 
+  | 'Achieved' 
+  | 'Not Achieved' 
+  | 'Exceeded' 
+  | 'Met' 
+  | 'Pending';
+
 export interface PilotKPI {
   name: string;
+  description?: string;
+  baseline?: string;
+  baselineNum?: number;
   target: string;
   actual: string;
   unit: string;
-  status: 'Exceeded' | 'Met' | 'Pending' | 'At Risk';
+  status: PilotKPIStatus;
   targetNum: number;
   actualNum: number;
+  measurementDate?: string;
+  evidenceNotes?: string;
+  isUserEntered?: boolean;
 }
+
+export type PilotLifecycleStatus = 
+  | 'Planning' 
+  | 'Approved' 
+  | 'Active' 
+  | 'Under Evaluation' 
+  | 'Completed' 
+  | 'In Progress' 
+  | 'Under Validation' 
+  | 'Validated' 
+  | 'Scale Approved';
+
+export type PilotValidationDecision = 
+  | 'Scale' 
+  | 'Re-pilot' 
+  | 'Close' 
+  | 'Modify' 
+  | 'Stop' 
+  | 'Continue Pilot';
+
+export type PilotValidationStatus = 
+  | 'Pending' 
+  | 'Under Review' 
+  | 'Validated';
 
 export interface PilotProject {
   id: string;
+  title?: string;
   challengeId: string;
   challengeTitle: string;
   startupId: string;
   startupName: string;
   department: string;
+  pilotLocation?: string;
+  objective?: string;
   pilotDuration: string;
   startDate: string;
   endDate: string;
-  status: 'In Progress' | 'Under Validation' | 'Validated' | 'Scale Approved';
+  governmentOfficer?: string;
+  expectedOutcomes?: string;
+  budget?: string;
+  notes?: string;
+  status: PilotLifecycleStatus;
   progressPercent: number;
   milestones: PilotMilestone[];
   kpis: PilotKPI[];
-  validationDecision?: 'Scale' | 'Modify' | 'Stop' | 'Continue Pilot';
+  validationStatus?: PilotValidationStatus;
+  validationDecision?: PilotValidationDecision;
   validationScore?: number;
   validationRemarks?: string;
+  officialObservations?: string;
+  evidenceNotes?: string;
   decisionDate?: string;
   authorizedOfficial?: string;
 }

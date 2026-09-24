@@ -4,6 +4,7 @@ import {
   Application, 
   ExpertEvaluation, 
   PilotProject, 
+  PilotKPI,
   ProcurementContract, 
   ScaleUpPlan, 
   AuditLogEntry, 
@@ -108,10 +109,40 @@ export const api = {
     method: 'POST',
     body: JSON.stringify({ applicationId })
   }),
-  recordValidationDecision: (pilotId: string, decision: string, remarks: string) =>
+  createPilot: (pilotData: Partial<PilotProject>) => fetchJson<PilotProject>('/pilots/create', {
+    method: 'POST',
+    body: JSON.stringify(pilotData)
+  }),
+  updatePilotStatus: (pilotId: string, status: string, notes?: string, authorizedOfficial?: string) =>
+    fetchJson<PilotProject>(`/pilots/${pilotId}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status, notes, authorizedOfficial })
+    }),
+  recordKPIMeasurement: (pilotId: string, kpi: Partial<PilotKPI>) =>
+    fetchJson<PilotProject>(`/pilots/${pilotId}/kpi`, {
+      method: 'POST',
+      body: JSON.stringify(kpi)
+    }),
+  updateKPIMeasurement: (pilotId: string, kpiIndex: number, kpi: Partial<PilotKPI>) =>
+    fetchJson<PilotProject>(`/pilots/${pilotId}/kpi/${kpiIndex}`, {
+      method: 'PUT',
+      body: JSON.stringify(kpi)
+    }),
+  recordValidationDecision: (
+    pilotId: string, 
+    decision: string, 
+    remarks: string,
+    extra?: {
+      officialObservations?: string;
+      evidenceNotes?: string;
+      validationStatus?: string;
+      authorizedOfficial?: string;
+      validationScore?: number;
+    }
+  ) =>
     fetchJson<PilotProject>(`/pilots/${pilotId}/validation`, {
       method: 'POST',
-      body: JSON.stringify({ decision, remarks })
+      body: JSON.stringify({ decision, remarks, ...extra })
     }),
   updatePilotProgress: (pilotId: string, progress: { progressPercent?: number; milestones?: any[]; kpis?: any[] }) =>
     fetchJson<PilotProject>(`/pilots/${pilotId}/progress`, {
