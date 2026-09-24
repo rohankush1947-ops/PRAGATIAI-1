@@ -21,6 +21,7 @@ import { KPIMonitoring } from './pages/government/KPIMonitoring';
 import { PilotValidation } from './pages/government/PilotValidation';
 import { ProcurementContract } from './pages/government/ProcurementContract';
 import { ScaleUpPlan } from './pages/government/ScaleUpPlan';
+import { ImpactMonitoring } from './pages/government/ImpactMonitoring';
 import { GovReports } from './pages/government/GovReports';
 import { AuditLogView } from './pages/government/AuditLogView';
 import { NotificationsView } from './pages/government/NotificationsView';
@@ -64,6 +65,7 @@ export const App: React.FC = () => {
           <Route path="/government/validation" element={<DashboardLayout><PilotValidation /></DashboardLayout>} />
           <Route path="/government/procurement" element={<DashboardLayout><ProcurementContract /></DashboardLayout>} />
           <Route path="/government/scale-up" element={<DashboardLayout><ScaleUpPlan /></DashboardLayout>} />
+          <Route path="/government/impact-monitoring" element={<DashboardLayout><ImpactMonitoring /></DashboardLayout>} />
           <Route path="/government/reports" element={<DashboardLayout><GovReports /></DashboardLayout>} />
           <Route path="/government/audit-log" element={<DashboardLayout><AuditLogView /></DashboardLayout>} />
           <Route path="/government/notifications" element={<DashboardLayout><NotificationsView /></DashboardLayout>} />
@@ -76,6 +78,7 @@ export const App: React.FC = () => {
           <Route path="/startup/eligibility" element={<DashboardLayout><EligibilityScreening /></DashboardLayout>} />
           <Route path="/startup/profile" element={<DashboardLayout><StartupProfile /></DashboardLayout>} />
           <Route path="/startup/pilots" element={<DashboardLayout><StartupPilots /></DashboardLayout>} />
+          <Route path="/startup/impact-monitoring" element={<DashboardLayout><ImpactMonitoring /></DashboardLayout>} />
           <Route path="/startup/notifications" element={<DashboardLayout><NotificationsView /></DashboardLayout>} />
 
           {/* Expert Portal */}
@@ -84,6 +87,7 @@ export const App: React.FC = () => {
           <Route path="/expert/challenges/:challengeId" element={<DashboardLayout><ExpertChallenges /></DashboardLayout>} />
           <Route path="/expert/evaluate/:applicationId" element={<DashboardLayout><ExpertEvaluation /></DashboardLayout>} />
           <Route path="/expert/applications" element={<DashboardLayout><GovApplications /></DashboardLayout>} />
+          <Route path="/expert/impact-monitoring" element={<DashboardLayout><ImpactMonitoring /></DashboardLayout>} />
 
           {/* Admin Portal */}
           <Route path="/admin/dashboard" element={<DashboardLayout><AdminDashboard /></DashboardLayout>} />

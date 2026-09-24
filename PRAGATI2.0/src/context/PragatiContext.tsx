@@ -16,6 +16,7 @@ import {
   ProcurementContractStatus,
   ProcurementMilestone,
   ScaleUpPlan,
+  ImpactRecord,
   AuditLogEntry,
   AppNotification
 } from '../types';
@@ -28,6 +29,8 @@ import {
   INITIAL_PILOTS,
   INITIAL_PROCUREMENT,
   INITIAL_SCALE_UP,
+  INITIAL_IMPACT_RECORDS,
+  calculateImpactMetrics,
   INITIAL_AUDIT_LOGS,
   INITIAL_NOTIFICATIONS
 } from '../data/mockData';
@@ -53,6 +56,7 @@ interface PragatiContextType {
   procurementContracts: ProcurementContract[];
   scaleUpPlan: ScaleUpPlan;
   scaleUpPlans: ScaleUpPlan[];
+  impactRecords: ImpactRecord[];
   auditLogs: AuditLogEntry[];
   notifications: AppNotification[];
 
@@ -135,6 +139,12 @@ interface PragatiContextType {
   approveScaleUpPlan: (id: string, notes?: string, official?: string) => Promise<ScaleUpPlan>;
   activateScaleUpPlan: (id: string, notes?: string) => Promise<ScaleUpPlan>;
   completeScaleUpPlan: (id: string, notes?: string) => Promise<ScaleUpPlan>;
+
+  createImpactRecord: (data: Partial<ImpactRecord>) => Promise<ImpactRecord>;
+  updateImpactRecord: (id: string, data: Partial<ImpactRecord>) => Promise<ImpactRecord>;
+  submitImpactReport: (id: string, data: { currentValue: number; evidence?: string; notes?: string; reportedBy?: string; reportingPeriod?: string }) => Promise<ImpactRecord>;
+  verifyImpactReport: (id: string, data: { verifiedBy?: string; verificationNotes?: string }) => Promise<ImpactRecord>;
+  rejectImpactReport: (id: string, data: { verifiedBy?: string; reason?: string }) => Promise<ImpactRecord>;
 
   markNotificationRead: (id: string) => void;
   markAllNotificationsRead: () => void;
@@ -352,6 +362,26 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [scaleUpPlans]);
 
   /* =========================================================
+     IMPACT RECORDS
+  ========================================================= */
+  const [impactRecords, setImpactRecords] = useState<ImpactRecord[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}impactRecords`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_IMPACT_RECORDS;
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}impactRecords`, JSON.stringify(impactRecords));
+    } catch (e) {}
+  }, [impactRecords]);
+
+  /* =========================================================
      AUDIT LOGS
   ========================================================= */
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(() => {
@@ -400,7 +430,7 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
   ========================================================= */
   const syncAllData = async () => {
     try {
-      const [remoteCh, remoteSt, remoteApps, remoteEvals, remotePilots, remoteProc, remoteScale, remoteLogs, remoteNotifs] =
+      const [remoteCh, remoteSt, remoteApps, remoteEvals, remotePilots, remoteProc, remoteScale, remoteImpact, remoteLogs, remoteNotifs] =
         await Promise.allSettled([
           api.getChallenges(),
           api.getStartups(),
@@ -409,6 +439,7 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
           api.getPilots(),
           api.getProcurement(),
           api.getScaleUp(),
+          api.getImpactRecords(),
           api.getAuditLogs(),
           api.getNotifications()
         ]);
@@ -442,6 +473,9 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       if (remoteLogs.status === 'fulfilled' && Array.isArray(remoteLogs.value) && remoteLogs.value.length > 0) {
         setAuditLogs(remoteLogs.value);
+      }
+      if (remoteImpact.status === 'fulfilled' && Array.isArray(remoteImpact.value) && remoteImpact.value.length > 0) {
+        setImpactRecords(remoteImpact.value);
       }
       if (remoteNotifs.status === 'fulfilled' && Array.isArray(remoteNotifs.value) && remoteNotifs.value.length > 0) {
         setNotifications(remoteNotifs.value);
@@ -2338,6 +2372,261 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   /* =========================================================
+     IMPACT MONITORING ACTIONS
+  ========================================================= */
+  const createImpactRecord = async (data: Partial<ImpactRecord>): Promise<ImpactRecord> => {
+    try {
+      const created = await api.createImpactRecord(data);
+      setImpactRecords(prev => [created, ...prev.filter(r => r.id !== created.id)]);
+      addToast('success', 'Impact Metric Registered', `Metric "${created.metricName}" added to tracking ledger.`);
+      return created;
+    } catch (err: any) {
+      console.warn('Backend createImpactRecord failed, validating locally:', err);
+      const plan = scaleUpPlans.find(p => p.id === data.scaleUpPlanId) || (scaleUpPlan.id === data.scaleUpPlanId ? scaleUpPlan : null);
+      if (!plan) {
+        throw new Error('Impact Monitoring unavailable: Scale-Up plan not found.');
+      }
+      if (!['Approved', 'Active', 'Completed'].includes(plan.status)) {
+        throw new Error(`Impact Monitoring unavailable: Scale-Up plan must be Approved or Active (current status: ${plan.status}).`);
+      }
+      const contract = procurementContracts.find(c => c.id === plan.procurementId || c.startupId === plan.startupId);
+      if (!contract || !['Approved', 'Active', 'Completed'].includes(contract.contractStatus)) {
+        throw new Error('Impact Monitoring unavailable: Procurement contract must be Approved or Active.');
+      }
+      const pilot = pilots.find(p => p.id === plan.pilotId || p.startupName === plan.startupName);
+      if (!pilot || !['Under Evaluation', 'Completed', 'Validated', 'Scale Approved'].includes(pilot.status)) {
+        throw new Error('Impact Monitoring unavailable: Pilot project has not reached completed/evaluated status.');
+      }
+      if (pilot.validationDecision !== 'Scale') {
+        throw new Error('Impact Monitoring unavailable: Outcome Validation must approve scaling (decision was not "Scale").');
+      }
+
+      const calc = calculateImpactMetrics(Number(data.baselineValue || 0), Number(data.currentValue !== undefined ? data.currentValue : data.baselineValue || 0), Number(data.targetValue || 0));
+      const now = new Date().toISOString().split('T')[0];
+
+      const fallbackRecord: ImpactRecord = {
+        id: `impact-${Date.now()}`,
+        challengeId: plan.challengeId || 'ch-pwd-01',
+        challengeTitle: plan.challengeTitle || plan.title,
+        startupId: plan.startupId || 'startup-roadvision',
+        startupName: plan.startupName || 'RoadVision AI',
+        solutionName: plan.solutionName || 'State-Wide Intelligent Road Health Grid',
+        scaleUpPlanId: plan.id,
+        scaleUpPlanTitle: plan.title,
+        procurementId: plan.procurementId || contract.id,
+        procurementReferenceId: plan.procurementReferenceId || contract.referenceId,
+        pilotId: plan.pilotId || pilot.id,
+        reportingPeriod: data.reportingPeriod || 'Q1 2027',
+        metricName: (data.metricName || 'New Impact Metric').trim(),
+        impactCategory: data.impactCategory || 'Operational Efficiency',
+        baselineValue: Number(data.baselineValue || 0),
+        currentValue: Number(data.currentValue !== undefined ? data.currentValue : data.baselineValue || 0),
+        targetValue: Number(data.targetValue || 0),
+        unit: data.unit || 'Units',
+        beneficiaryCount: Number(data.beneficiaryCount || 0),
+        geographicCoverage: data.geographicCoverage || 'Statewide',
+        implementationStatus: data.implementationStatus || 'On Track',
+        evidence: data.evidence || '',
+        notes: data.notes || '',
+        reportedBy: data.reportedBy || 'Government Officer',
+        verificationStatus: 'Pending Verification',
+        createdAt: now,
+        updatedAt: now,
+        ...calc
+      };
+
+      setImpactRecords(prev => [fallbackRecord, ...prev.filter(r => r.id !== fallbackRecord.id)]);
+
+      addAuditLog(
+        'Impact Metric Registered',
+        `Registered impact metric "${fallbackRecord.metricName}" for Scale-Up ${plan.title}`,
+        'Government Officer',
+        'Er. Rajeshwar Rao'
+      );
+
+      addNotification(
+        'New Impact Metric Registered',
+        `Impact tracking metric "${fallbackRecord.metricName}" registered for ${fallbackRecord.startupName}.`,
+        'impact'
+      );
+
+      addToast('success', 'Impact Metric Registered', `Metric "${fallbackRecord.metricName}" added to tracking ledger.`);
+      return fallbackRecord;
+    }
+  };
+
+  const updateImpactRecord = async (id: string, data: Partial<ImpactRecord>): Promise<ImpactRecord> => {
+    try {
+      const updated = await api.updateImpactRecord(id, data);
+      setImpactRecords(prev => prev.map(r => r.id === id ? updated : r));
+      addToast('info', 'Impact Metric Updated', `Metric "${updated.metricName}" updated.`);
+      return updated;
+    } catch (err) {
+      let updatedRecord: ImpactRecord | null = null;
+      setImpactRecords(prev => prev.map(r => {
+        if (r.id === id) {
+          const merged = { ...r, ...data, updatedAt: new Date().toISOString().split('T')[0] };
+          const calc = calculateImpactMetrics(merged.baselineValue, merged.currentValue, merged.targetValue);
+          updatedRecord = { ...merged, ...calc };
+          return updatedRecord;
+        }
+        return r;
+      }));
+      if (updatedRecord) {
+        addToast('info', 'Impact Metric Updated', `Metric "${(updatedRecord as ImpactRecord).metricName}" updated.`);
+        return updatedRecord;
+      }
+      throw err;
+    }
+  };
+
+  const submitImpactReport = async (id: string, data: { currentValue: number; evidence?: string; notes?: string; reportedBy?: string; reportingPeriod?: string }): Promise<ImpactRecord> => {
+    try {
+      const updated = await api.submitImpactReport(id, data);
+      setImpactRecords(prev => prev.map(r => r.id === id ? updated : r));
+
+      addAuditLog(
+        'Impact Telemetry Submitted',
+        `Submitted telemetry for metric "${updated.metricName}" (${updated.currentValue} ${updated.unit}). Pending verification.`,
+        'Startup Founder',
+        data.reportedBy || 'Ananya Deshmukh'
+      );
+
+      addNotification(
+        'Impact Report Requires Verification',
+        `New telemetry report submitted for "${updated.metricName}". Human verification required.`,
+        'impact'
+      );
+
+      addToast('success', 'Report Submitted', `Impact report for "${updated.metricName}" submitted for verification.`);
+      return updated;
+    } catch (err) {
+      let updatedRecord: ImpactRecord | null = null;
+      setImpactRecords(prev => prev.map(r => {
+        if (r.id === id) {
+          const merged = {
+            ...r,
+            currentValue: Number(data.currentValue),
+            evidence: data.evidence || r.evidence,
+            notes: data.notes || r.notes,
+            reportedBy: data.reportedBy || r.reportedBy,
+            reportingPeriod: data.reportingPeriod || r.reportingPeriod,
+            verificationStatus: 'Pending Verification' as const,
+            updatedAt: new Date().toISOString().split('T')[0]
+          };
+          const calc = calculateImpactMetrics(merged.baselineValue, merged.currentValue, merged.targetValue);
+          updatedRecord = { ...merged, ...calc };
+          return updatedRecord;
+        }
+        return r;
+      }));
+      if (updatedRecord) {
+        addAuditLog(
+          'Impact Telemetry Submitted',
+          `Submitted telemetry for metric "${(updatedRecord as ImpactRecord).metricName}" (${(updatedRecord as ImpactRecord).currentValue} ${(updatedRecord as ImpactRecord).unit}). Pending verification.`,
+          'Startup Founder',
+          data.reportedBy || 'Ananya Deshmukh'
+        );
+        addNotification(
+          'Impact Report Requires Verification',
+          `New telemetry report submitted for "${(updatedRecord as ImpactRecord).metricName}". Human verification required.`,
+          'impact'
+        );
+        addToast('success', 'Report Submitted', `Impact report for "${(updatedRecord as ImpactRecord).metricName}" submitted for verification.`);
+        return updatedRecord;
+      }
+      throw err;
+    }
+  };
+
+  const verifyImpactReport = async (id: string, data: { verifiedBy?: string; verificationNotes?: string }): Promise<ImpactRecord> => {
+    try {
+      const updated = await api.verifyImpactReport(id, data);
+      setImpactRecords(prev => prev.map(r => r.id === id ? updated : r));
+
+      addAuditLog(
+        'Impact Report Verified',
+        `Officially verified impact metric "${updated.metricName}". Achievement: ${updated.targetAchievement}%. Remarks: ${data.verificationNotes || 'Statutory verification completed.'}`,
+        'Government Officer',
+        data.verifiedBy || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Impact Report Verified by Government',
+        `Your impact telemetry for "${updated.metricName}" has been officially verified by Government.`,
+        'impact'
+      );
+
+      addToast('success', 'Impact Verified', `Metric "${updated.metricName}" officially verified.`);
+      return updated;
+    } catch (err) {
+      let updatedRecord: ImpactRecord | null = null;
+      setImpactRecords(prev => prev.map(r => {
+        if (r.id === id) {
+          const now = new Date().toISOString().split('T')[0];
+          updatedRecord = {
+            ...r,
+            verificationStatus: 'Verified' as const,
+            verifiedBy: data.verifiedBy || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+            verificationNotes: data.verificationNotes || 'Statutory verification completed.',
+            verifiedAt: now,
+            updatedAt: now
+          };
+          return updatedRecord;
+        }
+        return r;
+      }));
+      if (updatedRecord) {
+        addAuditLog(
+          'Impact Report Verified',
+          `Officially verified impact metric "${(updatedRecord as ImpactRecord).metricName}". Achievement: ${(updatedRecord as ImpactRecord).targetAchievement}%. Remarks: ${data.verificationNotes || 'Statutory verification completed.'}`,
+          'Government Officer',
+          data.verifiedBy || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+          'Verified'
+        );
+        addNotification(
+          'Impact Report Verified by Government',
+          `Your impact telemetry for "${(updatedRecord as ImpactRecord).metricName}" has been officially verified by Government.`,
+          'impact'
+        );
+        addToast('success', 'Impact Verified', `Metric "${(updatedRecord as ImpactRecord).metricName}" officially verified.`);
+        return updatedRecord;
+      }
+      throw err;
+    }
+  };
+
+  const rejectImpactReport = async (id: string, data: { verifiedBy?: string; reason?: string }): Promise<ImpactRecord> => {
+    try {
+      const updated = await api.rejectImpactReport(id, data);
+      setImpactRecords(prev => prev.map(r => r.id === id ? updated : r));
+      addToast('warning', 'Impact Report Flagged', `Metric "${updated.metricName}" flagged for review.`);
+      return updated;
+    } catch (err) {
+      let updatedRecord: ImpactRecord | null = null;
+      setImpactRecords(prev => prev.map(r => {
+        if (r.id === id) {
+          updatedRecord = {
+            ...r,
+            verificationStatus: 'Flagged' as const,
+            verifiedBy: data.verifiedBy || 'Authorized Official',
+            verificationNotes: data.reason || 'Flagged for audit discrepancy.',
+            updatedAt: new Date().toISOString().split('T')[0]
+          };
+          return updatedRecord;
+        }
+        return r;
+      }));
+      if (updatedRecord) {
+        addToast('warning', 'Impact Report Flagged', `Metric "${(updatedRecord as ImpactRecord).metricName}" flagged for review.`);
+        return updatedRecord;
+      }
+      throw err;
+    }
+  };
+
+  /* =========================================================
      NOTIFICATIONS
   ========================================================= */
 
@@ -2595,6 +2884,7 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
         procurementContracts,
         scaleUpPlan,
         scaleUpPlans,
+        impactRecords,
         auditLogs,
         notifications,
 
@@ -2625,6 +2915,12 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
         approveScaleUpPlan,
         activateScaleUpPlan,
         completeScaleUpPlan,
+
+        createImpactRecord,
+        updateImpactRecord,
+        submitImpactReport,
+        verifyImpactReport,
+        rejectImpactReport,
 
         markNotificationRead,
         markAllNotificationsRead,

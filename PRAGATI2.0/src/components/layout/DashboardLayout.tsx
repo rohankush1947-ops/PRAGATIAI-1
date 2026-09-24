@@ -16,6 +16,7 @@ import {
   CheckSquare, 
   ShoppingCart, 
   TrendingUp, 
+  Activity,
   BarChart3, 
   History, 
   Bell, 
@@ -91,7 +92,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             { label: 'KPI Monitoring', path: '/government/kpi-monitoring', icon: Gauge },
             { label: 'Pilot Validation', path: '/government/validation', icon: CheckSquare, badge: 'Decision' },
             { label: 'Procurement & Contract', path: '/government/procurement', icon: ShoppingCart },
-            { label: 'Scale-Up Plan', path: '/government/scale-up', icon: TrendingUp }
+            { label: 'Scale-Up Plan', path: '/government/scale-up', icon: TrendingUp },
+            { label: 'Impact Monitoring', path: '/government/impact-monitoring', icon: Activity, badge: 'Live' }
           ]
         },
         {
@@ -124,7 +126,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           items: [
             { label: 'View KPI Telemetry', path: '/government/kpi-monitoring', icon: Gauge },
             { label: 'Procurement Milestones', path: '/government/procurement', icon: ShoppingCart },
-            { label: 'Scale-Up Roadmap', path: '/government/scale-up', icon: TrendingUp }
+            { label: 'Scale-Up Roadmap', path: '/government/scale-up', icon: TrendingUp },
+            { label: 'Impact Telemetry', path: '/government/impact-monitoring', icon: Activity }
           ]
         }
       ];
@@ -140,6 +143,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             { label: 'Scoring Rubric', path: '/expert/evaluate/app-pwd-roadvision', icon: Award, badge: 'Rubric' },
             { label: 'Pilot Monitoring', path: '/government/kpi-monitoring', icon: Gauge },
             { label: 'Scale-Up Visibility', path: '/government/scale-up', icon: TrendingUp },
+            { label: 'Impact Visibility', path: '/government/impact-monitoring', icon: Activity },
             { label: 'Outcome Reports', path: '/government/reports', icon: BarChart3 },
             { label: 'Notifications', path: '/government/notifications', icon: Bell }
           ]

@@ -10,6 +10,7 @@ import {
   INITIAL_PILOTS, 
   INITIAL_PROCUREMENT, 
   INITIAL_SCALE_UP, 
+  INITIAL_IMPACT_RECORDS,
   INITIAL_AUDIT_LOGS, 
   INITIAL_NOTIFICATIONS 
 } from '../../src/data/mockData.ts';
@@ -32,6 +33,8 @@ export interface DatabaseSchema {
   pilots: any[];
   procurementContracts: any[];
   scaleUpPlan: any;
+  scaleUpPlans?: any[];
+  impactRecords: any[];
   auditLogs: any[];
   notifications: any[];
 }
@@ -44,6 +47,8 @@ const getInitialData = (): DatabaseSchema => ({
   pilots: JSON.parse(JSON.stringify(INITIAL_PILOTS)),
   procurementContracts: JSON.parse(JSON.stringify(INITIAL_PROCUREMENT)),
   scaleUpPlan: JSON.parse(JSON.stringify(INITIAL_SCALE_UP)),
+  scaleUpPlans: [JSON.parse(JSON.stringify(INITIAL_SCALE_UP))],
+  impactRecords: JSON.parse(JSON.stringify(INITIAL_IMPACT_RECORDS)),
   auditLogs: JSON.parse(JSON.stringify(INITIAL_AUDIT_LOGS)),
   notifications: JSON.parse(JSON.stringify(INITIAL_NOTIFICATIONS))
 });
@@ -89,12 +94,22 @@ export const initDb = (): DatabaseSchema => {
 
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
     inMemoryDb = JSON.parse(raw);
-    if (inMemoryDb && inMemoryDb.startups) {
+    if (inMemoryDb) {
       let updated = false;
-      for (const st of MOCK_STARTUPS) {
-        if (!inMemoryDb.startups.some((existing: any) => existing.id === st.id)) {
-          inMemoryDb.startups.unshift(st);
-          updated = true;
+      if (!inMemoryDb.impactRecords || inMemoryDb.impactRecords.length === 0) {
+        inMemoryDb.impactRecords = JSON.parse(JSON.stringify(INITIAL_IMPACT_RECORDS));
+        updated = true;
+      }
+      if (!inMemoryDb.scaleUpPlans && inMemoryDb.scaleUpPlan) {
+        inMemoryDb.scaleUpPlans = [inMemoryDb.scaleUpPlan];
+        updated = true;
+      }
+      if (inMemoryDb.startups) {
+        for (const st of MOCK_STARTUPS) {
+          if (!inMemoryDb.startups.some((existing: any) => existing.id === st.id)) {
+            inMemoryDb.startups.unshift(st);
+            updated = true;
+          }
         }
       }
       if (updated) {

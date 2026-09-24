@@ -321,6 +321,55 @@ export interface ScaleUpPlan {
   scalePhases: ScaleUpPhase[];
 }
 
+export type ImpactCategory = 
+  | 'Cost Savings'
+  | 'Time Savings'
+  | 'Service Delivery'
+  | 'Citizen Reach'
+  | 'Operational Efficiency'
+  | 'Environmental Impact'
+  | 'Accessibility'
+  | 'Revenue/Financial Impact'
+  | 'Other';
+
+export type ImpactVerificationStatus = 'Pending Verification' | 'Verified' | 'Flagged' | 'Rejected';
+
+export interface ImpactRecord {
+  id: string;
+  challengeId: string;
+  challengeTitle?: string;
+  startupId: string;
+  startupName?: string;
+  solutionName?: string;
+  scaleUpPlanId: string;
+  scaleUpPlanTitle?: string;
+  procurementId: string;
+  procurementReferenceId?: string;
+  pilotId?: string;
+  reportingPeriod: string;
+  metricName: string;
+  impactCategory: ImpactCategory;
+  baselineValue: number;
+  currentValue: number;
+  targetValue: number;
+  unit: string;
+  beneficiaryCount: number;
+  geographicCoverage: string;
+  implementationStatus: 'On Track' | 'Ahead' | 'Delayed' | 'Critical';
+  evidence?: string;
+  notes?: string;
+  reportedBy: string;
+  verifiedBy?: string;
+  verificationStatus: ImpactVerificationStatus;
+  verificationNotes?: string;
+  verifiedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  absoluteChange?: number;
+  percentageChange?: number;
+  targetAchievement?: number;
+}
+
 export interface AuditLogEntry {
   id: string;
   timestamp: string;
@@ -337,7 +386,7 @@ export interface AppNotification {
   message: string;
   time: string;
   read: boolean;
-  type: 'challenge' | 'application' | 'pilot' | 'validation' | 'procurement' | 'evaluation' | 'scale-up';
+  type: 'challenge' | 'application' | 'pilot' | 'validation' | 'procurement' | 'evaluation' | 'scale-up' | 'impact';
 }
 
 export interface AIMatchBreakdownFactor {

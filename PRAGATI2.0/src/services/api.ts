@@ -7,6 +7,7 @@ import {
   PilotKPI,
   ProcurementContract, 
   ScaleUpPlan, 
+  ImpactRecord,
   AuditLogEntry, 
   AppNotification,
   AIMatchingResponse,
@@ -200,6 +201,39 @@ export const api = {
     method: 'POST',
     body: JSON.stringify({ phase })
   }),
+
+  // Impact Monitoring
+  getImpactRecords: (params?: { scaleUpPlanId?: string; startupId?: string; status?: string }) => {
+    const query = new URLSearchParams();
+    if (params?.scaleUpPlanId) query.append('scaleUpPlanId', params.scaleUpPlanId);
+    if (params?.startupId) query.append('startupId', params.startupId);
+    if (params?.status) query.append('status', params.status);
+    const qs = query.toString();
+    return fetchJson<ImpactRecord[]>(`/impact/all${qs ? `?${qs}` : ''}`);
+  },
+  getEligibleImpactScaleUps: () => fetchJson<{ totalScaleUps: number; eligibleCount: number; scaleUps: any[] }>('/impact/eligible-scaleups'),
+  getImpactRecordById: (id: string) => fetchJson<ImpactRecord>(`/impact/${id}`),
+  createImpactRecord: (data: Partial<ImpactRecord>) => fetchJson<ImpactRecord>('/impact', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }),
+  updateImpactRecord: (id: string, data: Partial<ImpactRecord>) => fetchJson<ImpactRecord>(`/impact/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data)
+  }),
+  submitImpactReport: (id: string, data: { currentValue: number; evidence?: string; notes?: string; reportedBy?: string; reportingPeriod?: string }) => fetchJson<ImpactRecord>(`/impact/${id}/submit`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }),
+  verifyImpactReport: (id: string, data: { verifiedBy?: string; verificationNotes?: string }) => fetchJson<ImpactRecord>(`/impact/${id}/verify`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }),
+  rejectImpactReport: (id: string, data: { verifiedBy?: string; reason?: string }) => fetchJson<ImpactRecord>(`/impact/${id}/reject`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }),
+  getImpactStats: () => fetchJson<any>('/impact/stats/summary'),
 
   // Audit Logs
   getAuditLogs: () => fetchJson<AuditLogEntry[]>('/audit-logs'),

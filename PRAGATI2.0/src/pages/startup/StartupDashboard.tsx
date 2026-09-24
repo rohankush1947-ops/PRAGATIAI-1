@@ -15,17 +15,25 @@ import {
   Calendar,
   Layers,
   Sparkles,
-  ShoppingCart
+  ShoppingCart,
+  Activity
 } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { LifecyclePipelineStepper } from '../../components/common/LifecyclePipelineStepper';
 
 export const StartupDashboard: React.FC = () => {
-  const { challenges, applications, pilots, procurementContracts, scaleUpPlans, scaleUpPlan } = usePragati();
+  const { challenges, applications, pilots, procurementContracts, scaleUpPlans, scaleUpPlan, impactRecords } = usePragati();
 
   const allScaleUpPlans = scaleUpPlans && scaleUpPlans.length > 0 ? scaleUpPlans : (scaleUpPlan ? [scaleUpPlan] : []);
   const myScaleUpPlan = allScaleUpPlans.find(p => p.startupId === 'st-roadvision' || p.challengeId === 'ch-pwd-pothole-01') || allScaleUpPlans[0];
   const activeScaleUpsCount = allScaleUpPlans.filter(p => p.status === 'Active').length;
+
+  const myImpactRecords = (impactRecords || []).filter(r => 
+    r.startupId === 'startup-roadvision' || 
+    r.startupId === 'st-roadvision' || 
+    r.startupName?.toLowerCase().includes('roadvision')
+  );
+  const myVerifiedImpactCount = myImpactRecords.filter(r => r.verificationStatus === 'Verified').length;
 
   // Dashboard Cards: Open Opportunities, Applications Submitted, Shortlisted, Active Pilots, Active Scale-Ups
   const statCards = [
@@ -227,6 +235,45 @@ export const StartupDashboard: React.FC = () => {
                     className="text-indigo-700 hover:text-indigo-800 font-bold inline-flex items-center gap-1"
                   >
                     <span>Scale-Up Roadmap</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Impact Telemetry & Verification Card */}
+            {myImpactRecords.length > 0 && (
+              <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-50/70 to-teal-50/70 border border-emerald-200/80 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
+                    <Activity className="w-3.5 h-3.5 text-emerald-600" />
+                    Impact Telemetry & Verification
+                  </span>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    {myVerifiedImpactCount} / {myImpactRecords.length} Verified
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
+                  {myImpactRecords.slice(0, 3).map(r => (
+                    <div key={r.id} className="p-2 rounded-lg bg-white/90 border border-emerald-100">
+                      <span className="text-slate-500 block text-[10px] truncate">{r.metricName}</span>
+                      <div className="flex items-baseline justify-between mt-0.5">
+                        <span className="font-bold text-slate-800">{r.currentValue} {r.unit}</span>
+                        <span className={`text-[10px] font-bold ${r.verificationStatus === 'Verified' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                          {r.verificationStatus === 'Verified' ? 'Verified' : 'Pending'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-600 pt-0.5">
+                  <span>Target: <strong className="text-slate-800">Measurable Baseline vs Actual</strong></span>
+                  <Link
+                    to="/government/impact-monitoring"
+                    id="link-startup-view-impact"
+                    className="text-emerald-700 hover:text-emerald-800 font-bold inline-flex items-center gap-1"
+                  >
+                    <span>Submit & Track Telemetry</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>

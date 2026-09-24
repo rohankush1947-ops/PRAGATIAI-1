@@ -6,6 +6,7 @@ import {
   PilotProject, 
   ProcurementContract, 
   ScaleUpPlan, 
+  ImpactRecord,
   AuditLogEntry, 
   AppNotification 
 } from '../types';
@@ -836,3 +837,144 @@ export const AI_CHALLENGE_TEMPLATES = [
     }
   }
 ];
+
+export const INITIAL_IMPACT_RECORDS: ImpactRecord[] = [
+  {
+    id: 'impact-pwd-01',
+    challengeId: 'ch-pwd-01',
+    challengeTitle: 'AI-Based Pothole Detection and Road Condition Monitoring',
+    startupId: 'startup-roadvision',
+    startupName: 'RoadVision AI',
+    solutionName: 'State-Wide Intelligent Road Health Grid',
+    scaleUpPlanId: 'scaleup-pwd-roadvision',
+    scaleUpPlanTitle: 'Karnataka State-Wide Intelligent Road Condition & Pothole Monitoring Grid',
+    procurementId: 'contract-pwd-0926',
+    procurementReferenceId: 'REF-GFR173-0926',
+    pilotId: 'pilot-pwd-roadvision',
+    reportingPeriod: 'Q1 2027',
+    metricName: 'Average Pothole Repair Work Order Dispatch Time',
+    impactCategory: 'Time Savings',
+    baselineValue: 14,
+    currentValue: 2.2,
+    targetValue: 2.0,
+    unit: 'Days',
+    beneficiaryCount: 2100000,
+    geographicCoverage: 'Bengaluru Urban & Rural Highway Corridors (4,500 km)',
+    implementationStatus: 'Ahead',
+    evidence: 'PWD Works Division automated SMS/GIS dispatch audit logs & contractor job sign-offs',
+    notes: 'Edge camera AI reduced manual bureaucratic inspection delay by 84.3%, routing work orders directly to nearest asphalt teams.',
+    reportedBy: 'Ananya Deshmukh (RoadVision AI)',
+    verifiedBy: 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+    verificationStatus: 'Verified',
+    verificationNotes: 'Independently confirmed via Karnataka PWD e-Pramaan portal telemetry.',
+    verifiedAt: '2027-03-31',
+    createdAt: '2027-03-25',
+    updatedAt: '2027-03-31',
+    absoluteChange: -11.8,
+    percentageChange: -84.3,
+    targetAchievement: 98.3
+  },
+  {
+    id: 'impact-pwd-02',
+    challengeId: 'ch-pwd-01',
+    challengeTitle: 'AI-Based Pothole Detection and Road Condition Monitoring',
+    startupId: 'startup-roadvision',
+    startupName: 'RoadVision AI',
+    solutionName: 'State-Wide Intelligent Road Health Grid',
+    scaleUpPlanId: 'scaleup-pwd-roadvision',
+    scaleUpPlanTitle: 'Karnataka State-Wide Intelligent Road Condition & Pothole Monitoring Grid',
+    procurementId: 'contract-pwd-0926',
+    procurementReferenceId: 'REF-GFR173-0926',
+    pilotId: 'pilot-pwd-roadvision',
+    reportingPeriod: 'Q1 2027',
+    metricName: 'Cumulative Manual Road Inspection Expenditure Saved',
+    impactCategory: 'Cost Savings',
+    baselineValue: 0,
+    currentValue: 48.5,
+    targetValue: 60.0,
+    unit: '₹ Lakhs',
+    beneficiaryCount: 2100000,
+    geographicCoverage: 'Karnataka State Highway Corridors 1-5',
+    implementationStatus: 'On Track',
+    evidence: 'Departmental expenditure vouchers and canceled commercial LiDAR rental tenders',
+    notes: 'Eliminated external private surveying contractors across 4,500 km.',
+    reportedBy: 'Ananya Deshmukh (RoadVision AI)',
+    verifiedBy: 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+    verificationStatus: 'Verified',
+    verificationNotes: 'Certified by PWD Accounts Section and Internal Audit Wing.',
+    verifiedAt: '2027-04-05',
+    createdAt: '2027-04-01',
+    updatedAt: '2027-04-05',
+    absoluteChange: 48.5,
+    percentageChange: 100.0,
+    targetAchievement: 80.8
+  },
+  {
+    id: 'impact-pwd-03',
+    challengeId: 'ch-pwd-01',
+    challengeTitle: 'AI-Based Pothole Detection and Road Condition Monitoring',
+    startupId: 'startup-roadvision',
+    startupName: 'RoadVision AI',
+    solutionName: 'State-Wide Intelligent Road Health Grid',
+    scaleUpPlanId: 'scaleup-pwd-roadvision',
+    scaleUpPlanTitle: 'Karnataka State-Wide Intelligent Road Condition & Pothole Monitoring Grid',
+    procurementId: 'contract-pwd-0926',
+    procurementReferenceId: 'REF-GFR173-0926',
+    pilotId: 'pilot-pwd-roadvision',
+    reportingPeriod: 'Q2 2027',
+    metricName: 'Citizens Directly Benefited via Real-Time Road Hazard Transparency',
+    impactCategory: 'Citizen Reach',
+    baselineValue: 100000,
+    currentValue: 1650000,
+    targetValue: 2000000,
+    unit: 'Citizens',
+    beneficiaryCount: 1650000,
+    geographicCoverage: '14 District State Highways',
+    implementationStatus: 'On Track',
+    evidence: 'Traffic police public portal API query hits and mobile nav alerts sent',
+    notes: 'Q2 reporting period telemetry submitted by startup founder; awaiting government officer sign-off.',
+    reportedBy: 'Ananya Deshmukh (RoadVision AI)',
+    verificationStatus: 'Pending Verification',
+    createdAt: '2027-06-15',
+    updatedAt: '2027-06-15',
+    absoluteChange: 1550000,
+    percentageChange: 1550.0,
+    targetAchievement: 81.6
+  }
+];
+
+export function calculateImpactMetrics(baseline: number, current: number, target: number) {
+  const b = Number(baseline) || 0;
+  const c = Number(current) || 0;
+  const t = Number(target) || 0;
+
+  const absoluteChange = c - b;
+
+  let percentageChange = 0;
+  if (b !== 0) {
+    percentageChange = ((c - b) / Math.abs(b)) * 100;
+  } else if (c !== 0) {
+    percentageChange = c > 0 ? 100 : -100;
+  }
+
+  let targetAchievement = 0;
+  const targetDiff = t - b;
+  const currentDiff = c - b;
+
+  if (targetDiff === 0) {
+    targetAchievement = c >= t ? 100 : 0;
+  } else if (targetDiff > 0) {
+    // Normal case (increase desired)
+    targetAchievement = (currentDiff / targetDiff) * 100;
+  } else {
+    // Inverted case (reduction desired, e.g. delay 14 days down to 2 days)
+    targetAchievement = (currentDiff / targetDiff) * 100;
+  }
+
+  return {
+    absoluteChange: Number(absoluteChange.toFixed(2)),
+    percentageChange: Number(percentageChange.toFixed(1)),
+    targetAchievement: Number(Math.max(0, targetAchievement).toFixed(1))
+  };
+}
+
