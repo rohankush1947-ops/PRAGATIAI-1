@@ -36,7 +36,7 @@ import {
 } from 'recharts';
 
 export const GovDashboard: React.FC = () => {
-  const { challenges, pilots, applications, auditLogs, scaleUpPlan, procurementContracts } = usePragati();
+  const { challenges, pilots, applications, auditLogs, scaleUpPlan, scaleUpPlans, procurementContracts } = usePragati();
   const navigate = useNavigate();
 
   const selectedStartupsCount = applications.filter(a => a.status === 'Shortlisted' || a.status === 'Pilot' || a.status === 'Validated').length;
@@ -50,6 +50,20 @@ export const GovDashboard: React.FC = () => {
   const approvedProcurementCount = contractsList.filter(c => c.contractStatus === 'Approved').length;
   const activeProcurementCount = contractsList.filter(c => c.contractStatus === 'Active').length;
   const completedProcurementCount = contractsList.filter(c => c.contractStatus === 'Completed').length;
+
+  // Scale-Up operations breakdown (Prompt item 10)
+  const plansList = (scaleUpPlans && scaleUpPlans.length > 0) ? scaleUpPlans : (scaleUpPlan ? [scaleUpPlan] : []);
+  const eligibleForScaleUpCount = contractsList.filter(c => {
+    const isApprovedOrActive = ['Approved', 'Active', 'Completed'].includes(c.contractStatus);
+    const pilot = pilots.find(p => p.id === c.pilotId || p.challengeId === c.challengeId);
+    const isValidatedScale = pilot?.validationDecision === 'Scale' || pilot?.status === 'Scale Approved' || pilot?.status === 'Validated';
+    return isApprovedOrActive && isValidatedScale;
+  }).length;
+  const scaleUpPlansCount = plansList.length;
+  const scaleUpUnderReviewCount = plansList.filter(p => p.status === 'Under Review' || p.status === 'Draft').length;
+  const scaleUpApprovedCount = plansList.filter(p => p.status === 'Approved').length;
+  const scaleUpActiveCount = plansList.filter(p => p.status === 'Active').length;
+  const scaleUpCompletedCount = plansList.filter(p => p.status === 'Completed').length;
 
   // Prominently displaying: Selected Startups, Active Pilots, KPI Monitoring, Pending Validations
   const kpiStats = [
@@ -238,6 +252,125 @@ export const GovDashboard: React.FC = () => {
               {completedProcurementCount}
             </div>
             <span className="text-[10px] text-slate-400 block mt-0.5">Final Payouts Cleared</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* STATEWIDE SCALE-UP & COMMERCIAL EXPANSION OPERATIONS (PROMPT MANDATED) */}
+      <div id="section-gov-scaleup-operations" className="p-6 rounded-2xl bg-white border border-indigo-200/90 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-800 border border-indigo-200 uppercase">
+                Post-Procurement Scale-Up
+              </span>
+              <h3 className="text-sm font-bold text-slate-900">
+                Statewide Deployment & Commercial Expansion Pipeline
+              </h3>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Phased transition from successful procurement contracts to statewide institutional adoption across Karnataka.
+            </p>
+          </div>
+          <Link
+            to="/government/scale-up"
+            id="link-gov-manage-scaleup"
+            className="text-xs font-bold text-indigo-700 hover:text-indigo-800 flex items-center gap-1 self-start sm:self-auto"
+          >
+            <span>Manage Scale-Up Plans</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+          {/* Eligible for Scale-Up */}
+          <Link
+            to="/government/scale-up"
+            id="stat-scaleup-eligible"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-indigo-800">
+              Eligible for Scale-Up
+            </span>
+            <div className="text-2xl font-black text-indigo-700 font-mono mt-1">
+              {eligibleForScaleUpCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">7-Point Clearance Met</span>
+          </Link>
+
+          {/* Total Scale-Up Plans */}
+          <Link
+            to="/government/scale-up"
+            id="stat-scaleup-plans"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-indigo-800">
+              Scale-Up Plans
+            </span>
+            <div className="text-2xl font-black text-slate-900 font-mono mt-1">
+              {scaleUpPlansCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Active Portfolios</span>
+          </Link>
+
+          {/* Under Review */}
+          <Link
+            to="/government/scale-up"
+            id="stat-scaleup-under-review"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-indigo-800">
+              Under Review
+            </span>
+            <div className="text-2xl font-black text-amber-600 font-mono mt-1">
+              {scaleUpUnderReviewCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Draft & Reviewing</span>
+          </Link>
+
+          {/* Approved */}
+          <Link
+            to="/government/scale-up"
+            id="stat-scaleup-approved"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-indigo-800">
+              Approved
+            </span>
+            <div className="text-2xl font-black text-emerald-600 font-mono mt-1">
+              {scaleUpApprovedCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Sanctioned for Rollout</span>
+          </Link>
+
+          {/* Active */}
+          <Link
+            to="/government/scale-up"
+            id="stat-scaleup-active"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-indigo-800">
+              Active
+            </span>
+            <div className="text-2xl font-black text-sky-600 font-mono mt-1">
+              {scaleUpActiveCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Statewide Execution</span>
+          </Link>
+
+          {/* Completed */}
+          <Link
+            to="/government/scale-up"
+            id="stat-scaleup-completed"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-indigo-800">
+              Completed
+            </span>
+            <div className="text-2xl font-black text-emerald-700 font-mono mt-1">
+              {scaleUpCompletedCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Full State Coverage</span>
           </Link>
         </div>
       </div>

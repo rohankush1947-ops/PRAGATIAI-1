@@ -123,7 +123,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           title: 'Connected Government Portals',
           items: [
             { label: 'View KPI Telemetry', path: '/government/kpi-monitoring', icon: Gauge },
-            { label: 'Procurement Milestones', path: '/government/procurement', icon: ShoppingCart }
+            { label: 'Procurement Milestones', path: '/government/procurement', icon: ShoppingCart },
+            { label: 'Scale-Up Roadmap', path: '/government/scale-up', icon: TrendingUp }
           ]
         }
       ];
@@ -138,6 +139,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             { label: 'Review Challenges', path: '/expert/challenges', icon: Flag },
             { label: 'Scoring Rubric', path: '/expert/evaluate/app-pwd-roadvision', icon: Award, badge: 'Rubric' },
             { label: 'Pilot Monitoring', path: '/government/kpi-monitoring', icon: Gauge },
+            { label: 'Scale-Up Visibility', path: '/government/scale-up', icon: TrendingUp },
             { label: 'Outcome Reports', path: '/government/reports', icon: BarChart3 },
             { label: 'Notifications', path: '/government/notifications', icon: Bell }
           ]

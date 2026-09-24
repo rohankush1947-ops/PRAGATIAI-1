@@ -170,6 +170,32 @@ export const api = {
 
   // Scale-up
   getScaleUp: () => fetchJson<ScaleUpPlan>('/scale-up'),
+  getScaleUpPlans: () => fetchJson<ScaleUpPlan[]>('/scale-up/all'),
+  getEligibleScaleUpProcurements: () => fetchJson<any[]>('/scale-up/eligible-procurements'),
+  createScaleUpPlan: (planData: Partial<ScaleUpPlan>) => fetchJson<ScaleUpPlan>('/scale-up', {
+    method: 'POST',
+    body: JSON.stringify(planData)
+  }),
+  updateScaleUpPlan: (id: string, planData: Partial<ScaleUpPlan>) => fetchJson<ScaleUpPlan>(`/scale-up/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(planData)
+  }),
+  submitScaleUpPlan: (id: string, notes?: string) => fetchJson<ScaleUpPlan>(`/scale-up/${id}/submit`, {
+    method: 'POST',
+    body: JSON.stringify({ notes })
+  }),
+  approveScaleUpPlan: (id: string, notes?: string, official?: string) => fetchJson<ScaleUpPlan>(`/scale-up/${id}/approve`, {
+    method: 'POST',
+    body: JSON.stringify({ notes, official })
+  }),
+  activateScaleUpPlan: (id: string, notes?: string) => fetchJson<ScaleUpPlan>(`/scale-up/${id}/activate`, {
+    method: 'POST',
+    body: JSON.stringify({ notes })
+  }),
+  completeScaleUpPlan: (id: string, notes?: string) => fetchJson<ScaleUpPlan>(`/scale-up/${id}/complete`, {
+    method: 'POST',
+    body: JSON.stringify({ notes })
+  }),
   advanceScaleUpPhase: (phase: string) => fetchJson<ScaleUpPlan>('/scale-up/advance', {
     method: 'POST',
     body: JSON.stringify({ phase })

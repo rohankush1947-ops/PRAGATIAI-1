@@ -52,6 +52,7 @@ interface PragatiContextType {
   pilots: PilotProject[];
   procurementContracts: ProcurementContract[];
   scaleUpPlan: ScaleUpPlan;
+  scaleUpPlans: ScaleUpPlan[];
   auditLogs: AuditLogEntry[];
   notifications: AppNotification[];
 
@@ -128,6 +129,12 @@ interface PragatiContextType {
   ) => Promise<void>;
 
   advanceScaleUpPhase: (phaseNumber: string) => Promise<void>;
+  createScaleUpPlan: (planData: Partial<ScaleUpPlan>) => Promise<ScaleUpPlan>;
+  updateScaleUpPlan: (id: string, planData: Partial<ScaleUpPlan>) => Promise<ScaleUpPlan>;
+  submitScaleUpPlan: (id: string, notes?: string) => Promise<ScaleUpPlan>;
+  approveScaleUpPlan: (id: string, notes?: string, official?: string) => Promise<ScaleUpPlan>;
+  activateScaleUpPlan: (id: string, notes?: string) => Promise<ScaleUpPlan>;
+  completeScaleUpPlan: (id: string, notes?: string) => Promise<ScaleUpPlan>;
 
   markNotificationRead: (id: string) => void;
   markAllNotificationsRead: () => void;
@@ -321,11 +328,28 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
     return INITIAL_SCALE_UP;
   });
 
+  const [scaleUpPlans, setScaleUpPlans] = useState<ScaleUpPlan[]>(() => {
+    try {
+      const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}scaleUpPlans`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return [INITIAL_SCALE_UP];
+  });
+
   useEffect(() => {
     try {
       localStorage.setItem(`${STORAGE_KEY_PREFIX}scaleUpPlan`, JSON.stringify(scaleUpPlan));
     } catch (e) {}
   }, [scaleUpPlan]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}scaleUpPlans`, JSON.stringify(scaleUpPlans));
+    } catch (e) {}
+  }, [scaleUpPlans]);
 
   /* =========================================================
      AUDIT LOGS
@@ -408,7 +432,13 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
         setProcurementContracts(remoteProc.value);
       }
       if (remoteScale.status === 'fulfilled' && remoteScale.value) {
-        setScaleUpPlan(remoteScale.value);
+        if (Array.isArray(remoteScale.value)) {
+          setScaleUpPlans(remoteScale.value);
+          if (remoteScale.value.length > 0) setScaleUpPlan(remoteScale.value[0]);
+        } else {
+          setScaleUpPlan(remoteScale.value);
+          setScaleUpPlans(prev => [remoteScale.value, ...prev.filter(p => p.id !== remoteScale.value.id)]);
+        }
       }
       if (remoteLogs.status === 'fulfilled' && Array.isArray(remoteLogs.value) && remoteLogs.value.length > 0) {
         setAuditLogs(remoteLogs.value);
@@ -553,8 +583,12 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
   ========================================================= */
 
   const setCurrentRole = (role: UserRole) => {
-
     setCurrentRoleState(role);
+    try {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}role`, role);
+    } catch (e) {
+      console.warn('Could not persist role to localStorage:', e);
+    }
 
     addToast(
       'info',
@@ -1832,59 +1866,476 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
      SCALE-UP
   ========================================================= */
 
- const advanceScaleUpPhase = async (
-  phaseNumber: string
-): Promise<void> => {
-  try {
-    const updatedPlan =
-      await api.advanceScaleUpPhase(phaseNumber);
+  const createScaleUpPlan = async (
+    planData: Partial<ScaleUpPlan>
+  ): Promise<ScaleUpPlan> => {
+    try {
+      const newPlan = await api.createScaleUpPlan(planData);
+      setScaleUpPlans(prev => [newPlan, ...prev.filter(p => p.id !== newPlan.id)]);
+      setScaleUpPlan(newPlan);
 
-    setScaleUpPlan(updatedPlan);
-
-    addAuditLog(
-      'Scale-Up Phase Advanced',
-      `Activated rollout phase ${phaseNumber} across targeted districts`,
-      'Government Officer',
-      'State IT & Infrastructure Mission'
-    );
-
-    addToast(
-      'success',
-      'Scale-Up Phase Activated',
-      `Phase ${phaseNumber} multi-district deployment authorized.`
-    );
-  } catch (error) {
-    console.warn(
-      'Backend API unavailable, advancing scale-up phase locally:',
-      error
-    );
-
-    setScaleUpPlan(prev => {
-      const updatedPhases = prev.scalePhases.map(p =>
-        p.phase === `Phase ${phaseNumber}` || p.phase === phaseNumber
-          ? { ...p, status: 'Active' as const }
-          : p
+      addAuditLog(
+        'Scale-Up Plan Created',
+        `Drafted state-wide scale-up plan ${newPlan.id} for ${newPlan.startupName} under ${newPlan.challengeTitle}`,
+        'Government Officer',
+        newPlan.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
       );
-      return {
-        ...prev,
-        scalePhases: updatedPhases
+
+      addNotification(
+        'Scale-Up Stage Initiated',
+        `Your solution ${newPlan.startupName} has entered the Scale-Up stage for statewide expansion.`,
+        'scale-up'
+      );
+
+      addToast(
+        'success',
+        'Scale-Up Plan Created',
+        `Scale-Up plan ${newPlan.id} registered for ${newPlan.startupName}.`
+      );
+
+      return newPlan;
+    } catch (err: any) {
+      console.warn('Backend API error in createScaleUpPlan:', err);
+      // Re-throw if error was an eligibility rejection
+      if (err.message && err.message.toLowerCase().includes('scale-up unavailable')) {
+        throw err;
+      }
+
+      // Check local 7-point eligibility guard in fallback
+      const contract = procurementContracts.find(c => c.id === planData.procurementId) || procurementContracts[0];
+      if (!contract) {
+        const errorMsg = 'Scale-Up unavailable: Procurement contract not found.';
+        addToast('error', 'Scale-Up Blocked', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      const pilot = pilots.find(p => p.id === contract.pilotId || p.startupName === contract.startupName);
+      if (!pilot) {
+        const errorMsg = 'Scale-Up unavailable: Controlled Pilot project does not exist.';
+        addToast('error', 'Scale-Up Blocked', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      if (!['Under Evaluation', 'Completed', 'Validated', 'Scale Approved'].includes(pilot.status) &&
+          !(pilot.status === 'In Progress' && Boolean(pilot.validationDecision))) {
+        const errorMsg = 'Scale-Up unavailable: Pilot project has not reached completed/evaluated status.';
+        addToast('error', 'Scale-Up Blocked', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      if (!pilot.validationDecision && pilot.validationStatus !== 'Validated') {
+        const errorMsg = 'Scale-Up unavailable: KPI & Outcome Validation must be completed first.';
+        addToast('error', 'Scale-Up Blocked', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      if (pilot.validationDecision !== 'Scale') {
+        const errorMsg = 'Scale-Up unavailable: Outcome Validation must approve scaling first (decision was not "Scale").';
+        addToast('error', 'Scale-Up Blocked', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      if (!['Approved', 'Active', 'Completed'].includes(contract.contractStatus)) {
+        const errorMsg = 'Scale-Up unavailable: Procurement Contract must be Approved or Active before scaling.';
+        addToast('error', 'Scale-Up Blocked', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      const uniqueSuffix = Date.now().toString(36).toUpperCase();
+      const scaleUpId = `SCALE-UP-2027-${uniqueSuffix}`;
+      const budget = planData.estimatedBudget || contract.contractValue || contract.approvedBudget || '₹4,25,00,000';
+      const regions = planData.targetRegions && planData.targetRegions.length > 0
+        ? planData.targetRegions
+        : ['Bengaluru Urban', 'Bengaluru Rural', 'Mysuru', 'Tumakuru', 'Hubballi-Dharwad'];
+
+      const fallbackPlan: ScaleUpPlan = {
+        id: scaleUpId,
+        challengeId: contract.challengeId || pilot.challengeId,
+        challengeTitle: contract.challengeTitle || pilot.challengeTitle || 'Municipal Infrastructure Challenge',
+        startupId: contract.startupId || pilot.startupId,
+        startupName: contract.startupName || pilot.startupName || 'Startup',
+        solutionName: contract.validatedSolution || `${contract.startupName} Production Suite`,
+        pilotId: contract.pilotId || pilot.id,
+        pilotTitle: contract.pilotTitle || pilot.title || 'Controlled Field Pilot',
+        procurementId: contract.id,
+        procurementReferenceId: contract.referenceId || contract.id,
+        title: planData.title || `State-Wide Expansion Plan for ${contract.startupName}`,
+        description: planData.description || 'Departmental scale-up rollout across targeted districts following validated pilot trial and innovation procurement award.',
+        targetScope: planData.targetScope || '32,000 km State Road Infrastructure Network',
+        targetRegions: regions,
+        expectedBeneficiaries: planData.expectedBeneficiaries || '6.4 Crore citizens & 2.1 Million daily commuters',
+        estimatedBudget: budget,
+        estimatedCost: budget,
+        implementationTimeline: planData.implementationTimeline || '18 Months (Q1 2027 - Q3 2028)',
+        responsibleGovernmentDepartment: planData.responsibleGovernmentDepartment || contract.department || 'Public Works Department (PWD)',
+        risks: planData.risks || 'Hardware telemetry degradation in extreme weather; edge transmission in low-bandwidth corridors',
+        mitigation: planData.mitigation || 'IP68-rated enclosures, edge-side local caching, and asynchronous data sync',
+        status: 'Draft',
+        createdAt: new Date().toISOString().split('T')[0],
+        updatedAt: new Date().toISOString().split('T')[0],
+        authorizedOfficial: contract.governmentOfficer || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        expectedImpact: 'Annual operational savings of ₹14.8 Cr and 22% reduction in maintenance delay times.',
+        currentDeployment: '520 km (Controlled Pilot Zone)',
+        targetDeployment: planData.targetScope || '32,000 km across targeted districts',
+        milestones: planData.milestones && planData.milestones.length > 0 ? planData.milestones : [
+          { milestoneNumber: 1, title: 'Phase 1: Multi-District Deployment & Operator Training', timeline: 'Months 1-4', deliverable: 'Deployment of 45 edge sensor units across 5 primary districts', status: 'Pending', targetDistrict: regions.slice(0, 2).join(', '), budgetAllocation: '₹95,00,000' },
+          { milestoneNumber: 2, title: 'Phase 2: Departmental ERP Integration', timeline: 'Months 5-10', deliverable: 'Automated work-order dispatch across 12 PWD circle offices', status: 'Pending', targetDistrict: regions.slice(2, 4).join(', '), budgetAllocation: '₹1,50,00,000' },
+          { milestoneNumber: 3, title: 'Phase 3: Statewide Network Coverage', timeline: 'Months 11-18', deliverable: 'Full statewide road network monitoring and public API launch', status: 'Pending', targetDistrict: 'Statewide Corridors', budgetAllocation: '₹1,80,00,000' }
+        ],
+        kpis: planData.kpis && planData.kpis.length > 0 ? planData.kpis : [
+          { metric: 'Road Network Coverage', baseline: '520 km', target: planData.targetScope || '32,000 km', current: '520 km', status: 'Tracking' },
+          { metric: 'Detection Accuracy SLA', baseline: '94.2%', target: '≥ 95.0%', current: '94.8%', status: 'Tracking' },
+          { metric: 'Repair Work Order Dispatch', baseline: '14 Days', target: '< 48 Hours', current: '72 Hours', status: 'Tracking' },
+          { metric: 'Citizen Grievance Resolution', baseline: '45%', target: '> 90%', current: '78%', status: 'Tracking' }
+        ],
+        scalePhases: [
+          { phase: 'Phase 1', title: 'Controlled Municipal Pilot', coverage: '520 km (1 Division)', timeline: 'Q3 2026 (Completed)', status: 'Completed', districts: [regions[0] || 'Bengaluru Urban'] },
+          { phase: 'Phase 2', title: 'Multi-District Expansion Corridor', coverage: '4,500 km (Key Regional Highways)', timeline: 'Q1 - Q2 2027', status: 'Active', districts: regions.slice(1, 4) },
+          { phase: 'Phase 3', title: 'Comprehensive Statewide Rollout', coverage: planData.targetScope || '32,000 km Network', timeline: 'Q3 2027 - Q4 2028', status: 'Planned', districts: ['All Targeted Districts'] }
+        ]
       };
-    });
 
-    addAuditLog(
-      'Scale-Up Phase Advanced',
-      `Activated rollout phase ${phaseNumber} across targeted districts`,
-      'Government Officer',
-      'State IT & Infrastructure Mission'
-    );
+      setScaleUpPlans(prev => [fallbackPlan, ...prev.filter(p => p.id !== fallbackPlan.id)]);
+      setScaleUpPlan(fallbackPlan);
 
-    addToast(
-      'success',
-      'Scale-Up Phase Activated',
-      `Phase ${phaseNumber} multi-district deployment authorized.`
-    );
-  }
-};
+      addAuditLog(
+        'Scale-Up Plan Created',
+        `Drafted state-wide scale-up plan ${fallbackPlan.id} for ${fallbackPlan.startupName} under ${fallbackPlan.challengeTitle}`,
+        'Government Officer',
+        fallbackPlan.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Stage Initiated',
+        `Your solution ${fallbackPlan.startupName} has entered the Scale-Up stage for statewide expansion.`,
+        'scale-up'
+      );
+
+      addToast(
+        'success',
+        'Scale-Up Plan Created',
+        `Scale-Up plan ${fallbackPlan.id} registered for ${fallbackPlan.startupName}.`
+      );
+
+      return fallbackPlan;
+    }
+  };
+
+  const updateScaleUpPlan = async (
+    id: string,
+    planData: Partial<ScaleUpPlan>
+  ): Promise<ScaleUpPlan> => {
+    try {
+      const updated = await api.updateScaleUpPlan(id, planData);
+      setScaleUpPlans(prev => prev.map(p => p.id === id ? updated : p));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updated);
+      addToast('success', 'Plan Updated', 'Scale-up parameters successfully saved.');
+      return updated;
+    } catch (err: any) {
+      console.warn('Backend API updateScaleUpPlan failed, updating locally:', err);
+      let updatedPlan: ScaleUpPlan = scaleUpPlan;
+      setScaleUpPlans(prev => prev.map(p => {
+        if (p.id === id) {
+          updatedPlan = { ...p, ...planData, updatedAt: new Date().toISOString().split('T')[0] };
+          return updatedPlan;
+        }
+        return p;
+      }));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updatedPlan);
+      addToast('success', 'Plan Updated', 'Scale-up parameters successfully saved.');
+      return updatedPlan;
+    }
+  };
+
+  const submitScaleUpPlan = async (id: string, notes?: string): Promise<ScaleUpPlan> => {
+    try {
+      const updated = await api.submitScaleUpPlan(id, notes);
+      setScaleUpPlans(prev => prev.map(p => p.id === id ? updated : p));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updated);
+
+      addAuditLog(
+        'Scale-Up Submitted for Review',
+        `Scale-up plan ${id} submitted for inter-departmental sanction review`,
+        'Government Officer',
+        updated.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Under Review',
+        `Scale-up plan for ${updated.startupName} submitted for administrative sanction.`,
+        'scale-up'
+      );
+
+      addToast('info', 'Submitted for Review', `Scale-up plan ${id} submitted for sanction review.`);
+      return updated;
+    } catch (err: any) {
+      console.warn('Backend submitScaleUpPlan failed, falling back locally:', err);
+      let updatedPlan: ScaleUpPlan = scaleUpPlan;
+      setScaleUpPlans(prev => prev.map(p => {
+        if (p.id === id) {
+          updatedPlan = { ...p, status: 'Under Review', updatedAt: new Date().toISOString().split('T')[0], approvalNotes: notes || p.approvalNotes };
+          return updatedPlan;
+        }
+        return p;
+      }));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updatedPlan);
+
+      addAuditLog(
+        'Scale-Up Submitted for Review',
+        `Scale-up plan ${id} submitted for inter-departmental sanction review`,
+        'Government Officer',
+        updatedPlan.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Under Review',
+        `Scale-up plan for ${updatedPlan.startupName} submitted for administrative sanction.`,
+        'scale-up'
+      );
+
+      addToast('info', 'Submitted for Review', `Scale-up plan ${id} submitted for sanction review.`);
+      return updatedPlan;
+    }
+  };
+
+  const approveScaleUpPlan = async (id: string, notes?: string, official?: string): Promise<ScaleUpPlan> => {
+    try {
+      const updated = await api.approveScaleUpPlan(id, notes, official);
+      setScaleUpPlans(prev => prev.map(p => p.id === id ? updated : p));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updated);
+
+      addAuditLog(
+        'Scale-Up Approved',
+        `Scale-up plan ${id} officially approved by Departmental Sanction Committee`,
+        'Government Officer',
+        official || updated.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Plan Approved',
+        `Scale-up plan approved for ${updated.startupName}. Multi-district rollout sanctioned.`,
+        'scale-up'
+      );
+
+      addToast('success', 'Scale-Up Approved', `Plan ${id} officially approved for multi-district deployment.`);
+      return updated;
+    } catch (err: any) {
+      console.warn('Backend approveScaleUpPlan failed, falling back locally:', err);
+      let updatedPlan: ScaleUpPlan = scaleUpPlan;
+      setScaleUpPlans(prev => prev.map(p => {
+        if (p.id === id) {
+          updatedPlan = {
+            ...p,
+            status: 'Approved',
+            updatedAt: new Date().toISOString().split('T')[0],
+            approvalNotes: notes || p.approvalNotes,
+            authorizedOfficial: official || p.authorizedOfficial
+          };
+          return updatedPlan;
+        }
+        return p;
+      }));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updatedPlan);
+
+      addAuditLog(
+        'Scale-Up Approved',
+        `Scale-up plan ${id} officially approved by Departmental Sanction Committee`,
+        'Government Officer',
+        official || updatedPlan.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Plan Approved',
+        `Scale-up plan approved for ${updatedPlan.startupName}. Multi-district rollout sanctioned.`,
+        'scale-up'
+      );
+
+      addToast('success', 'Scale-Up Approved', `Plan ${id} officially approved for multi-district deployment.`);
+      return updatedPlan;
+    }
+  };
+
+  const activateScaleUpPlan = async (id: string, notes?: string): Promise<ScaleUpPlan> => {
+    try {
+      const updated = await api.activateScaleUpPlan(id, notes);
+      setScaleUpPlans(prev => prev.map(p => p.id === id ? updated : p));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updated);
+
+      addAuditLog(
+        'Scale-Up Activated',
+        `Scale-up implementation activated for ${updated.startupName} across targeted territorial districts`,
+        'Government Officer',
+        updated.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Implementation Started',
+        `Scale-up implementation has started for ${updated.startupName}. Field deployment initiated.`,
+        'scale-up'
+      );
+
+      addToast('success', 'Scale-Up Activated', `Scale-up rollout for ${updated.startupName} is now ACTIVE.`);
+      return updated;
+    } catch (err: any) {
+      console.warn('Backend activateScaleUpPlan failed, falling back locally:', err);
+      let updatedPlan: ScaleUpPlan = scaleUpPlan;
+      setScaleUpPlans(prev => prev.map(p => {
+        if (p.id === id) {
+          const updatedMilestones = p.milestones ? [...p.milestones] : [];
+          if (updatedMilestones[0]) updatedMilestones[0].status = 'In Progress';
+          updatedPlan = {
+            ...p,
+            status: 'Active',
+            milestones: updatedMilestones,
+            updatedAt: new Date().toISOString().split('T')[0]
+          };
+          return updatedPlan;
+        }
+        return p;
+      }));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updatedPlan);
+
+      addAuditLog(
+        'Scale-Up Activated',
+        `Scale-up implementation activated for ${updatedPlan.startupName} across targeted territorial districts`,
+        'Government Officer',
+        updatedPlan.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Implementation Started',
+        `Scale-up implementation has started for ${updatedPlan.startupName}. Field deployment initiated.`,
+        'scale-up'
+      );
+
+      addToast('success', 'Scale-Up Activated', `Scale-up rollout for ${updatedPlan.startupName} is now ACTIVE.`);
+      return updatedPlan;
+    }
+  };
+
+  const completeScaleUpPlan = async (id: string, notes?: string): Promise<ScaleUpPlan> => {
+    try {
+      const updated = await api.completeScaleUpPlan(id, notes);
+      setScaleUpPlans(prev => prev.map(p => p.id === id ? updated : p));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updated);
+
+      addAuditLog(
+        'Scale-Up Completed',
+        `Scale-up rollout successfully completed for ${updated.startupName}. Full state adoption achieved.`,
+        'Government Officer',
+        updated.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Completed',
+        `Statewide scale-up deployment successfully completed for ${updated.startupName}.`,
+        'scale-up'
+      );
+
+      addToast('success', 'Scale-Up Completed', `Scale-up rollout for ${updated.startupName} marked COMPLETED.`);
+      return updated;
+    } catch (err: any) {
+      console.warn('Backend completeScaleUpPlan failed, falling back locally:', err);
+      let updatedPlan: ScaleUpPlan = scaleUpPlan;
+      setScaleUpPlans(prev => prev.map(p => {
+        if (p.id === id) {
+          const updatedMilestones = p.milestones ? p.milestones.map(m => ({ ...m, status: 'Completed' as const })) : [];
+          const updatedPhases = p.scalePhases ? p.scalePhases.map(ph => ({ ...ph, status: 'Completed' as const })) : [];
+          updatedPlan = {
+            ...p,
+            status: 'Completed',
+            milestones: updatedMilestones,
+            scalePhases: updatedPhases,
+            updatedAt: new Date().toISOString().split('T')[0]
+          };
+          return updatedPlan;
+        }
+        return p;
+      }));
+      if (scaleUpPlan.id === id) setScaleUpPlan(updatedPlan);
+
+      addAuditLog(
+        'Scale-Up Completed',
+        `Scale-up rollout successfully completed for ${updatedPlan.startupName}. Full state adoption achieved.`,
+        'Government Officer',
+        updatedPlan.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+        'Verified'
+      );
+
+      addNotification(
+        'Scale-Up Completed',
+        `Statewide scale-up deployment successfully completed for ${updatedPlan.startupName}.`,
+        'scale-up'
+      );
+
+      addToast('success', 'Scale-Up Completed', `Scale-up rollout for ${updatedPlan.startupName} marked COMPLETED.`);
+      return updatedPlan;
+    }
+  };
+
+  const advanceScaleUpPhase = async (
+    phaseNumber: string
+  ): Promise<void> => {
+    try {
+      const updatedPlan =
+        await api.advanceScaleUpPhase(phaseNumber);
+
+      setScaleUpPlan(updatedPlan);
+      setScaleUpPlans(prev => prev.map(p => p.id === updatedPlan.id ? updatedPlan : p));
+
+      addAuditLog(
+        'Scale-Up Phase Advanced',
+        `Activated rollout phase ${phaseNumber} across targeted districts`,
+        'Government Officer',
+        'State IT & Infrastructure Mission'
+      );
+
+      addToast(
+        'success',
+        'Scale-Up Phase Activated',
+        `Phase ${phaseNumber} multi-district deployment authorized.`
+      );
+    } catch (error) {
+      console.warn(
+        'Backend API unavailable, advancing scale-up phase locally:',
+        error
+      );
+
+      setScaleUpPlan(prev => {
+        const updatedPhases = prev.scalePhases.map(p =>
+          p.phase === `Phase ${phaseNumber}` || p.phase === phaseNumber
+            ? { ...p, status: 'Active' as const }
+            : p
+        );
+        return {
+          ...prev,
+          scalePhases: updatedPhases
+        };
+      });
+
+      addAuditLog(
+        'Scale-Up Phase Advanced',
+        `Activated rollout phase ${phaseNumber} across targeted districts`,
+        'Government Officer',
+        'State IT & Infrastructure Mission'
+      );
+
+      addToast(
+        'success',
+        'Scale-Up Phase Activated',
+        `Phase ${phaseNumber} multi-district deployment authorized.`
+      );
+    }
+  };
 
   /* =========================================================
      NOTIFICATIONS
@@ -2143,6 +2594,7 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
         pilots,
         procurementContracts,
         scaleUpPlan,
+        scaleUpPlans,
         auditLogs,
         notifications,
 
@@ -2167,6 +2619,12 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
         createProcurementContract,
         updateProcurementStatus,
         advanceScaleUpPhase,
+        createScaleUpPlan,
+        updateScaleUpPlan,
+        submitScaleUpPlan,
+        approveScaleUpPlan,
+        activateScaleUpPlan,
+        completeScaleUpPlan,
 
         markNotificationRead,
         markAllNotificationsRead,

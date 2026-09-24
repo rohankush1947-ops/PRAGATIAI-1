@@ -256,23 +256,69 @@ export interface ProcurementContract {
   milestones: ProcurementMilestone[];
 }
 
+export type ScaleUpStatus = 'Draft' | 'Under Review' | 'Approved' | 'Active' | 'Completed';
+
+export interface ScaleUpMilestone {
+  milestoneNumber?: number;
+  title: string;
+  timeline: string;
+  deliverable: string;
+  status: 'Pending' | 'In Progress' | 'Completed';
+  targetDistrict?: string;
+  budgetAllocation?: string;
+}
+
+export interface ScaleUpKPI {
+  metric: string;
+  baseline: string;
+  target: string;
+  current?: string;
+  status: 'Pending' | 'Tracking' | 'Achieved';
+}
+
+export interface ScaleUpPhase {
+  phase: string;
+  title: string;
+  coverage: string;
+  timeline: string;
+  status: 'Completed' | 'Active' | 'Planned';
+  districts: string[];
+}
+
 export interface ScaleUpPlan {
   id: string;
-  pilotId: string;
+  challengeId?: string;
+  challengeTitle?: string;
+  startupId?: string;
   startupName: string;
   solutionName: string;
+  pilotId: string;
+  pilotTitle?: string;
+  procurementId?: string;
+  procurementReferenceId?: string;
+  title?: string;
+  description?: string;
+  targetScope?: string;
+  targetRegions?: string[];
+  expectedBeneficiaries?: string;
+  estimatedBudget?: string;
+  estimatedCost: string;
+  implementationTimeline?: string;
+  milestones?: ScaleUpMilestone[];
+  kpis?: ScaleUpKPI[];
+  responsibleGovernmentDepartment?: string;
+  risks?: string;
+  mitigation?: string;
+  status: ScaleUpStatus;
+  createdAt?: string;
+  updatedAt?: string;
+  authorizedOfficial?: string;
+  approvalNotes?: string;
+  // Backward compatibility with existing mock & views
   currentDeployment: string;
   targetDeployment: string;
-  estimatedCost: string;
   expectedImpact: string;
-  scalePhases: Array<{
-    phase: string;
-    title: string;
-    coverage: string;
-    timeline: string;
-    status: 'Completed' | 'Active' | 'Planned';
-    districts: string[];
-  }>;
+  scalePhases: ScaleUpPhase[];
 }
 
 export interface AuditLogEntry {
@@ -291,7 +337,7 @@ export interface AppNotification {
   message: string;
   time: string;
   read: boolean;
-  type: 'challenge' | 'application' | 'pilot' | 'validation' | 'procurement' | 'evaluation';
+  type: 'challenge' | 'application' | 'pilot' | 'validation' | 'procurement' | 'evaluation' | 'scale-up';
 }
 
 export interface AIMatchBreakdownFactor {

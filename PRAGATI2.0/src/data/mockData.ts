@@ -497,13 +497,68 @@ export const INITIAL_PROCUREMENT: ProcurementContract[] = [
 
 export const INITIAL_SCALE_UP: ScaleUpPlan = {
   id: 'scale-pwd-roadvision',
-  pilotId: 'pilot-pwd-roadvision',
+  challengeId: 'CH-001',
+  challengeTitle: 'AI-Based Pothole Detection and Road Condition Monitoring',
+  startupId: 'startup-roadvision',
   startupName: 'RoadVision AI',
   solutionName: 'State-Wide Intelligent Road Health Grid',
+  pilotId: 'pilot-pwd-roadvision',
+  pilotTitle: 'AI Road Condition & Pothole Monitoring Pilot',
+  procurementId: 'contract-pwd-0926',
+  procurementReferenceId: 'REF-GFR173-0926',
+  title: 'Karnataka State-Wide Intelligent Road Condition & Pothole Monitoring Grid',
+  description: 'Large-scale state infrastructure rollout following successful outcome-validated pilot and GeM innovation procurement award.',
+  targetScope: '32,000 km across 31 Districts and 14 State Highway Corridors',
+  targetRegions: ['Bengaluru Urban', 'Bengaluru Rural', 'Mysuru', 'Tumakuru', 'Hubballi-Dharwad', 'Belagavi', 'Mangaluru', 'Kalaburagi'],
+  expectedBeneficiaries: '6.4 Crore citizens & 2.1 Million daily highway commuters',
+  estimatedBudget: '₹4,25,00,000',
+  estimatedCost: '₹4.25 Crores (Multi-Year Phase-Wise Deployment)',
+  implementationTimeline: '18 Months (Q1 2027 - Q3 2028)',
+  responsibleGovernmentDepartment: 'Public Works Department (PWD), Government of Karnataka',
+  risks: 'Edge camera sensor degradation during monsoon; cellular dead zones on Western Ghats highways',
+  mitigation: 'IP68-rated dual enclosures, local offline edge inference buffering, and hybrid 4G/satellite burst telemetry',
+  status: 'Active',
+  createdAt: '2026-12-20',
+  updatedAt: '2026-12-24',
+  authorizedOfficial: 'Er. Rajeshwar Rao, Chief Engineer, PWD',
+  expectedImpact: 'Annual savings of ₹14.8 Cr in recurring road repair delays and estimated 22% reduction in monsoon road accident fatalities.',
   currentDeployment: '520 km (1 Zone: Bengaluru North)',
   targetDeployment: '32,000 km (31 Districts across Karnataka)',
-  estimatedCost: '₹4.25 Crores (Multi-Year Phase-Wise Deployment)',
-  expectedImpact: 'Annual savings of ₹14.8 Cr in recurring road repair delays and estimated 22% reduction in monsoon road accident fatalities.',
+  milestones: [
+    {
+      milestoneNumber: 1,
+      title: 'Phase 1: Initial Multi-District Core Corridor Setup',
+      timeline: 'Months 1-4',
+      deliverable: 'Deployment of 45 vehicle-mounted AI edge sensor pods across 5 key highways',
+      status: 'Completed',
+      targetDistrict: 'Bengaluru Urban & Rural',
+      budgetAllocation: '₹95,00,000'
+    },
+    {
+      milestoneNumber: 2,
+      title: 'Phase 2: Regional Hub & PWD Division Integration',
+      timeline: 'Months 5-10',
+      deliverable: 'GIS dashboard integration across 12 PWD circle offices with automated road defect dispatch',
+      status: 'In Progress',
+      targetDistrict: 'Mysuru, Tumakuru, Hubballi',
+      budgetAllocation: '₹1,50,00,000'
+    },
+    {
+      milestoneNumber: 3,
+      title: 'Phase 3: Statewide Network Coverage & Citizen Portal',
+      timeline: 'Months 11-18',
+      deliverable: 'Full coverage of 32,000 km state network and real-time public road health transparency API',
+      status: 'Pending',
+      targetDistrict: 'Remaining 23 Districts',
+      budgetAllocation: '₹1,80,00,000'
+    }
+  ],
+  kpis: [
+    { metric: 'Road Network Coverage', baseline: '520 km', target: '32,000 km', current: '5,020 km', status: 'Tracking' },
+    { metric: 'Edge Detection Accuracy', baseline: '94.2%', target: '≥ 95.0%', current: '94.8%', status: 'Tracking' },
+    { metric: 'Repair Work Order Dispatch', baseline: '14 Days', target: '< 48 Hours', current: '52 Hours', status: 'Tracking' },
+    { metric: 'Citizen Grievance Resolution', baseline: '45%', target: '> 90%', current: '82%', status: 'Tracking' }
+  ],
   scalePhases: [
     {
       phase: 'Phase 1',

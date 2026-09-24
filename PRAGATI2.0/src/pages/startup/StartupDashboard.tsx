@@ -21,15 +21,19 @@ import { StatusBadge } from '../../components/common/StatusBadge';
 import { LifecyclePipelineStepper } from '../../components/common/LifecyclePipelineStepper';
 
 export const StartupDashboard: React.FC = () => {
-  const { challenges, applications, pilots, procurementContracts } = usePragati();
+  const { challenges, applications, pilots, procurementContracts, scaleUpPlans, scaleUpPlan } = usePragati();
 
-  // Dashboard Cards: Open Opportunities, Applications Submitted, Shortlisted, Active Pilots, Completed Pilots
+  const allScaleUpPlans = scaleUpPlans && scaleUpPlans.length > 0 ? scaleUpPlans : (scaleUpPlan ? [scaleUpPlan] : []);
+  const myScaleUpPlan = allScaleUpPlans.find(p => p.startupId === 'st-roadvision' || p.challengeId === 'ch-pwd-pothole-01') || allScaleUpPlans[0];
+  const activeScaleUpsCount = allScaleUpPlans.filter(p => p.status === 'Active').length;
+
+  // Dashboard Cards: Open Opportunities, Applications Submitted, Shortlisted, Active Pilots, Active Scale-Ups
   const statCards = [
     { label: 'Open Opportunities', value: challenges.filter(c => c.status === 'Published' || c.status === 'Applications Open' || c.status === 'Pilot Active').length, icon: Flag, color: 'text-sky-400', border: 'border-sky-500/30', path: '/startup/challenges' },
     { label: 'Applications Submitted', value: applications.length, icon: FileCheck, color: 'text-blue-400', border: 'border-blue-500/30', path: '/startup/applications' },
     { label: 'Shortlisted for Pilot', value: applications.filter(a => a.status === 'Shortlisted' || a.status === 'Pilot' || a.status === 'Validated').length, icon: Award, color: 'text-amber-400', border: 'border-amber-500/30', path: '/startup/applications' },
     { label: 'Active Pilots', value: pilots.filter(p => p.status === 'In Progress').length, icon: Briefcase, color: 'text-emerald-400', border: 'border-emerald-500/30', path: '/startup/pilots' },
-    { label: 'Completed / Validated', value: pilots.filter(p => p.status === 'Validated' || p.status === 'Scale Approved').length, icon: CheckCircle2, color: 'text-purple-400', border: 'border-purple-500/30', path: '/startup/pilots' }
+    { label: 'Active Scale-Ups', value: activeScaleUpsCount, icon: TrendingUp, color: 'text-indigo-400', border: 'border-indigo-500/30', path: '/government/scale-up' }
   ];
 
   // Pipeline stages: Applied → Under Review → Expert Evaluation → Shortlisted → Pilot → Validated → Procurement
@@ -180,6 +184,49 @@ export const StartupDashboard: React.FC = () => {
                     className="text-purple-700 hover:text-purple-800 font-semibold inline-flex items-center gap-1"
                   >
                     <span>View Contract & Payouts</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Scale-Up Status & Commercial Expansion Roadmap for Selected Solution */}
+            {myScaleUpPlan && (
+              <div id="card-startup-scaleup" className="p-3.5 rounded-xl bg-gradient-to-br from-indigo-50/90 to-blue-50/60 border border-indigo-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    <span>Statewide Scale-Up & Expansion Roadmap</span>
+                  </span>
+                  <StatusBadge status={myScaleUpPlan.status} size="sm" />
+                </div>
+                <h4 className="text-sm font-bold text-slate-900">
+                  {myScaleUpPlan.title || myScaleUpPlan.targetDeployment}
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] pt-1">
+                  <div className="p-2 rounded-lg bg-white/80 border border-indigo-100">
+                    <span className="text-slate-500 block text-[10px]">Target Scope</span>
+                    <span className="font-bold text-slate-800 truncate block">{myScaleUpPlan.targetScope || 'Statewide Network'}</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white/80 border border-indigo-100">
+                    <span className="text-slate-500 block text-[10px]">Milestones</span>
+                    <span className="font-bold text-indigo-700 font-mono block">
+                      {myScaleUpPlan.milestones?.filter(m => m.status === 'Completed').length || 0} / {myScaleUpPlan.milestones?.length || 0} Completed
+                    </span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white/80 border border-indigo-100 col-span-2 sm:col-span-1">
+                    <span className="text-slate-500 block text-[10px]">Beneficiaries</span>
+                    <span className="font-bold text-emerald-700 font-mono block truncate">{myScaleUpPlan.expectedBeneficiaries || '4.2M Commuters'}</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-600 pt-1">
+                  <span>Target Regions: <strong className="text-slate-800">{myScaleUpPlan.targetRegions?.join(', ') || 'All 31 Districts'}</strong></span>
+                  <Link
+                    to="/government/scale-up"
+                    id="link-startup-view-scaleup"
+                    className="text-indigo-700 hover:text-indigo-800 font-bold inline-flex items-center gap-1"
+                  >
+                    <span>Scale-Up Roadmap</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
