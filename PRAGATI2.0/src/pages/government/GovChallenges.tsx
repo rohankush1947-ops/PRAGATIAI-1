@@ -375,9 +375,9 @@ export const GovChallenges: React.FC = () => {
               <button
                 type="button"
                 onClick={handleCloseModal}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#0F1C36] hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
-                <span>View in Challenges Grid</span>
+                <span className="text-white font-semibold">View in Challenges Grid</span>
               </button>
 
               <button

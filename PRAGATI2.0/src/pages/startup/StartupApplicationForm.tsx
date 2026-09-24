@@ -128,9 +128,9 @@ export const StartupApplicationForm: React.FC = () => {
           </Link>
           <Link
             to="/startup/eligibility"
-            className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700"
+            className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
           >
-            Inspect Eligibility Status
+            <span className="text-white font-semibold">Inspect Eligibility Status</span>
           </Link>
         </div>
       </div>

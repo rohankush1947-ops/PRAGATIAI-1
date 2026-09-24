@@ -236,16 +236,16 @@ export const PilotValidation: React.FC = () => {
             onClick={() => setSelectedDecision('Modify')}
             className={`p-4 rounded-xl border text-left transition-all ${
               selectedDecision === 'Modify'
-                ? 'bg-amber-950/80 border-amber-500 ring-2 ring-amber-500/40 text-white'
-                : 'bg-[#070E1E] border-slate-800 text-slate-300 hover:border-slate-700'
+                ? 'bg-amber-50 border-amber-400 ring-2 ring-amber-300 text-slate-900 shadow-sm'
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <AlertTriangle className={`w-5 h-5 ${selectedDecision === 'Modify' ? 'text-amber-400' : 'text-slate-400'}`} />
-              {selectedDecision === 'Modify' && <span className="text-[10px] font-bold text-amber-400">SELECTED</span>}
+              <AlertTriangle className={`w-5 h-5 ${selectedDecision === 'Modify' ? 'text-amber-600' : 'text-slate-400'}`} />
+              {selectedDecision === 'Modify' && <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">SELECTED</span>}
             </div>
-            <div className="text-sm font-bold text-white">Modify</div>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <div className="text-sm font-bold text-slate-900">Modify</div>
+            <p className="text-[11px] text-slate-500 mt-1">
               Request hardware calibration or modified scope.
             </p>
           </button>
@@ -256,16 +256,16 @@ export const PilotValidation: React.FC = () => {
             onClick={() => setSelectedDecision('Stop')}
             className={`p-4 rounded-xl border text-left transition-all ${
               selectedDecision === 'Stop'
-                ? 'bg-rose-950/80 border-rose-500 ring-2 ring-rose-500/40 text-white'
-                : 'bg-[#070E1E] border-slate-800 text-slate-300 hover:border-slate-700'
+                ? 'bg-rose-50 border-rose-400 ring-2 ring-rose-300 text-slate-900 shadow-sm'
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <XCircle className={`w-5 h-5 ${selectedDecision === 'Stop' ? 'text-rose-400' : 'text-slate-400'}`} />
-              {selectedDecision === 'Stop' && <span className="text-[10px] font-bold text-rose-400">SELECTED</span>}
+              <XCircle className={`w-5 h-5 ${selectedDecision === 'Stop' ? 'text-rose-600' : 'text-slate-400'}`} />
+              {selectedDecision === 'Stop' && <span className="text-[10px] font-bold text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded">SELECTED</span>}
             </div>
-            <div className="text-sm font-bold text-white">Stop</div>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <div className="text-sm font-bold text-slate-900">Stop</div>
+            <p className="text-[11px] text-slate-500 mt-1">
               Conclude pilot with no further procurement.
             </p>
           </button>
@@ -273,7 +273,7 @@ export const PilotValidation: React.FC = () => {
 
         {/* Remarks Input */}
         <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+          <label className="block text-xs font-semibold text-slate-700 mb-1.5">
             Official Evaluation Findings & Audit Remarks *
           </label>
           <textarea
@@ -286,10 +286,10 @@ export const PilotValidation: React.FC = () => {
         </div>
 
         {/* Officer Signature Meta & Commit Button */}
-        <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="text-xs text-slate-400">
-            Authorized Official: <strong className="text-slate-200">Er. Rajeshwar Rao, Chief Engineer, PWD</strong><br />
-            Digital Token: <code className="text-sky-400 font-mono text-[10px]">PWD-VALIDATE-2026-942X</code>
+        <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="text-xs text-slate-600">
+            Authorized Official: <strong className="text-slate-900">Er. Rajeshwar Rao, Chief Engineer, PWD</strong><br />
+            Digital Token: <code className="text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded font-mono text-[10px]">PWD-VALIDATE-2026-942X</code>
           </div>
 
           <button

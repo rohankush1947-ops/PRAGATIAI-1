@@ -303,12 +303,12 @@ export const ExpertEvaluation: React.FC = () => {
                 onClick={() => setRecommendation(rec.id)}
                 className={`p-3.5 rounded-xl border text-left transition-all text-xs ${
                   recommendation === rec.id
-                    ? 'bg-purple-950/60 border-purple-500 ring-2 ring-purple-500/40 text-white font-bold'
-                    : 'bg-[#070E1E] border-slate-800 text-slate-300 hover:border-slate-700'
+                    ? 'bg-purple-50 border-purple-400 ring-2 ring-purple-300 font-bold shadow-sm'
+                    : 'bg-slate-50 border-slate-200 hover:border-slate-300 hover:bg-slate-100'
                 }`}
               >
-                <div className="font-bold text-xs">{rec.id}</div>
-                <div className="text-[11px] text-slate-400 font-normal mt-1">{rec.desc}</div>
+                <div className={`font-bold text-xs ${recommendation === rec.id ? 'text-purple-900' : 'text-slate-900'}`}>{rec.id}</div>
+                <div className={`text-[11px] font-normal mt-1 ${recommendation === rec.id ? 'text-purple-700' : 'text-slate-500'}`}>{rec.desc}</div>
               </button>
             ))}
           </div>
@@ -333,18 +333,18 @@ export const ExpertEvaluation: React.FC = () => {
           <button
             type="button"
             onClick={handleRequestClarification}
-            className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm cursor-pointer"
           >
             <HelpCircle className="w-4 h-4 text-sky-400" />
-            <span>Request Clarification</span>
+            <span className="text-white font-semibold">Request Clarification</span>
           </button>
 
           <button
             type="submit"
-            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg shadow-purple-950 transition-all"
+            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg shadow-purple-950/20 transition-all cursor-pointer"
           >
-            <Send className="w-4 h-4" />
-            <span>Submit Final Evaluation ({totalScore}/100)</span>
+            <Send className="w-4 h-4 text-white" />
+            <span className="text-white font-bold">Submit Final Evaluation ({totalScore}/100)</span>
           </button>
         </div>
       </form>

@@ -288,17 +288,17 @@ h6:not(button *):not(footer *):not(.gov-top-bar *):not(.bg-sky-600 *):not(.bg-sk
   color: #0F172A !important;
 }
 
-/* Slate text remaps on light surfaces */
-.text-slate-100:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *),
-.text-slate-200:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *) {
+/* Slate text remaps on light surfaces - exempt buttons, links, and navigation */
+.text-slate-100:not(button *):not(a *):not(footer *):not(.gov-top-bar *),
+.text-slate-200:not(button *):not(a *):not(footer *):not(.gov-top-bar *) {
   color: #1E293B !important;
 }
 
-.text-slate-300:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *) {
+.text-slate-300:not(button *):not(a *):not(footer *):not(.gov-top-bar *) {
   color: #334155 !important;
 }
 
-.text-slate-400:not(button.bg-sky-600 *):not(button.bg-sky-700 *):not(a.bg-sky-700 *):not(footer *):not(.gov-top-bar *) {
+.text-slate-400:not(button *):not(a *):not(footer *):not(.gov-top-bar *) {
   color: #64748B !important;
 }
 
@@ -347,10 +347,37 @@ aside .space-y-1 a.bg-sky-700 svg {
 button.bg-sky-600 *, button.bg-sky-700 *, button.bg-sky-800 *,
 button.bg-emerald-600 *, button.bg-emerald-700 *,
 button.bg-blue-600 *, button.bg-blue-700 *,
-button.bg-purple-600 *, button.bg-indigo-600 *,
+button.bg-purple-600 *, button.bg-purple-700 *, button.bg-indigo-600 *,
+button.bg-rose-600 *, button.bg-amber-600 *,
 a.bg-sky-600 *, a.bg-sky-700 *, a.bg-sky-800 *,
 a.bg-emerald-600 *, a.bg-blue-600 *,
 .gov-button-primary, .gov-button-primary * {
+  color: #FFFFFF !important;
+}
+
+/* Dark slate and navy action buttons - crisp high contrast white text */
+button[class*="bg-slate-800"],
+button[class*="bg-slate-900"],
+button[class*="bg-slate-700"],
+button[class*="bg-[#0F1C36]"],
+button[class*="bg-[#0B1528]"],
+a[class*="bg-slate-800"],
+a[class*="bg-slate-900"] {
+  color: #FFFFFF !important;
+}
+
+button[class*="bg-slate-800"] span,
+button[class*="bg-slate-800"] strong,
+button[class*="bg-slate-900"] span,
+button[class*="bg-slate-900"] strong,
+button[class*="bg-slate-700"] span,
+button[class*="bg-slate-700"] strong,
+button[class*="bg-[#0F1C36]"] span,
+button[class*="bg-[#0F1C36]"] strong,
+button[class*="bg-[#0B1528]"] span,
+button[class*="bg-[#0B1528]"] strong,
+a[class*="bg-slate-800"] span,
+a[class*="bg-slate-900"] span {
   color: #FFFFFF !important;
 }
 
