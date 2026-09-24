@@ -1054,8 +1054,8 @@ export const PragatiProvider: React.FC<{ children: React.ReactNode }> = ({
       pilotDuration: '90 Days',
       startDate: new Date().toISOString().split('T')[0],
       endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      status: 'In Progress',
-      progressPercent: 15,
+      status: 'Planning',
+      progressPercent: 0,
       validationScore: 0,
       kpis: [
         { name: 'Detection Accuracy', target: '95%', actual: '92%', unit: '%', status: 'Met', targetNum: 95, actualNum: 92 },

@@ -172,7 +172,7 @@ export const GovApplications: React.FC = () => {
               >
                 Close
               </button>
-              {selectedApp.status !== 'Pilot' && selectedApp.status !== 'Validated' && (
+              {selectedApp.status !== 'Pilot' && selectedApp.status !== 'Validated' ? (
                 <button
                   onClick={() => handleStartPilot(selectedApp)}
                   className="px-4 py-2 bg-sky-700 hover:bg-sky-600 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-sm"
@@ -180,6 +180,14 @@ export const GovApplications: React.FC = () => {
                   <Briefcase className="w-3.5 h-3.5" />
                   <span>Sanction 90-Day Pilot</span>
                 </button>
+              ) : (
+                <a
+                  href="/government/pilots"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-sm"
+                >
+                  <Briefcase className="w-3.5 h-3.5" />
+                  <span>Open Pilot Project</span>
+                </a>
               )}
             </div>
           </div>

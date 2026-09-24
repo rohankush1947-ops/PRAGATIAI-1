@@ -42,8 +42,8 @@ router.post('/start', (req, res) => {
       governmentOfficer: 'Er. Rajeshwar Rao, Chief Engineer',
       expectedOutcomes: 'Verified accuracy, latency, and uptime compliance.',
       budget: app.budgetQuoted || '₹35,00,000',
-      status: 'Active',
-      progressPercent: 15,
+      status: 'Planning',
+      progressPercent: 0,
       validationStatus: 'Pending',
       milestones: [
         { id: 'm1', title: 'Pilot Approved & Agreement Signed', date: 'Day 1', status: 'Completed', deliverables: 'Legal framework executed' },
