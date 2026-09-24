@@ -82,37 +82,37 @@ export const StartupApplicationForm: React.FC = () => {
     const receiptRef = `APP-2026-${selectedChallenge?.id || 'CH'}-${formData.startupId ? formData.startupId.replace('startup-', '').toUpperCase() : 'SUB'}`;
     return (
       <div className="max-w-2xl mx-auto py-12 text-center space-y-6 animate-scale-up">
-        <div className="w-16 h-16 rounded-full bg-emerald-950 border-2 border-emerald-500 flex items-center justify-center text-emerald-400 mx-auto">
+        <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-400 flex items-center justify-center text-emerald-600 mx-auto">
           <CheckCircle2 className="w-8 h-8" />
         </div>
 
         <div>
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 uppercase">
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 uppercase">
             Receipt Reference: {receiptRef}
           </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-3">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">
             Application Submitted Successfully
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-md mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-md mx-auto leading-relaxed">
             Your proposal from <strong>{formData.startupName}</strong> for <strong>{selectedChallenge.title}</strong> has been received by the {selectedChallenge.department} and routed for automated DPIIT eligibility verification.
           </p>
         </div>
 
         {/* Status Tracker */}
-        <div className="p-4 rounded-xl bg-[#0B1528] border border-slate-800 text-left text-xs space-y-3 max-w-md mx-auto">
-          <span className="font-bold text-slate-200 block text-[11px] uppercase tracking-wider">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-left text-xs space-y-3 max-w-md mx-auto">
+          <span className="font-bold text-slate-700 block text-[11px] uppercase tracking-wider">
             Review Stages
           </span>
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-emerald-400">
+            <div className="flex items-center justify-between text-emerald-700 font-semibold">
               <span>1. Application Submission</span>
               <span className="font-bold">✓ Complete</span>
             </div>
-            <div className="flex items-center justify-between text-sky-400">
+            <div className="flex items-center justify-between text-sky-700 font-semibold">
               <span>2. Automated Eligibility Screening</span>
               <span className="font-bold">Active</span>
             </div>
-            <div className="flex items-center justify-between text-slate-400">
+            <div className="flex items-center justify-between text-slate-500">
               <span>3. Expert Evaluation Rubric</span>
               <span>Pending</span>
             </div>
@@ -128,9 +128,9 @@ export const StartupApplicationForm: React.FC = () => {
           </Link>
           <Link
             to="/startup/eligibility"
-            className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
+            className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold border border-slate-300 transition-colors"
           >
-            <span className="text-white font-semibold">Inspect Eligibility Status</span>
+            Inspect Eligibility Status
           </Link>
         </div>
       </div>

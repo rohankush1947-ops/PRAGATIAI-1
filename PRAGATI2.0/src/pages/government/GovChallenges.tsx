@@ -339,26 +339,26 @@ export const GovChallenges: React.FC = () => {
       >
         {successChallenge ? (
           <div className="py-6 text-center space-y-6 animate-fade-in">
-            <div className="w-16 h-16 rounded-full bg-emerald-950/90 border-2 border-emerald-500/80 flex items-center justify-center mx-auto shadow-lg shadow-emerald-950">
-              <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+            <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-500 flex items-center justify-center mx-auto shadow-sm">
+              <CheckCircle2 className="w-8 h-8 text-emerald-600" />
             </div>
 
             <div className="space-y-2 max-w-md mx-auto">
-              <span className="inline-block text-xs font-mono font-bold bg-sky-950 text-sky-300 border border-sky-600/60 px-3.5 py-1 rounded-full">
+              <span className="inline-block text-xs font-mono font-bold bg-sky-100 text-sky-800 border border-sky-300 px-3.5 py-1 rounded-full">
                 Challenge ID: {successChallenge.id}
               </span>
-              <h3 className="text-xl font-black text-white">
+              <h3 className="text-xl font-black text-slate-900">
                 Challenge Registered Successfully
               </h3>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-slate-700 font-medium">
                 "{successChallenge.title}"
               </p>
-              <p className="text-xs text-emerald-400 font-medium">
+              <p className="text-xs text-emerald-700 font-semibold">
                 Your challenge is now saved to the backend database and available for AI startup matching.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 border-t border-slate-800">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 border-t border-slate-200">
               <button
                 type="button"
                 id="btn-modal-find-matches"

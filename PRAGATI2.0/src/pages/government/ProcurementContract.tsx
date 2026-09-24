@@ -429,21 +429,21 @@ export const ProcurementContract: React.FC = () => {
       {/* FULL END-TO-END TRACEABILITY LINEAGE (PROMPT SPECIFIED) */}
       <div 
         id="section-procurement-traceability"
-        className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-[#0B1528] to-slate-900 text-white border border-slate-800 shadow-xl space-y-4"
+        className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4"
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-400">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900">
                 End-to-End Governance Traceability Lineage
               </h3>
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">
+            <p className="text-[11px] text-slate-500 mt-0.5">
               Statutory verification chain validating eligibility pursuant to Rule 173 GFR Direct Procurement guidelines.
             </p>
           </div>
-          <span className="text-[10px] font-mono bg-slate-800 px-2.5 py-1 rounded text-slate-300 border border-slate-700">
+          <span className="text-[10px] font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-600 border border-slate-200">
             Audit Hash: SHA-256 Verified
           </span>
         </div>
@@ -452,100 +452,100 @@ export const ProcurementContract: React.FC = () => {
           {/* 1. Challenge */}
           <Link
             to="/government/challenges"
-            className="p-3 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 transition-colors group space-y-1 block"
+            className="p-2.5 rounded-xl bg-slate-50 hover:bg-sky-50/60 border border-slate-200 hover:border-sky-300 transition-colors group space-y-1 block"
           >
-            <div className="flex items-center justify-between text-[10px] text-sky-400 font-bold uppercase">
+            <div className="flex items-center justify-between text-[10px] text-sky-700 font-bold uppercase">
               <span>1. Challenge</span>
               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="font-semibold text-slate-200 truncate" title={contract.challengeTitle}>
+            <div className="font-semibold text-slate-900 truncate" title={contract.challengeTitle}>
               {contract.challengeTitle}
             </div>
-            <div className="text-[10px] text-slate-400">{contract.department}</div>
+            <div className="text-[10px] text-slate-500">{contract.department}</div>
           </Link>
 
           {/* 2. Startup */}
           <Link
             to="/government/applications"
-            className="p-3 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 transition-colors group space-y-1 block"
+            className="p-2.5 rounded-xl bg-slate-50 hover:bg-sky-50/60 border border-slate-200 hover:border-sky-300 transition-colors group space-y-1 block"
           >
-            <div className="flex items-center justify-between text-[10px] text-sky-400 font-bold uppercase">
+            <div className="flex items-center justify-between text-[10px] text-sky-700 font-bold uppercase">
               <span>2. Selected Startup</span>
               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="font-semibold text-slate-200 truncate">{contract.startupName}</div>
-            <div className="text-[10px] text-emerald-400 font-medium">✓ Govt Selected</div>
+            <div className="font-semibold text-slate-900 truncate">{contract.startupName}</div>
+            <div className="text-[10px] text-emerald-700 font-medium">✓ Govt Selected</div>
           </Link>
 
           {/* 3. Evaluation */}
           <Link
             to="/expert/dashboard"
-            className="p-3 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 transition-colors group space-y-1 block"
+            className="p-2.5 rounded-xl bg-slate-50 hover:bg-sky-50/60 border border-slate-200 hover:border-sky-300 transition-colors group space-y-1 block"
           >
-            <div className="flex items-center justify-between text-[10px] text-sky-400 font-bold uppercase">
+            <div className="flex items-center justify-between text-[10px] text-sky-700 font-bold uppercase">
               <span>3. Evaluation</span>
               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="font-bold text-emerald-400 font-mono">
+            <div className="font-bold text-emerald-700 font-mono">
               {contract.expertScore || 91}/100 Score
             </div>
-            <div className="text-[10px] text-slate-400">Panel Recommendation</div>
+            <div className="text-[10px] text-slate-500">Panel Recommendation</div>
           </Link>
 
           {/* 4. Pilot */}
           <Link
             to="/government/pilots"
-            className="p-3 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 transition-colors group space-y-1 block"
+            className="p-2.5 rounded-xl bg-slate-50 hover:bg-sky-50/60 border border-slate-200 hover:border-sky-300 transition-colors group space-y-1 block"
           >
-            <div className="flex items-center justify-between text-[10px] text-sky-400 font-bold uppercase">
+            <div className="flex items-center justify-between text-[10px] text-sky-700 font-bold uppercase">
               <span>4. Pilot Project</span>
               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="font-semibold text-slate-200 truncate">
+            <div className="font-semibold text-slate-900 truncate">
               {contract.pilotTitle || '90-Day Field Trial'}
             </div>
-            <div className="text-[10px] text-slate-400">{linkedPilot?.status || 'Completed'}</div>
+            <div className="text-[10px] text-slate-500">{linkedPilot?.status || 'Completed'}</div>
           </Link>
 
           {/* 5. KPI Results */}
           <Link
             to="/government/kpi-monitoring"
-            className="p-3 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 transition-colors group space-y-1 block"
+            className="p-2.5 rounded-xl bg-slate-50 hover:bg-sky-50/60 border border-slate-200 hover:border-sky-300 transition-colors group space-y-1 block"
           >
-            <div className="flex items-center justify-between text-[10px] text-sky-400 font-bold uppercase">
+            <div className="flex items-center justify-between text-[10px] text-sky-700 font-bold uppercase">
               <span>5. KPI Telemetry</span>
               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="font-bold text-emerald-400">
+            <div className="font-bold text-emerald-700">
               {linkedPilot?.kpis?.[0]?.actual || '94.2%'} Met
             </div>
-            <div className="text-[10px] text-slate-400">Audited Field Data</div>
+            <div className="text-[10px] text-slate-500">Audited Field Data</div>
           </Link>
 
           {/* 6. Outcome Validation */}
           <Link
             to="/government/validation"
-            className="p-3 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 transition-colors group space-y-1 block"
+            className="p-2.5 rounded-xl bg-slate-50 hover:bg-sky-50/60 border border-slate-200 hover:border-sky-300 transition-colors group space-y-1 block"
           >
-            <div className="flex items-center justify-between text-[10px] text-sky-400 font-bold uppercase">
+            <div className="flex items-center justify-between text-[10px] text-sky-700 font-bold uppercase">
               <span>6. Validation</span>
               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="font-bold text-purple-400">
+            <div className="font-bold text-purple-700">
               Decision: {contract.validationDecision || 'Scale'}
             </div>
-            <div className="text-[10px] text-slate-400">Officer Authorized</div>
+            <div className="text-[10px] text-slate-500">Officer Authorized</div>
           </Link>
 
           {/* 7. Procurement */}
-          <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-500/50 space-y-1 block">
-            <div className="text-[10px] text-purple-300 font-bold uppercase">
+          <div className="p-2.5 rounded-xl bg-purple-50/80 border border-purple-200 space-y-1 block">
+            <div className="text-[10px] text-purple-700 font-bold uppercase">
               7. Procurement
             </div>
-            <div className="font-semibold text-purple-200 truncate">
+            <div className="font-semibold text-purple-900 truncate">
               {contract.contractStatus}
             </div>
-            <div className="text-[10px] text-purple-300 font-mono">{contract.approvedBudget}</div>
+            <div className="text-[10px] text-purple-700 font-mono">{contract.approvedBudget}</div>
           </div>
         </div>
       </div>

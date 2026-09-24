@@ -62,14 +62,14 @@ export const StartupPilots: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 mb-1">
             <Briefcase className="w-4 h-4" />
             <span>Active Contractual Trials</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             Pilot & Milestone Deliverables
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Track field deliverables, inspect real-time telemetry KPI status, and view statutory outcome validations.
           </p>
         </div>
@@ -88,15 +88,15 @@ export const StartupPilots: React.FC = () => {
       {/* Pilot Switcher if startup has multiple pilots */}
       {pilots.length > 1 && (
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <span className="text-xs text-slate-400 shrink-0 font-medium">Your Pilot Trials:</span>
+          <span className="text-xs text-slate-600 shrink-0 font-medium">Your Pilot Trials:</span>
           {pilots.map(p => (
             <button
               key={p.id}
               onClick={() => setSelectedPilotId(p.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                 p.id === activePilot.id
-                  ? 'bg-emerald-600 border-emerald-400 text-white shadow-sm'
-                  : 'bg-[#0B1528] border-slate-800 text-slate-400 hover:text-white'
+                  ? 'bg-emerald-600 border-emerald-500 text-white shadow-sm'
+                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-400 shadow-xs'
               }`}
             >
               {p.title || p.challengeTitle} ({p.status})
@@ -106,38 +106,38 @@ export const StartupPilots: React.FC = () => {
       )}
 
       {/* ACTIVE PILOT CARD */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800 uppercase">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-200 uppercase">
                 {activePilot.department}
               </span>
               <StatusBadge status={activePilot.status} />
               {activePilot.validationDecision && (
-                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
                   Decision: {activePilot.validationDecision}
                 </span>
               )}
             </div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold text-slate-900">
               {activePilot.title || activePilot.challengeTitle}
             </h2>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mt-1">
-              <span>Department: <strong className="text-slate-200">{activePilot.department}</strong></span>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
+              <span>Department: <strong className="text-slate-800 font-medium">{activePilot.department}</strong></span>
               <span>•</span>
-              <span>Term: <strong className="text-slate-200">{activePilot.startDate}</strong> to <strong className="text-slate-200">{activePilot.endDate}</strong> ({activePilot.pilotDuration})</span>
+              <span>Term: <strong className="text-slate-800 font-medium">{activePilot.startDate}</strong> to <strong className="text-slate-800 font-medium">{activePilot.endDate}</strong> ({activePilot.pilotDuration})</span>
               <span>•</span>
-              <span>Location: <strong className="text-slate-200">{activePilot.pilotLocation || 'Designated Corridor'}</strong></span>
+              <span>Location: <strong className="text-slate-800 font-medium">{activePilot.pilotLocation || 'Designated Corridor'}</strong></span>
             </div>
           </div>
 
           <div className="sm:text-right shrink-0">
-            <span className="text-xs text-slate-400 block">Pilot Completion</span>
-            <div className="text-3xl font-black text-emerald-400 font-mono">
+            <span className="text-xs text-slate-500 block">Pilot Completion</span>
+            <div className="text-3xl font-black text-emerald-700 font-mono">
               {activePilot.progressPercent}%
             </div>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-500">
               Officer: {activePilot.governmentOfficer || 'Er. Rajeshwar Rao, Chief Engineer'}
             </span>
           </div>
@@ -153,23 +153,23 @@ export const StartupPilots: React.FC = () => {
                 key={st.status}
                 className={`p-2.5 rounded-xl border text-center transition-all ${
                   isCurrent
-                    ? 'bg-sky-950/70 border-sky-500/60 ring-2 ring-sky-500/30'
+                    ? 'bg-sky-50 border-sky-400 ring-2 ring-sky-200 shadow-sm'
                     : isCompleted
-                    ? 'bg-emerald-950/40 border-emerald-800/60'
-                    : 'bg-[#070E1E] border-slate-800 opacity-50'
+                    ? 'bg-emerald-50 border-emerald-200'
+                    : 'bg-slate-50 border-slate-200'
                 }`}
               >
                 <div className="flex items-center justify-center gap-1 text-[11px] font-bold mb-0.5">
                   {isCompleted ? (
-                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                    <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                   ) : isCurrent ? (
-                    <Clock className="w-3 h-3 text-sky-400 animate-spin" />
+                    <Clock className="w-3 h-3 text-sky-600 animate-spin" />
                   ) : null}
-                  <span className={isCurrent ? 'text-sky-300' : isCompleted ? 'text-emerald-300' : 'text-slate-500'}>
+                  <span className={isCurrent ? 'text-sky-800 font-bold' : isCompleted ? 'text-emerald-800 font-bold' : 'text-slate-500 font-medium'}>
                     {st.label}
                   </span>
                 </div>
-                <p className="text-[10px] text-slate-400 truncate">{st.desc}</p>
+                <p className="text-[10px] text-slate-500 truncate">{st.desc}</p>
               </div>
             );
           })}
@@ -185,11 +185,11 @@ export const StartupPilots: React.FC = () => {
         {/* TARGET VS ACTUAL KPI MONITORING TABLE */}
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-              <Target className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <Target className="w-4 h-4 text-emerald-600" />
               <span>Contractual Performance KPIs (Target vs Actual)</span>
             </h3>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-500 font-medium">
               Continuous Ingestion Active
             </span>
           </div>
@@ -203,21 +203,21 @@ export const StartupPilots: React.FC = () => {
               return (
                 <div
                   key={idx}
-                  className="p-4 rounded-xl bg-[#070E1E] border border-slate-800 space-y-2"
+                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 transition-all space-y-2"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="font-semibold text-xs text-white truncate">{kpi.name}</span>
+                    <span className="font-bold text-xs text-slate-900 truncate">{kpi.name}</span>
                     <StatusBadge status={kpi.status} size="sm" />
                   </div>
                   <div className="flex items-baseline justify-between">
-                    <span className="text-xl font-bold font-mono text-emerald-400">{kpi.actual}</span>
-                    <span className="text-xs text-slate-400 font-mono">/ {kpi.target}</span>
+                    <span className="text-xl font-bold font-mono text-emerald-700">{kpi.actual}</span>
+                    <span className="text-xs text-slate-500 font-mono">/ {kpi.target}</span>
                   </div>
                   {kpi.baseline && (
                     <span className="text-[10px] text-slate-500 block">Baseline: {kpi.baseline}</span>
                   )}
                   {kpi.evidenceNotes && (
-                    <p className="text-[10px] text-slate-400 italic line-clamp-1 border-t border-slate-800 pt-1 mt-1">
+                    <p className="text-[10px] text-slate-600 italic line-clamp-1 border-t border-slate-200 pt-1 mt-1">
                       {kpi.evidenceNotes}
                     </p>
                   )}
@@ -229,7 +229,7 @@ export const StartupPilots: React.FC = () => {
 
         {/* Milestone Deliverables */}
         <div className="space-y-3 pt-2">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
             Field Deliverables & Acceptance Status
           </h3>
 
@@ -237,20 +237,20 @@ export const StartupPilots: React.FC = () => {
             {activePilot.milestones.map((m) => (
               <div
                 key={m.id}
-                className="p-4 rounded-xl bg-[#070E1E] border border-slate-800 flex flex-col justify-between space-y-2"
+                className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-2 hover:border-slate-300 transition-all"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-white text-xs">{m.title}</span>
+                    <span className="font-bold text-slate-900 text-xs">{m.title}</span>
                     <StatusBadge status={m.status} size="sm" />
                   </div>
-                  <p className="text-slate-400 text-[11px] mt-1 leading-relaxed">
+                  <p className="text-slate-600 text-[11px] mt-1 leading-relaxed">
                     {m.deliverables}
                   </p>
                 </div>
-                <div className="text-[10px] text-slate-400 pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="text-[10px] text-slate-500 pt-2 border-t border-slate-200 flex items-center justify-between">
                   <span>Target: {m.date}</span>
-                  {m.status === 'Completed' && <span className="text-emerald-400 font-bold">Approved</span>}
+                  {m.status === 'Completed' && <span className="text-emerald-700 font-bold">Approved</span>}
                 </div>
               </div>
             ))}
@@ -259,21 +259,21 @@ export const StartupPilots: React.FC = () => {
 
         {/* OUTCOME VALIDATION REPORT IF VALIDATED */}
         {(activePilot.status === 'Scale Approved' || activePilot.status === 'Validated' || activePilot.validationDecision) && (
-          <div className="p-5 rounded-xl bg-gradient-to-r from-emerald-950/50 via-[#0B1528] to-teal-950/50 border border-emerald-500/40 space-y-3">
+          <div className="p-5 rounded-xl bg-emerald-50 border border-emerald-200 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Statutory Outcome Validation Report</span>
               </span>
-              <span className="text-xs font-mono font-bold text-emerald-300 bg-emerald-900/60 px-2.5 py-0.5 rounded border border-emerald-700">
+              <span className="text-xs font-mono font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded border border-emerald-300">
                 Decision: {activePilot.validationDecision?.toUpperCase()}
               </span>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 leading-relaxed">
               "{activePilot.officialObservations || activePilot.validationRemarks || 'The solution exceeded predefined pilot KPIs and demonstrated strong operational performance.'}"
             </p>
-            <div className="pt-2 border-t border-emerald-900/60 flex items-center justify-between text-[11px] text-slate-400">
-              <span>Authorized Official: <strong className="text-slate-200">{activePilot.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'}</strong></span>
+            <div className="pt-2 border-t border-emerald-200 flex items-center justify-between text-[11px] text-slate-600">
+              <span>Authorized Official: <strong className="text-slate-800">{activePilot.authorizedOfficial || 'Er. Rajeshwar Rao, Chief Engineer, PWD'}</strong></span>
               <span>Signed on: {activePilot.decisionDate || '2026-12-10'}</span>
             </div>
           </div>

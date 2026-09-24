@@ -862,7 +862,7 @@ export const ImpactMonitoring: React.FC = () => {
         {/* Impact Records Cards */}
         {filteredRecords.length === 0 ? (
           <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-xl space-y-3">
-            <Activity className="w-10 h-10 text-slate-300 mx-auto" />
+            <Activity className="w-10 h-10 text-slate-400 mx-auto" />
             <h3 className="text-sm font-semibold text-slate-700">No Impact Metrics Found</h3>
             <p className="text-xs text-slate-600 max-w-md mx-auto">
               {categoryFilter !== 'All' || statusFilter !== 'All'

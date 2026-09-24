@@ -166,14 +166,14 @@ export const KPIMonitoring: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-sky-400 mb-1">
-            <Gauge className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-xs font-semibold text-sky-700 mb-1">
+            <Gauge className="w-4 h-4 text-sky-600" />
             <span>Field Telemetry & KPI Benchmarks</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             KPI Monitoring Dashboard
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Continuous verification of pilot performance metrics against contractually specified targets.
           </p>
         </div>
@@ -199,12 +199,12 @@ export const KPIMonitoring: React.FC = () => {
 
       {/* Pilot Switcher Tabs */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-slate-300">
-          <span className="font-bold uppercase tracking-wider flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-sky-400" />
+        <div className="flex items-center justify-between text-xs text-slate-700">
+          <span className="font-bold uppercase tracking-wider flex items-center gap-1.5 text-slate-800">
+            <Layers className="w-3.5 h-3.5 text-sky-700" />
             <span>Select Pilot Project to Monitor:</span>
           </span>
-          <span className="text-[11px] text-slate-400">{pilots.length} Active / Registered Pilots</span>
+          <span className="text-[11px] text-slate-500 font-medium">{pilots.length} Active / Registered Pilots</span>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -212,55 +212,55 @@ export const KPIMonitoring: React.FC = () => {
             <button
               key={p.id}
               onClick={() => handleSelectPilot(p.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-medium border transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 cursor-pointer ${
                 p.id === pilot.id
-                  ? 'bg-sky-600 border-sky-400 text-white shadow-md'
-                  : 'bg-[#0B1528] border-slate-800 text-slate-300 hover:bg-[#0F1C36] hover:text-white'
+                  ? 'bg-sky-700 border-sky-600 text-white shadow-sm'
+                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-400 shadow-xs'
               }`}
             >
-              <span>{p.startupName}</span>
-              <span className="text-[10px] opacity-80">({p.status})</span>
+              <span className="font-semibold">{p.startupName}</span>
+              <span className={`text-[10px] ${p.id === pilot.id ? 'text-sky-100' : 'text-slate-500 font-medium'}`}>({p.status})</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Context banner */}
-      <div className="p-4 rounded-xl bg-[#0B1528] border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+      <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
             Monitoring Pilot Trial
           </span>
-          <h4 className="text-sm font-bold text-white mt-0.5">
+          <h4 className="text-sm font-bold text-slate-900 mt-0.5">
             {pilot.title || pilot.challengeTitle}
           </h4>
-          <span className="text-slate-400 text-[11px]">
-            Startup: <strong className="text-sky-400">{pilot.startupName}</strong> | Department: {pilot.department} | Duration: {pilot.pilotDuration}
+          <span className="text-slate-500 text-[11px]">
+            Startup: <strong className="text-sky-700 font-semibold">{pilot.startupName}</strong> | Department: {pilot.department} | Duration: {pilot.pilotDuration}
           </span>
         </div>
         <div className="flex items-center gap-2">
           <StatusBadge status={pilot.status} />
-          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
             {pilot.kpis?.length || 0} Telemetry Metrics
           </span>
         </div>
       </div>
 
       {/* Distinction legend banner */}
-      <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-        <div className="flex items-center gap-3">
-          <span className="text-slate-400 text-[11px] font-medium">Data Provenance Legend:</span>
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-950 text-sky-300 border border-sky-800">
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+      <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-slate-700 text-[11px] font-bold">Data Provenance Legend:</span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-sky-50 text-sky-800 border border-sky-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-600" />
             Audited Field Measurement (User-Entered)
           </span>
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
             Demo Benchmark Telemetry
           </span>
         </div>
-        <span className="text-[11px] text-slate-400">
-          Supervised by: <strong className="text-slate-200">{pilot.governmentOfficer || 'Er. Rajeshwar Rao, Chief Engineer'}</strong>
+        <span className="text-[11px] text-slate-600">
+          Supervised by: <strong className="text-slate-900 font-semibold">{pilot.governmentOfficer || 'Er. Rajeshwar Rao, Chief Engineer'}</strong>
         </span>
       </div>
 
@@ -275,63 +275,63 @@ export const KPIMonitoring: React.FC = () => {
           return (
             <div
               key={idx}
-              className="p-5 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-slate-700 shadow-sm flex flex-col justify-between space-y-3"
+              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 shadow-sm flex flex-col justify-between space-y-3 transition-all"
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="truncate">
-                    <span className="font-bold text-xs text-white block truncate">{kpi.name}</span>
+                    <span className="font-bold text-xs text-slate-900 block truncate">{kpi.name}</span>
                     {kpi.description && (
-                      <p className="text-[10px] text-slate-400 truncate mt-0.5">{kpi.description}</p>
+                      <p className="text-[10px] text-slate-500 truncate mt-0.5">{kpi.description}</p>
                     )}
                   </div>
                   <StatusBadge status={kpi.status} size="sm" />
                 </div>
 
                 <div className="flex items-baseline justify-between mt-2">
-                  <div className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
+                  <div className="text-2xl sm:text-3xl font-black text-emerald-700 font-mono">
                     {kpi.actual}
                   </div>
-                  <div className="text-xs text-slate-400 font-mono text-right">
-                    Target: <strong className="text-slate-200">{kpi.target}</strong>
+                  <div className="text-xs text-slate-500 font-mono text-right">
+                    Target: <strong className="text-slate-800">{kpi.target}</strong>
                   </div>
                 </div>
 
                 {kpi.baseline && (
-                  <div className="text-[11px] text-slate-400 mt-1">
-                    Baseline: <span className="text-slate-300 font-mono">{kpi.baseline}</span>
+                  <div className="text-[11px] text-slate-500 mt-1">
+                    Baseline: <span className="text-slate-700 font-mono">{kpi.baseline}</span>
                   </div>
                 )}
 
                 {/* Progress bar Target vs Actual */}
                 <div className="mt-3">
-                  <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                  <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
                     <span>Performance Target Fulfillment</span>
-                    <span className="font-mono text-emerald-400 font-bold">{pct}%</span>
+                    <span className="font-mono text-emerald-700 font-bold">{pct}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                     <div
-                      className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                      className="h-full bg-emerald-600 rounded-full transition-all duration-500"
                       style={{ width: `${pct}%` }}
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800/80 space-y-1.5">
+              <div className="pt-3 border-t border-slate-100 space-y-1.5">
                 {kpi.evidenceNotes && (
-                  <p className="text-[10px] text-slate-400 italic line-clamp-2">
+                  <p className="text-[10px] text-slate-600 italic line-clamp-2">
                     "{kpi.evidenceNotes}"
                   </p>
                 )}
                 <div className="flex items-center justify-between text-[10px] text-slate-500">
                   <span>{kpi.measurementDate || 'Date: Day 74'}</span>
                   {isUser ? (
-                    <span className="text-sky-400 font-medium bg-sky-950/80 px-1.5 py-0.5 rounded border border-sky-800">
+                    <span className="text-sky-800 font-semibold bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">
                       Audited Field Data
                     </span>
                   ) : (
-                    <span className="text-slate-400 bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700">
+                    <span className="text-slate-700 font-medium bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
                       RFP Benchmark
                     </span>
                   )}
@@ -345,51 +345,51 @@ export const KPIMonitoring: React.FC = () => {
       {/* CHARTS GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart 1: Weekly Progression */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-white">Detection Accuracy & FP Rate Over Time</h3>
-              <p className="text-xs text-slate-400">Weekly telemetry progression across pilot corridor</p>
+              <h3 className="text-sm font-bold text-slate-900">Detection Accuracy & FP Rate Over Time</h3>
+              <p className="text-xs text-slate-500">Weekly telemetry progression across pilot corridor</p>
             </div>
-            <span className="text-xs text-emerald-400 font-semibold font-mono">94.2% Final</span>
+            <span className="text-xs text-emerald-700 font-semibold font-mono bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">94.2% Final</span>
           </div>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={weeklyTrendData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                 <XAxis dataKey="week" stroke="#64748B" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0F1C36', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#CBD5E1', borderRadius: '8px', fontSize: '12px', color: '#0F172A', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Line type="monotone" dataKey="accuracy" name="Accuracy (%)" stroke="#10B981" strokeWidth={2.5} dot={{ r: 4 }} />
-                <Line type="monotone" dataKey="falsePositive" name="False Positive (%)" stroke="#F43F5E" strokeWidth={2} dot={{ r: 4 }} />
+                <Line type="monotone" dataKey="accuracy" name="Accuracy (%)" stroke="#059669" strokeWidth={2.5} dot={{ r: 4 }} />
+                <Line type="monotone" dataKey="falsePositive" name="False Positive (%)" stroke="#E11D48" strokeWidth={2} dot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Chart 2: Target vs Actual Comparative Bar */}
-        <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-md">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-white">Target vs Actual Performance</h3>
-              <p className="text-xs text-slate-400">Comparison of contractual targets against verified field telemetry</p>
+              <h3 className="text-sm font-bold text-slate-900">Target vs Actual Performance</h3>
+              <p className="text-xs text-slate-500">Comparison of contractual targets against verified field telemetry</p>
             </div>
-            <span className="text-xs text-sky-400 font-semibold">Live Audited</span>
+            <span className="text-xs text-sky-800 font-semibold bg-sky-50 px-2.5 py-1 rounded border border-sky-200">Live Audited</span>
           </div>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={targetVsActualData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                 <XAxis dataKey="metric" stroke="#64748B" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0F1C36', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#CBD5E1', borderRadius: '8px', fontSize: '12px', color: '#0F172A', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="Target" name="Contractual Target" fill="#475569" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Target" name="Contractual Target" fill="#94A3B8" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="Actual" name="Verified Field Actual" fill="#0284C7" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

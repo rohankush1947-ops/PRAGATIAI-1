@@ -177,14 +177,14 @@ export const GovPilots: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-sky-400 mb-1">
-            <Briefcase className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-xs font-semibold text-sky-700 mb-1">
+            <Briefcase className="w-4 h-4 text-sky-600" />
             <span>Structured Field Trials</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             Pilot Project Management
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Track active 60-90 day milestone-based pilot trials under controlled operational conditions.
           </p>
         </div>
@@ -218,11 +218,11 @@ export const GovPilots: React.FC = () => {
       {/* PILOT SELECTOR TABS */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-            <Layers className="w-3.5 h-3.5 text-sky-400" />
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+            <Layers className="w-3.5 h-3.5 text-sky-700" />
             <span>All Monitored Pilot Projects ({pilots.length})</span>
           </span>
-          <span className="text-[11px] text-slate-400">Select a pilot to inspect field deliverables</span>
+          <span className="text-[11px] text-slate-500 font-medium">Select a pilot to inspect field deliverables</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -232,24 +232,26 @@ export const GovPilots: React.FC = () => {
               <button
                 key={p.id}
                 onClick={() => handleSelectPilot(p.id)}
-                className={`p-3.5 rounded-xl border text-left transition-all ${
+                className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                   isSelected
-                    ? 'bg-sky-950/60 border-sky-400 ring-2 ring-sky-400/40 text-white shadow-md'
-                    : 'bg-[#0B1528] border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-[#0F1D38]'
+                    ? 'bg-sky-50 border-sky-500 ring-2 ring-sky-500/20 shadow-sm'
+                    : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                    isSelected ? 'bg-sky-100 text-sky-800' : 'bg-slate-100 text-slate-600'
+                  }`}>
                     {p.department || 'Gov Dept'}
                   </span>
                   <StatusBadge status={p.status} size="sm" />
                 </div>
-                <h4 className="text-xs font-bold text-white truncate mb-1">
+                <h4 className="text-xs font-bold text-slate-900 truncate mb-1">
                   {p.title || p.challengeTitle}
                 </h4>
-                <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span className="font-semibold text-sky-300">{p.startupName}</span>
-                  <span className="font-mono text-emerald-400">{p.progressPercent}% Progress</span>
+                <div className="flex items-center justify-between text-[11px] text-slate-500">
+                  <span className="font-semibold text-sky-700">{p.startupName}</span>
+                  <span className="font-mono font-semibold text-emerald-700">{p.progressPercent}% Progress</span>
                 </div>
               </button>
             );

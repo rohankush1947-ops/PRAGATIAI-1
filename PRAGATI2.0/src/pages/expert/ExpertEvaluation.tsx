@@ -119,65 +119,65 @@ export const ExpertEvaluation: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-purple-400 mb-1">
-          <Award className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-xs font-semibold text-purple-700 mb-1">
+          <Award className="w-4 h-4 text-purple-600" />
           <span>Transparent Multi-Factor Peer Review</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
           Expert Proposal Evaluation Rubric
         </h1>
-        <p className="text-xs sm:text-sm text-slate-300 mt-1">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1">
           Score technical capability, innovation novelty, scalability, and impact on a weighted 100-point scale.
         </p>
       </div>
 
       {/* Proposal Header Banner */}
-      <div className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800 uppercase">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 uppercase">
             Challenge: {evalItem.challengeTitle}
           </span>
-          <h2 className="text-xl font-bold text-white mt-1.5">
+          <h2 className="text-xl font-bold text-slate-900 mt-1.5">
             Applicant: {evalItem.startupName}
           </h2>
-          <span className="text-xs text-slate-400">
-            Assigned Evaluator: <strong>{evalItem.evaluatorName}</strong> ({evalItem.evaluatorSpecialization})
+          <span className="text-xs text-slate-600">
+            Assigned Evaluator: <strong className="text-slate-900">{evalItem.evaluatorName}</strong> ({evalItem.evaluatorSpecialization})
           </span>
         </div>
 
         {/* Live Total Score Pill */}
         <div className="sm:text-right shrink-0">
-          <span className="text-xs text-slate-400 block">Current Cumulative Score</span>
-          <div className="text-3xl font-black text-emerald-400 font-mono">
+          <span className="text-xs text-slate-500 block">Current Cumulative Score</span>
+          <div className="text-3xl font-black text-emerald-600 font-mono">
             {totalScore}/100
           </div>
-          <span className="text-[11px] text-emerald-400 font-bold">
+          <span className="text-[11px] text-emerald-700 font-bold">
             {totalScore >= 80 ? 'Exceeds Pilot Threshold' : 'Below Pilot Threshold'}
           </span>
         </div>
       </div>
 
       {/* 5 WEIGHTED CRITERIA SLIDERS (PROMPT SPECIFIED) */}
-      <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl space-y-8">
-        <div className="border-b border-slate-800 pb-3 flex items-center justify-between">
-          <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+      <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-8">
+        <div className="border-b border-slate-200 pb-3 flex items-center justify-between">
+          <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
             Weighted Evaluation Sliders
           </h3>
-          <span className="text-xs text-slate-400">Drag sliders to adjust points</span>
+          <span className="text-xs text-slate-500">Drag sliders to adjust points</span>
         </div>
 
         {/* Criterion 1: Technical Capability — 25% */}
-        <div className="space-y-2 p-4 rounded-xl bg-[#070E1E] border border-slate-800">
+        <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center justify-between text-xs">
             <div>
-              <span className="font-bold text-white text-sm">1. Technical Capability</span>
-              <span className="text-sky-400 text-xs ml-2 font-bold">(Weight: 25%)</span>
+              <span className="font-bold text-slate-900 text-sm">1. Technical Capability</span>
+              <span className="text-sky-700 text-xs ml-2 font-bold">(Weight: 25%)</span>
             </div>
-            <span className="font-mono font-bold text-emerald-400 text-sm">
+            <span className="font-mono font-bold text-emerald-700 text-sm">
               {scores.technicalCapability} / 25 pts
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-normal">
+          <p className="text-[11px] text-slate-600 leading-normal">
             Model accuracy, edge latency, hardware durability on inspection vehicles, and sub-meter GPS tagging precision.
           </p>
           <input
@@ -186,22 +186,22 @@ export const ExpertEvaluation: React.FC = () => {
             max={25}
             value={scores.technicalCapability}
             onChange={(e) => setScores({ ...scores, technicalCapability: parseInt(e.target.value) })}
-            className="w-full accent-sky-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
+            className="w-full accent-sky-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
           />
         </div>
 
         {/* Criterion 2: Innovation — 20% */}
-        <div className="space-y-2 p-4 rounded-xl bg-[#070E1E] border border-slate-800">
+        <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center justify-between text-xs">
             <div>
-              <span className="font-bold text-white text-sm">2. Innovation & Novelty</span>
-              <span className="text-sky-400 text-xs ml-2 font-bold">(Weight: 20%)</span>
+              <span className="font-bold text-slate-900 text-sm">2. Innovation & Novelty</span>
+              <span className="text-sky-700 text-xs ml-2 font-bold">(Weight: 20%)</span>
             </div>
-            <span className="font-mono font-bold text-emerald-400 text-sm">
+            <span className="font-mono font-bold text-emerald-700 text-sm">
               {scores.innovation} / 20 pts
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-normal">
+          <p className="text-[11px] text-slate-600 leading-normal">
             Proprietary edge AI pipeline, IP filings, dynamic handling of rainy weather, night-time low-light road scanning.
           </p>
           <input
@@ -210,22 +210,22 @@ export const ExpertEvaluation: React.FC = () => {
             max={20}
             value={scores.innovation}
             onChange={(e) => setScores({ ...scores, innovation: parseInt(e.target.value) })}
-            className="w-full accent-sky-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
+            className="w-full accent-sky-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
           />
         </div>
 
         {/* Criterion 3: Scalability — 20% */}
-        <div className="space-y-2 p-4 rounded-xl bg-[#070E1E] border border-slate-800">
+        <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center justify-between text-xs">
             <div>
-              <span className="font-bold text-white text-sm">3. Scalability & System Integration</span>
-              <span className="text-sky-400 text-xs ml-2 font-bold">(Weight: 20%)</span>
+              <span className="font-bold text-slate-900 text-sm">3. Scalability & System Integration</span>
+              <span className="text-sky-700 text-xs ml-2 font-bold">(Weight: 20%)</span>
             </div>
-            <span className="font-mono font-bold text-emerald-400 text-sm">
+            <span className="font-mono font-bold text-emerald-700 text-sm">
               {scores.scalability} / 20 pts
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-normal">
+          <p className="text-[11px] text-slate-600 leading-normal">
             API throughput, compatibility with state PWD enterprise GIS databases, ease of retrofitting onto diverse vehicle fleets.
           </p>
           <input
@@ -234,22 +234,22 @@ export const ExpertEvaluation: React.FC = () => {
             max={20}
             value={scores.scalability}
             onChange={(e) => setScores({ ...scores, scalability: parseInt(e.target.value) })}
-            className="w-full accent-sky-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
+            className="w-full accent-sky-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
           />
         </div>
 
         {/* Criterion 4: Cost Effectiveness — 15% */}
-        <div className="space-y-2 p-4 rounded-xl bg-[#070E1E] border border-slate-800">
+        <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center justify-between text-xs">
             <div>
-              <span className="font-bold text-white text-sm">4. Cost Effectiveness</span>
-              <span className="text-sky-400 text-xs ml-2 font-bold">(Weight: 15%)</span>
+              <span className="font-bold text-slate-900 text-sm">4. Cost Effectiveness</span>
+              <span className="text-sky-700 text-xs ml-2 font-bold">(Weight: 15%)</span>
             </div>
-            <span className="font-mono font-bold text-emerald-400 text-sm">
+            <span className="font-mono font-bold text-emerald-700 text-sm">
               {scores.costEffectiveness} / 15 pts
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-normal">
+          <p className="text-[11px] text-slate-600 leading-normal">
             Unit cost per road kilometer audited compared to conventional manual survey tenders (₹38.5L quoted).
           </p>
           <input
@@ -258,22 +258,22 @@ export const ExpertEvaluation: React.FC = () => {
             max={15}
             value={scores.costEffectiveness}
             onChange={(e) => setScores({ ...scores, costEffectiveness: parseInt(e.target.value) })}
-            className="w-full accent-sky-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
+            className="w-full accent-sky-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
           />
         </div>
 
         {/* Criterion 5: Impact — 20% */}
-        <div className="space-y-2 p-4 rounded-xl bg-[#070E1E] border border-slate-800">
+        <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center justify-between text-xs">
             <div>
-              <span className="font-bold text-white text-sm">5. Public Safety & Departmental Impact</span>
-              <span className="text-sky-400 text-xs ml-2 font-bold">(Weight: 20%)</span>
+              <span className="font-bold text-slate-900 text-sm">5. Public Safety & Departmental Impact</span>
+              <span className="text-sky-700 text-xs ml-2 font-bold">(Weight: 20%)</span>
             </div>
-            <span className="font-mono font-bold text-emerald-400 text-sm">
+            <span className="font-mono font-bold text-emerald-700 text-sm">
               {scores.impact} / 20 pts
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-normal">
+          <p className="text-[11px] text-slate-600 leading-normal">
             Anticipated reduction in pothole accidents, acceleration of municipal repair ticket resolution from weeks to 48 hours.
           </p>
           <input
@@ -282,13 +282,13 @@ export const ExpertEvaluation: React.FC = () => {
             max={20}
             value={scores.impact}
             onChange={(e) => setScores({ ...scores, impact: parseInt(e.target.value) })}
-            className="w-full accent-sky-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
+            className="w-full accent-sky-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
           />
         </div>
 
         {/* RECOMMENDATION SELECTION (PROMPT SPECIFIED) */}
-        <div className="pt-4 border-t border-slate-800 space-y-3">
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
+        <div className="pt-4 border-t border-slate-200 space-y-3">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
             Official Evaluator Recommendation
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -316,7 +316,7 @@ export const ExpertEvaluation: React.FC = () => {
 
         {/* Remarks */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
             Evaluator Technical Rationale & Audit Remarks *
           </label>
           <textarea
@@ -329,7 +329,7 @@ export const ExpertEvaluation: React.FC = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
             onClick={handleRequestClarification}

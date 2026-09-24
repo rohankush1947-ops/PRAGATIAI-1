@@ -145,14 +145,14 @@ export const AIMatching: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-sky-400 mb-1">
-          <Sparkles className="w-4 h-4 text-sky-400" />
+        <div className="flex items-center gap-2 text-xs font-semibold text-sky-700 mb-1">
+          <Sparkles className="w-4 h-4 text-sky-600" />
           <span>Explainable Match Engine</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
           AI-Powered Startup Matching
         </h1>
-        <p className="text-xs sm:text-sm text-slate-300 mt-1">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1">
           Objective capability scoring based on verified patent records, past pilot telemetry, and technical RFP compliance.
         </p>
       </div>
@@ -187,7 +187,7 @@ export const AIMatching: React.FC = () => {
           <div className="flex items-center gap-2 text-slate-500 text-[11px] mt-0.5">
             <Building2 className="w-3.5 h-3.5 text-sky-600 shrink-0" />
             <span className="text-slate-700 font-medium">{selectedChallenge?.department}</span>
-            <span className="text-slate-300">•</span>
+            <span className="text-slate-400">•</span>
             <span className="text-sky-700 font-semibold">{selectedChallenge?.category}</span>
           </div>
         </div>
@@ -203,32 +203,32 @@ export const AIMatching: React.FC = () => {
 
       {/* LOADING STATE */}
       {loading && (
-        <div className="p-16 rounded-2xl bg-[#0B1528] border border-slate-800 flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="w-8 h-8 text-sky-400 animate-spin" />
-          <p className="text-sm font-semibold text-slate-200">Evaluating available startups against challenge RFP...</p>
-          <span className="text-xs text-slate-400">Computing technology, domain, experience, and eligibility vectors</span>
+        <div className="p-16 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col items-center justify-center space-y-4">
+          <Loader2 className="w-8 h-8 text-sky-600 animate-spin" />
+          <p className="text-sm font-semibold text-slate-800">Evaluating available startups against challenge RFP...</p>
+          <span className="text-xs text-slate-500">Computing technology, domain, experience, and eligibility vectors</span>
         </div>
       )}
 
       {/* ERROR STATE */}
       {fetchError && !loading && !matchingData && (
-        <div className="p-8 sm:p-12 rounded-2xl bg-[#0B1528] border border-rose-500/40 flex flex-col items-center justify-center text-center space-y-4 shadow-xl">
-          <div className="w-12 h-12 rounded-full bg-rose-950/60 border border-rose-500/40 flex items-center justify-center">
-            <AlertTriangle className="w-6 h-6 text-rose-400" />
+        <div className="p-8 sm:p-12 rounded-2xl bg-white border border-rose-200 flex flex-col items-center justify-center text-center space-y-4 shadow-sm">
+          <div className="w-12 h-12 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center">
+            <AlertTriangle className="w-6 h-6 text-rose-600" />
           </div>
           <div className="space-y-1 max-w-md">
-            <h3 className="text-base font-bold text-white">AI Match Engine Unreachable</h3>
-            <p className="text-xs text-slate-300">
+            <h3 className="text-base font-bold text-slate-900">AI Match Engine Unreachable</h3>
+            <p className="text-xs text-slate-600">
               {fetchError}
             </p>
-            <p className="text-[11px] text-slate-400 mt-2">
-              Ensure the PragatiAI modular backend is active via <code className="bg-slate-800 px-1.5 py-0.5 rounded text-sky-300">npm run dev:server</code> on port 5000.
+            <p className="text-[11px] text-slate-500 mt-2">
+              Ensure the PragatiAI modular backend is active via <code className="bg-slate-100 px-1.5 py-0.5 rounded text-sky-700 font-mono">npm run dev:server</code> on port 5000.
             </p>
           </div>
           <button
             id="btn-retry-matching"
             onClick={() => fetchMatches(selectedChallengeId)}
-            className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-md mt-2"
+            className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-sm mt-2"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Retry AI Evaluation</span>
@@ -238,13 +238,13 @@ export const AIMatching: React.FC = () => {
 
       {/* CANDIDATE SELECTOR TABS STRIP */}
       {!loading && matchingData?.matches && matchingData.matches.length > 0 && (
-        <div className="p-4 rounded-2xl bg-[#0B1528] border border-slate-800 space-y-2">
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-white flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-sky-400" />
+            <span className="font-bold text-slate-900 flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5 text-sky-700" />
               <span>Evaluated Deep-Tech Candidates ({matchingData.matches.length}):</span>
             </span>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-500">
               Select any candidate to inspect evaluation score and solution proposal
             </span>
           </div>
@@ -586,18 +586,18 @@ export const AIMatching: React.FC = () => {
         {activeStartup && (
           <div className="space-y-4 text-xs">
             {/* Header info */}
-            <div className="p-4 rounded-xl bg-[#070E1E] border border-slate-800 space-y-2">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <span className="text-[10px] font-mono text-sky-400 block font-bold">
+                  <span className="text-[10px] font-mono text-sky-700 block font-bold">
                     Startup Candidate ID: {activeStartup.startupId}
                   </span>
-                  <h4 className="text-base font-bold text-white">{activeStartup.startupName}</h4>
-                  <span className="text-xs text-slate-400">{activeStartup.domain} • Stage: {activeStartup.stage}</span>
+                  <h4 className="text-base font-bold text-slate-900">{activeStartup.startupName}</h4>
+                  <span className="text-xs text-slate-600">{activeStartup.domain} • Stage: {activeStartup.stage}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-400 block">Match Score</span>
-                  <span className="text-lg font-mono font-bold text-emerald-400">{activeStartup.overallScore}%</span>
+                  <span className="text-[10px] text-slate-500 block">Match Score</span>
+                  <span className="text-lg font-mono font-bold text-emerald-700">{activeStartup.overallScore}%</span>
                 </div>
               </div>
             </div>
@@ -605,40 +605,40 @@ export const AIMatching: React.FC = () => {
             {/* Proposal Details */}
             <div className="space-y-3">
               <div>
-                <span className="font-bold text-slate-200 block text-xs mb-1">
+                <span className="font-bold text-slate-700 block text-xs mb-1">
                   Target Government Challenge & Department:
                 </span>
-                <p className="text-slate-300 bg-[#070E1E] p-3 rounded-lg border border-slate-800">
-                  <strong className="text-white">{selectedChallenge?.title}</strong> ({selectedChallenge?.id})<br />
-                  <span className="text-sky-400">Department: {selectedChallenge?.department}</span>
+                <p className="text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                  <strong className="text-slate-900">{selectedChallenge?.title}</strong> ({selectedChallenge?.id})<br />
+                  <span className="text-sky-700">Department: {selectedChallenge?.department}</span>
                 </p>
               </div>
 
               <div>
-                <span className="font-bold text-slate-200 block text-xs mb-1">
+                <span className="font-bold text-slate-700 block text-xs mb-1">
                   Technical Solution Proposal:
                 </span>
-                <p className="text-slate-300 bg-[#070E1E] p-3 rounded-lg border border-slate-800 leading-relaxed">
+                <p className="text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-200 leading-relaxed">
                   {activeStartup.startupName} proposes a field-tested deep-tech architecture directly addressing {selectedChallenge?.title}. Utilizing verified {activeStartup.domain} models, edge telemetry, and automated compliance pipelines to fulfill all RFP milestones.
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 rounded-lg bg-[#070E1E] border border-slate-800">
-                  <span className="text-slate-400 block text-[11px]">Pilot Timeline:</span>
-                  <span className="font-bold text-slate-200">{selectedChallenge?.pilotDuration || '90 Days'}</span>
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
+                  <span className="text-slate-500 block text-[11px]">Pilot Timeline:</span>
+                  <span className="font-bold text-slate-800">{selectedChallenge?.pilotDuration || '90 Days'}</span>
                 </div>
-                <div className="p-3 rounded-lg bg-[#070E1E] border border-slate-800">
-                  <span className="text-slate-400 block text-[11px]">Pilot Budget Quoted:</span>
-                  <span className="font-bold text-sky-400">{selectedChallenge?.budgetRange || '₹25 - 50 Lakhs'}</span>
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
+                  <span className="text-slate-500 block text-[11px]">Pilot Budget Quoted:</span>
+                  <span className="font-bold text-sky-700">{selectedChallenge?.budgetRange || '₹25 - 50 Lakhs'}</span>
                 </div>
               </div>
 
               <div>
-                <span className="font-bold text-slate-200 block text-xs mb-1">
+                <span className="font-bold text-slate-700 block text-xs mb-1">
                   Key Verified Strengths:
                 </span>
-                <ul className="list-disc list-inside space-y-1 text-slate-300 bg-[#070E1E] p-3 rounded-lg border border-slate-800 text-[11px]">
+                <ul className="list-disc list-inside space-y-1 text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-200 text-[11px]">
                   {activeStartup.strengths.map((s, idx) => (
                     <li key={idx}>{s}</li>
                   ))}

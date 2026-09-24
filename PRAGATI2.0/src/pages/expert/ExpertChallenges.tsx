@@ -120,8 +120,8 @@ export const ExpertChallenges: React.FC = () => {
               <ShieldCheck className="w-4 h-4 text-purple-600" />
               Statutory Technical Peer Review
             </span>
-            <span className="text-slate-300">•</span>
-            <span className="text-xs text-slate-500 font-medium">Rule 173 GFR / GeM Innovation Portal</span>
+            <span className="text-slate-400">•</span>
+            <span className="text-xs text-slate-600 font-medium">Rule 173 GFR / GeM Innovation Portal</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Review Government Challenges
@@ -161,7 +161,7 @@ export const ExpertChallenges: React.FC = () => {
 
         {/* Category selector */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-          <span className="text-xs text-slate-400 flex items-center gap-1 shrink-0">
+          <span className="text-xs text-slate-500 flex items-center gap-1 shrink-0 font-medium">
             <Filter className="w-3.5 h-3.5" />
             <span>Sector:</span>
           </span>
@@ -173,7 +173,7 @@ export const ExpertChallenges: React.FC = () => {
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors shrink-0 ${
                   selectedCategory === cat
                     ? 'bg-purple-600 text-white font-semibold'
-                    : 'bg-[#070E1E] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
                 {cat}
@@ -185,16 +185,16 @@ export const ExpertChallenges: React.FC = () => {
 
       {/* Challenges Grid */}
       {filtered.length === 0 ? (
-        <div className="p-12 text-center rounded-2xl bg-[#0B1528] border border-slate-800 space-y-3">
-          <Flag className="w-12 h-12 text-slate-500 mx-auto" />
-          <h3 className="text-base font-bold text-white">No Government Challenges Found</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+        <div className="p-12 text-center rounded-2xl bg-white border border-slate-200 space-y-3 shadow-sm">
+          <Flag className="w-12 h-12 text-slate-400 mx-auto" />
+          <h3 className="text-base font-bold text-slate-900">No Government Challenges Found</h3>
+          <p className="text-xs text-slate-600 max-w-sm mx-auto">
             {search ? `No challenges matching "${search}".` : 'No challenges currently registered in the database.'}
           </p>
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="text-xs font-semibold text-purple-400 hover:text-purple-300 mt-2"
+              className="text-xs font-semibold text-purple-700 hover:text-purple-800 mt-2"
             >
               Clear Search Query
             </button>
@@ -206,62 +206,62 @@ export const ExpertChallenges: React.FC = () => {
             <div
               key={ch.id}
               id={`expert-card-${ch.id}`}
-              className="p-6 rounded-2xl bg-[#0B1528] border border-slate-800 hover:border-purple-500/40 transition-all flex flex-col justify-between group shadow-sm"
+              className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-purple-300 transition-all flex flex-col justify-between group shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2">
                     <span 
                       id={`badge-id-${ch.id}`}
-                      className="text-[11px] font-mono font-bold text-purple-300 bg-purple-950/90 border border-purple-800/60 px-2 py-0.5 rounded"
+                      className="text-[11px] font-mono font-bold text-purple-800 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded"
                     >
                       {ch.id}
                     </span>
-                    <span className="text-xs font-semibold text-slate-300 truncate max-w-[200px]">
+                    <span className="text-xs font-semibold text-slate-600 truncate max-w-[200px]">
                       {ch.department}
                     </span>
                   </div>
                   <StatusBadge status={ch.status} />
                 </div>
 
-                <h3 className="text-base font-bold text-white mb-2 leading-snug group-hover:text-purple-300 transition-colors">
+                <h3 className="text-base font-bold text-slate-900 mb-2 leading-snug group-hover:text-purple-700 transition-colors">
                   {ch.title}
                 </h3>
 
-                <p className="text-xs text-slate-300 line-clamp-3 mb-4 leading-relaxed">
+                <p className="text-xs text-slate-600 line-clamp-3 mb-4 leading-relaxed">
                   {ch.problemDescription || (ch as any).problemStatement}
                 </p>
 
-                <div className="grid grid-cols-2 gap-2 text-[11px] bg-[#070E1E] p-3 rounded-xl border border-slate-800/80 mb-4">
+                <div className="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-3 rounded-xl border border-slate-200 mb-4">
                   <div>
-                    <span className="text-slate-400 block">Sanctioned Budget:</span>
-                    <span className="font-bold text-slate-200">{ch.budgetRange || (ch as any).budget || '₹25 - 50 Lakhs'}</span>
+                    <span className="text-slate-500 block">Sanctioned Budget:</span>
+                    <span className="font-bold text-slate-900">{ch.budgetRange || (ch as any).budget || '₹25 - 50 Lakhs'}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Pilot Duration:</span>
-                    <span className="font-bold text-slate-200">{ch.pilotDuration || (ch as any).timeline || '90 Days'}</span>
+                    <span className="text-slate-500 block">Pilot Duration:</span>
+                    <span className="font-bold text-slate-900">{ch.pilotDuration || (ch as any).timeline || '90 Days'}</span>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {(ch.techArea || []).map((tech, i) => (
-                    <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                    <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-medium">
                       {tech}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-1.5 text-slate-400">
-                  <Users className="w-3.5 h-3.5 text-purple-400" />
+              <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5 text-slate-500">
+                  <Users className="w-3.5 h-3.5 text-purple-600" />
                   <span>{ch.applicationsCount || 0} Proposals</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     id={`btn-open-challenge-${ch.id}`}
                     onClick={() => handleOpenDetails(ch)}
-                    className="px-3 py-1.5 rounded-lg bg-purple-950/80 hover:bg-purple-900 border border-purple-700/60 text-purple-300 text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer"
+                    className="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     <span>Review Challenge</span>
@@ -292,35 +292,35 @@ export const ExpertChallenges: React.FC = () => {
         {selectedChallenge && (
           <div className="space-y-6 text-xs">
             {/* Header info pills */}
-            <div className="p-4 rounded-xl bg-[#070E1E] border border-slate-800 space-y-3">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <span 
                     id="modal-challenge-id"
-                    className="text-xs font-mono font-bold text-purple-300 bg-purple-950 border border-purple-700 px-2.5 py-1 rounded-full"
+                    className="text-xs font-mono font-bold text-purple-800 bg-purple-100 border border-purple-300 px-2.5 py-1 rounded-full"
                   >
                     ID: {selectedChallenge.id}
                   </span>
-                  <span className="text-xs text-slate-300 font-semibold">
+                  <span className="text-xs text-slate-700 font-semibold">
                     {selectedChallenge.department}
                   </span>
                 </div>
                 <StatusBadge status={selectedChallenge.status} />
               </div>
-              <h3 id="modal-challenge-title" className="text-lg font-bold text-white">
+              <h3 id="modal-challenge-title" className="text-lg font-bold text-slate-900">
                 {selectedChallenge.title}
               </h3>
             </div>
 
             {/* Problem Statement */}
             <div>
-              <span className="font-bold text-slate-200 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-purple-400" />
+              <span className="font-bold text-slate-700 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 text-purple-600" />
                 Problem Statement:
               </span>
               <p 
                 id="modal-challenge-problem"
-                className="text-slate-300 bg-[#070E1E] p-4 rounded-xl border border-slate-800 leading-relaxed text-xs sm:text-sm"
+                className="text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-200 leading-relaxed text-xs sm:text-sm"
               >
                 {selectedChallenge.problemDescription || (selectedChallenge as any).problemStatement}
               </p>
@@ -328,27 +328,27 @@ export const ExpertChallenges: React.FC = () => {
 
             {/* Department, Sector, Budget & Timeline */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="p-3 rounded-lg bg-[#070E1E] border border-slate-800">
-                <span className="text-slate-400 block text-[11px]">Governing Dept:</span>
-                <span id="modal-challenge-department" className="font-bold text-slate-200 truncate block">
+              <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <span className="text-slate-500 block text-[11px]">Governing Dept:</span>
+                <span id="modal-challenge-department" className="font-bold text-slate-900 truncate block">
                   {selectedChallenge.department}
                 </span>
               </div>
-              <div className="p-3 rounded-lg bg-[#070E1E] border border-slate-800">
-                <span className="text-slate-400 block text-[11px]">Sector / Category:</span>
-                <span id="modal-challenge-sector" className="font-bold text-slate-200 truncate block">
+              <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <span className="text-slate-500 block text-[11px]">Sector / Category:</span>
+                <span id="modal-challenge-sector" className="font-bold text-slate-900 truncate block">
                   {selectedChallenge.category || (selectedChallenge as any).sector || 'General'}
                 </span>
               </div>
-              <div className="p-3 rounded-lg bg-[#070E1E] border border-slate-800">
-                <span className="text-slate-400 block text-[11px]">Sanctioned Budget:</span>
-                <span id="modal-challenge-budget" className="font-bold text-emerald-400 block">
+              <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <span className="text-slate-500 block text-[11px]">Sanctioned Budget:</span>
+                <span id="modal-challenge-budget" className="font-bold text-emerald-700 block">
                   {selectedChallenge.budgetRange || (selectedChallenge as any).budget || '₹25 - 50 Lakhs'}
                 </span>
               </div>
-              <div className="p-3 rounded-lg bg-[#070E1E] border border-slate-800">
-                <span className="text-slate-400 block text-[11px]">Trial Timeline:</span>
-                <span id="modal-challenge-timeline" className="font-bold text-sky-400 block">
+              <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <span className="text-slate-500 block text-[11px]">Trial Timeline:</span>
+                <span id="modal-challenge-timeline" className="font-bold text-sky-700 block">
                   {selectedChallenge.pilotDuration || (selectedChallenge as any).timeline || '90 Days'}
                 </span>
               </div>
@@ -356,13 +356,13 @@ export const ExpertChallenges: React.FC = () => {
 
             {/* Required Technologies */}
             <div>
-              <span className="font-bold text-slate-200 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-purple-400" />
+              <span className="font-bold text-slate-700 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-purple-600" />
                 Required Technologies:
               </span>
               <div id="modal-challenge-technologies" className="flex flex-wrap gap-2">
                 {(selectedChallenge.techArea || []).map((t, i) => (
-                  <span key={i} className="px-2.5 py-1 rounded-lg bg-purple-950/80 border border-purple-800/60 text-purple-300 font-semibold text-xs">
+                  <span key={i} className="px-2.5 py-1 rounded-lg bg-purple-50 border border-purple-200 text-purple-800 font-semibold text-xs">
                     {t}
                   </span>
                 ))}
@@ -372,11 +372,11 @@ export const ExpertChallenges: React.FC = () => {
             {/* Required Capabilities / Requirements */}
             {selectedChallenge.requiredCapabilities && selectedChallenge.requiredCapabilities.length > 0 && (
               <div>
-                <span className="font-bold text-slate-200 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-                  <Target className="w-3.5 h-3.5 text-purple-400" />
+                <span className="font-bold text-slate-700 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+                  <Target className="w-3.5 h-3.5 text-purple-600" />
                   Mandatory Operational Capabilities:
                 </span>
-                <ul id="modal-challenge-capabilities" className="list-disc list-inside space-y-1 text-slate-300 bg-[#070E1E] p-3 rounded-xl border border-slate-800 text-[11px]">
+                <ul id="modal-challenge-capabilities" className="list-disc list-inside space-y-1 text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px]">
                   {selectedChallenge.requiredCapabilities.map((req, i) => (
                     <li key={i}>{req}</li>
                   ))}
@@ -387,14 +387,14 @@ export const ExpertChallenges: React.FC = () => {
             {/* KPIs */}
             {selectedChallenge.kpis && selectedChallenge.kpis.length > 0 && (
               <div>
-                <span className="font-bold text-slate-200 block text-xs mb-1.5 uppercase tracking-wider">
+                <span className="font-bold text-slate-700 block text-xs mb-1.5 uppercase tracking-wider">
                   Target Evaluation KPIs:
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {selectedChallenge.kpis.map((kpi, idx) => (
-                    <div key={idx} className="p-3 rounded-lg bg-[#070E1E] border border-slate-800 text-center">
-                      <span className="text-[10px] text-slate-400 block">{kpi.name}</span>
-                      <span className="text-sm font-bold text-emerald-400 font-mono mt-0.5 block">{kpi.target}</span>
+                    <div key={idx} className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-center">
+                      <span className="text-[10px] text-slate-500 block">{kpi.name}</span>
+                      <span className="text-sm font-bold text-emerald-700 font-mono mt-0.5 block">{kpi.target}</span>
                     </div>
                   ))}
                 </div>
@@ -404,18 +404,18 @@ export const ExpertChallenges: React.FC = () => {
             {/* Evaluation Rubric / Criteria */}
             {selectedChallenge.evaluationCriteria && selectedChallenge.evaluationCriteria.length > 0 && (
               <div>
-                <span className="font-bold text-slate-200 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-                  <Sliders className="w-3.5 h-3.5 text-purple-400" />
+                <span className="font-bold text-slate-700 block text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+                  <Sliders className="w-3.5 h-3.5 text-purple-600" />
                   Statutory Evaluation Rubric & Weights:
                 </span>
-                <div className="space-y-2 bg-[#070E1E] p-3 rounded-xl border border-slate-800">
+                <div className="space-y-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
                   {selectedChallenge.evaluationCriteria.map((crit, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs py-1 border-b border-slate-800/60 last:border-0">
+                    <div key={idx} className="flex items-center justify-between text-xs py-1 border-b border-slate-200 last:border-0">
                       <div>
-                        <span className="font-semibold text-slate-200">{crit.name}</span>
-                        {crit.description && <p className="text-[10px] text-slate-400">{crit.description}</p>}
+                        <span className="font-semibold text-slate-800">{crit.name}</span>
+                        {crit.description && <p className="text-[10px] text-slate-500">{crit.description}</p>}
                       </div>
-                      <span className="font-mono font-bold text-purple-400 bg-purple-950 px-2 py-0.5 rounded border border-purple-800/80">
+                      <span className="font-mono font-bold text-purple-800 bg-purple-100 px-2 py-0.5 rounded border border-purple-200">
                         {crit.weight}%
                       </span>
                     </div>
@@ -425,7 +425,7 @@ export const ExpertChallenges: React.FC = () => {
             )}
 
             {/* Modal Actions */}
-            <div className="pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+            <div className="pt-4 border-t border-slate-200 flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={handleCloseDetails}

@@ -138,7 +138,7 @@ export const AdminDashboard: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
               Platform Administration
             </span>
-            <span className="text-slate-300">•</span>
+            <span className="text-slate-400">•</span>
             <span className="text-xs text-slate-500 font-medium">Smart India Hackathon 2026</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">

@@ -269,7 +269,7 @@ export const StartupDiscovery: React.FC = () => {
       >
         <form onSubmit={handleRegisterSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="block text-slate-300 font-semibold mb-1">Startup Legal / Operating Name *</label>
+            <label className="block text-slate-700 font-semibold mb-1">Startup Legal / Operating Name *</label>
             <input
               type="text"
               required
@@ -282,7 +282,7 @@ export const StartupDiscovery: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">Primary Innovation Domain *</label>
+              <label className="block text-slate-700 font-semibold mb-1">Primary Innovation Domain *</label>
               <select
                 value={formData.domain}
                 onChange={e => setFormData(prev => ({ ...prev, domain: e.target.value }))}
@@ -298,7 +298,7 @@ export const StartupDiscovery: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">Headquarters Location</label>
+              <label className="block text-slate-700 font-semibold mb-1">Headquarters Location</label>
               <input
                 type="text"
                 placeholder="e.g. Hyderabad, Telangana"
@@ -310,7 +310,7 @@ export const StartupDiscovery: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-slate-300 font-semibold mb-1">One-Line Tagline</label>
+            <label className="block text-slate-700 font-semibold mb-1">One-Line Tagline</label>
             <input
               type="text"
               placeholder="e.g. Hyperspectral Drone Scouting & Agronomic AI"
@@ -322,7 +322,7 @@ export const StartupDiscovery: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">Core Tech Stack (Comma separated) *</label>
+              <label className="block text-slate-700 font-semibold mb-1">Core Tech Stack (Comma separated) *</label>
               <input
                 type="text"
                 required
@@ -334,7 +334,7 @@ export const StartupDiscovery: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">Completed Public/Commercial Pilots</label>
+              <label className="block text-slate-700 font-semibold mb-1">Completed Public/Commercial Pilots</label>
               <input
                 type="number"
                 min="0"
@@ -347,7 +347,7 @@ export const StartupDiscovery: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-slate-300 font-semibold mb-1">Overview & Technical Capabilities</label>
+            <label className="block text-slate-700 font-semibold mb-1">Overview & Technical Capabilities</label>
             <textarea
               rows={3}
               placeholder="Describe core IP, models, sensors, and key public deployment strengths..."
@@ -357,7 +357,7 @@ export const StartupDiscovery: React.FC = () => {
             />
           </div>
 
-          <div className="p-3 rounded-lg bg-sky-950/40 border border-sky-800/40 text-[11px] text-sky-200">
+          <div className="p-3 rounded-lg bg-sky-50 border border-sky-200 text-[11px] text-sky-800">
             ✓ Profile will immediately qualify for automated DPIIT statutory eligibility and becomes accessible to the dynamic AI matching engine.
           </div>
 

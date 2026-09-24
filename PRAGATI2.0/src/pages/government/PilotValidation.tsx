@@ -141,26 +141,26 @@ export const PilotValidation: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 mb-1">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+        <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 mb-1">
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
           <span>Statutory Pilot Outcome Verification & Gateway</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
           Pilot Outcome Validation & Decision Gateway
         </h1>
-        <p className="text-xs sm:text-sm text-slate-300 mt-1">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1">
           Authorized human-in-the-loop decision portal comparing audited telemetry against initial RFP benchmarks.
         </p>
       </div>
 
       {/* Pilot Switcher Tabs */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-slate-300">
+        <div className="flex items-center justify-between text-xs text-slate-700">
           <span className="font-bold uppercase tracking-wider flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-sky-400" />
+            <Layers className="w-3.5 h-3.5 text-sky-600" />
             <span>Select Pilot to Validate:</span>
           </span>
-          <span className="text-[11px] text-slate-400">{pilots.length} Pilots Available</span>
+          <span className="text-[11px] text-slate-500">{pilots.length} Pilots Available</span>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -168,53 +168,53 @@ export const PilotValidation: React.FC = () => {
             <button
               key={p.id}
               onClick={() => handleSelectPilot(p.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-medium border transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 cursor-pointer ${
                 p.id === pilot.id
-                  ? 'bg-sky-600 border-sky-400 text-white shadow-md'
-                  : 'bg-[#0B1528] border-slate-800 text-slate-300 hover:bg-[#0F1C36] hover:text-white'
+                  ? 'bg-sky-700 border-sky-600 text-white shadow-sm'
+                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-400 shadow-xs'
               }`}
             >
-              <span>{p.startupName}</span>
-              <span className="text-[10px] opacity-80">({p.status})</span>
+              <span className="font-semibold">{p.startupName}</span>
+              <span className={`text-[10px] ${p.id === pilot.id ? 'text-sky-100' : 'text-slate-500 font-medium'}`}>({p.status})</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* OUTCOME VALIDATION REPORT CARD */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1528] border border-slate-800 shadow-xl space-y-6">
+      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
         {/* Report Top Meta */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800 uppercase">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-200 uppercase">
                 Official Validation Dossier
               </span>
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                 Validation Status: {validationStatus}
               </span>
               <StatusBadge status={pilot.status} />
             </div>
-            <h2 className="text-xl font-bold text-white mt-1">
+            <h2 className="text-xl font-bold text-slate-900 mt-1">
               {pilot.title || pilot.challengeTitle}
             </h2>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mt-1">
-              <span>Startup: <strong className="text-sky-400">{pilot.startupName}</strong></span>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
+              <span>Startup: <strong className="text-sky-700 font-semibold">{pilot.startupName}</strong></span>
               <span>•</span>
-              <span>Department: <strong className="text-slate-300">{pilot.department}</strong></span>
+              <span>Department: <strong className="text-slate-800 font-medium">{pilot.department}</strong></span>
               <span>•</span>
-              <span>Duration: <strong className="text-slate-300">{pilot.pilotDuration}</strong></span>
+              <span>Duration: <strong className="text-slate-800 font-medium">{pilot.pilotDuration}</strong></span>
               <span>•</span>
-              <span>Location: <strong className="text-slate-300">{pilot.pilotLocation || 'Bengaluru Corridor'}</strong></span>
+              <span>Location: <strong className="text-slate-800 font-medium">{pilot.pilotLocation || 'Bengaluru Corridor'}</strong></span>
             </div>
           </div>
 
           <div className="sm:text-right shrink-0">
-            <span className="text-xs text-slate-400 block">Overall KPI Validation Score</span>
-            <div className="text-3xl font-black text-emerald-400 font-mono">
+            <span className="text-xs text-slate-500 block">Overall KPI Validation Score</span>
+            <div className="text-3xl font-black text-emerald-700 font-mono">
               {overallScore}/100
             </div>
-            <span className="text-[11px] text-emerald-400 font-medium">
+            <span className="text-[11px] text-emerald-700 font-medium">
               {achievementPct}% Target Fulfillment
             </span>
           </div>
@@ -223,11 +223,11 @@ export const PilotValidation: React.FC = () => {
         {/* AUDITED KPI RESULTS TABLE (TARGET VS ACTUAL) */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-              <Target className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <Target className="w-4 h-4 text-emerald-600" />
               <span>Target vs Actual Audited Outcomes ({kpis.length} KPIs)</span>
             </h3>
-            <span className="text-[11px] text-slate-400 font-mono">
+            <span className="text-[11px] text-slate-500 font-mono font-medium">
               Fulfillment Rate: {achievementPct}%
             </span>
           </div>
@@ -238,32 +238,32 @@ export const PilotValidation: React.FC = () => {
               return (
                 <div
                   key={idx}
-                  className={`p-4 rounded-xl border ${
+                  className={`p-4 rounded-xl border transition-all ${
                     isMet
-                      ? 'bg-[#070E1E] border-emerald-500/30'
-                      : 'bg-[#070E1E] border-rose-500/30'
+                      ? 'bg-emerald-50/40 border-emerald-200'
+                      : 'bg-rose-50/40 border-rose-200'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-semibold text-slate-200 truncate">{kpi.name}</span>
+                    <span className="text-xs font-bold text-slate-900 truncate">{kpi.name}</span>
                     <StatusBadge status={kpi.status} size="sm" />
                   </div>
                   <div className="flex items-baseline gap-2 mb-1">
-                    <span className={`text-2xl font-extrabold ${isMet ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <span className={`text-2xl font-extrabold ${isMet ? 'text-emerald-700' : 'text-rose-700'}`}>
                       {kpi.actual}
                     </span>
-                    <span className="text-xs text-slate-400">vs Target {kpi.target}</span>
+                    <span className="text-xs text-slate-500">vs Target {kpi.target}</span>
                   </div>
                   {kpi.baseline && (
                     <span className="text-[10px] text-slate-500 block">
                       Baseline: {kpi.baseline}
                     </span>
                   )}
-                  <span className={`text-[10px] font-semibold block mt-1 ${isMet ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  <span className={`text-[10px] font-semibold block mt-1 ${isMet ? 'text-emerald-700' : 'text-rose-700'}`}>
                     {isMet ? '✓ Verified within target bounds' : '⚠ Did not satisfy RFP limit'}
                   </span>
                   {kpi.evidenceNotes && (
-                    <p className="text-[10px] text-slate-400 mt-2 pt-2 border-t border-slate-800/80 italic line-clamp-2">
+                    <p className="text-[10px] text-slate-600 mt-2 pt-2 border-t border-slate-200/80 italic line-clamp-2">
                       {kpi.evidenceNotes}
                     </p>
                   )}

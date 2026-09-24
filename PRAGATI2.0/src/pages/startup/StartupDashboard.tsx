@@ -62,7 +62,7 @@ export const StartupDashboard: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">RoadVision AI</span>
-            <span className="text-slate-300">•</span>
+            <span className="text-slate-400">•</span>
             <span className="text-xs text-slate-500 font-medium">DPIIT Recognized Deep-Tech Startup</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
