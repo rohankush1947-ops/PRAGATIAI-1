@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:server": "tsx server/src/index.ts",
-    "dev:all": "concurrently -k -n \"CLIENT,SERVER\" -c \"cyan.bold,green.bold\" \"vite\" \"tsx server/src/index.ts\"",
+    "dev:server": "tsx watch server/src/index.ts",
+    "dev:all": "concurrently -k -n \"CLIENT,SERVER\" -c \"cyan.bold,green.bold\" \"vite\" \"tsx watch server/src/index.ts\"",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

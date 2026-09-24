@@ -178,6 +178,7 @@ export type PilotValidationStatus =
 
 export interface PilotProject {
   id: string;
+  applicationId?: string;
   title?: string;
   challengeId: string;
   challengeTitle: string;
@@ -207,25 +208,52 @@ export interface PilotProject {
   authorizedOfficial?: string;
 }
 
+export type ProcurementContractStatus = 
+  | 'Draft' 
+  | 'Drafted' 
+  | 'Under Review' 
+  | 'Approved' 
+  | 'Active' 
+  | 'Completed';
+
+export interface ProcurementMilestone {
+  milestoneNumber: number;
+  title: string;
+  payout: string;
+  status: 'Released' | 'Pending Verification' | 'Upcoming';
+  deliverable: string;
+  dueDate?: string;
+  releasedDate?: string;
+}
+
 export interface ProcurementContract {
   id: string;
+  referenceId?: string;
   pilotId: string;
+  pilotTitle?: string;
+  challengeId?: string;
   challengeTitle: string;
+  startupId?: string;
   startupName: string;
   department: string;
   validatedSolution: string;
   pilotResultsSummary: string;
   approvedBudget: string;
+  contractValue?: string;
   procurementMethod: string;
-  contractStatus: 'Drafted' | 'Under Review' | 'Active' | 'Completed';
+  contractStatus: ProcurementContractStatus;
+  contractStartDate?: string;
+  contractEndDate?: string;
   executedDate: string;
-  milestones: Array<{
-    milestoneNumber: number;
-    title: string;
-    payout: string;
-    status: 'Released' | 'Pending Verification' | 'Upcoming';
-    deliverable: string;
-  }>;
+  deliverables?: string;
+  paymentInfo?: string;
+  notes?: string;
+  evaluationId?: string;
+  expertScore?: number;
+  validationDecision?: string;
+  validationScore?: number;
+  governmentOfficer?: string;
+  milestones: ProcurementMilestone[];
 }
 
 export interface ScaleUpPlan {

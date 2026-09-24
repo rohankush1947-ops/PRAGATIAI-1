@@ -14,13 +14,14 @@ import {
   CheckSquare, 
   Calendar,
   Layers,
-  Sparkles
+  Sparkles,
+  ShoppingCart
 } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { LifecyclePipelineStepper } from '../../components/common/LifecyclePipelineStepper';
 
 export const StartupDashboard: React.FC = () => {
-  const { challenges, applications, pilots } = usePragati();
+  const { challenges, applications, pilots, procurementContracts } = usePragati();
 
   // Dashboard Cards: Open Opportunities, Applications Submitted, Shortlisted, Active Pilots, Completed Pilots
   const statCards = [
@@ -158,6 +159,32 @@ export const StartupDashboard: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Procurement Status for Selected Solution */}
+            {procurementContracts && procurementContracts.length > 0 && (
+              <div className="p-3 rounded-xl bg-purple-50/70 border border-purple-200 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
+                    <ShoppingCart className="w-3.5 h-3.5" />
+                    <span>Awarded Innovation Procurement Contract</span>
+                  </span>
+                  <StatusBadge status={procurementContracts[0].contractStatus} size="sm" />
+                </div>
+                <h4 className="text-sm font-bold text-slate-900">
+                  {procurementContracts[0].validatedSolution || procurementContracts[0].challengeTitle}
+                </h4>
+                <div className="flex items-center justify-between text-[11px] text-slate-600 pt-1">
+                  <span>Contract Value: <strong className="text-purple-900 font-mono">{procurementContracts[0].approvedBudget}</strong></span>
+                  <Link
+                    to="/government/procurement"
+                    className="text-purple-700 hover:text-purple-800 font-semibold inline-flex items-center gap-1"
+                  >
+                    <span>View Contract & Payouts</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="pt-2 border-t border-slate-200 flex items-center justify-between">

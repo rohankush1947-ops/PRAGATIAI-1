@@ -9,6 +9,24 @@ router.get('/', (req, res) => {
   res.json(db.notifications);
 });
 
+// POST create notification
+router.post('/', (req, res) => {
+  const db = getDb();
+  const { title, message, type } = req.body;
+  const newNotif = {
+    id: `notif-${Date.now()}`,
+    title: title || 'System Notification',
+    message: message || '',
+    time: 'Just now',
+    read: false,
+    type: type || 'system'
+  };
+  db.notifications = db.notifications || [];
+  db.notifications.unshift(newNotif);
+  saveDb(db);
+  res.status(201).json(newNotif);
+});
+
 // POST mark as read
 router.post('/:id/read', (req, res) => {
   const db = getDb();

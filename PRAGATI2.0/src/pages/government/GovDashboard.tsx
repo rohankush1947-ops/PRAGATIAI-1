@@ -36,13 +36,20 @@ import {
 } from 'recharts';
 
 export const GovDashboard: React.FC = () => {
-  const { challenges, pilots, applications, auditLogs, scaleUpPlan } = usePragati();
+  const { challenges, pilots, applications, auditLogs, scaleUpPlan, procurementContracts } = usePragati();
   const navigate = useNavigate();
 
   const selectedStartupsCount = applications.filter(a => a.status === 'Shortlisted' || a.status === 'Pilot' || a.status === 'Validated').length;
   const activePilotsCount = pilots.filter(p => p.status === 'Active' || p.status === 'In Progress' || p.status === 'Planning' || p.status === 'Approved').length;
   const totalKpisCount = pilots.reduce((acc, p) => acc + (p.kpis?.length || 0), 0);
   const pendingValidationsCount = pilots.filter(p => p.status === 'Under Evaluation' || p.status === 'Under Validation' || p.validationStatus === 'Pending' || p.validationStatus === 'Under Review' || !p.validationDecision).length;
+
+  // Procurement breakdown: Pending, Approved, Active, Completed
+  const contractsList = procurementContracts || [];
+  const procurementPendingCount = contractsList.filter(c => c.contractStatus === 'Draft' || c.contractStatus === 'Under Review' || c.contractStatus === 'Drafted').length;
+  const approvedProcurementCount = contractsList.filter(c => c.contractStatus === 'Approved').length;
+  const activeProcurementCount = contractsList.filter(c => c.contractStatus === 'Active').length;
+  const completedProcurementCount = contractsList.filter(c => c.contractStatus === 'Completed').length;
 
   // Prominently displaying: Selected Startups, Active Pilots, KPI Monitoring, Pending Validations
   const kpiStats = [
@@ -149,6 +156,90 @@ export const GovDashboard: React.FC = () => {
             </Link>
           );
         })}
+      </div>
+
+      {/* FAST-TRACK INNOVATION PROCUREMENT PIPELINE (PROMPT MANDATED) */}
+      <div className="p-6 rounded-2xl bg-white border border-purple-200/80 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-50 text-purple-800 border border-purple-200 uppercase">
+                Fast-Track Commercialization
+              </span>
+              <h3 className="text-sm font-bold text-slate-900">
+                Rule 173 GFR Innovation Procurement Pipeline
+              </h3>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Direct purchase contracts and milestone-linked escrow disbursements for validated solutions.
+            </p>
+          </div>
+          <Link
+            to="/government/procurement"
+            className="text-xs font-bold text-purple-700 hover:text-purple-800 flex items-center gap-1 self-start sm:self-auto"
+          >
+            <span>Manage All Procurement</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          {/* Procurement Pending */}
+          <Link
+            to="/government/procurement"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200 hover:border-purple-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-purple-800">
+              Procurement Pending
+            </span>
+            <div className="text-2xl font-black text-amber-600 font-mono mt-1">
+              {procurementPendingCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Draft & Under Review</span>
+          </Link>
+
+          {/* Approved Procurement */}
+          <Link
+            to="/government/procurement"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200 hover:border-purple-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-purple-800">
+              Approved Procurement
+            </span>
+            <div className="text-2xl font-black text-emerald-600 font-mono mt-1">
+              {approvedProcurementCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Sanctioned by Finance</span>
+          </Link>
+
+          {/* Active Procurement */}
+          <Link
+            to="/government/procurement"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200 hover:border-purple-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-purple-800">
+              Active Procurement
+            </span>
+            <div className="text-2xl font-black text-sky-700 font-mono mt-1">
+              {activeProcurementCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Escrow Disbursing</span>
+          </Link>
+
+          {/* Completed Procurement */}
+          <Link
+            to="/government/procurement"
+            className="p-3.5 rounded-xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200 hover:border-purple-300 transition-all block group"
+          >
+            <span className="text-[11px] font-semibold text-slate-600 block group-hover:text-purple-800">
+              Completed Procurement
+            </span>
+            <div className="text-2xl font-black text-emerald-700 font-mono mt-1">
+              {completedProcurementCount}
+            </div>
+            <span className="text-[10px] text-slate-400 block mt-0.5">Final Payouts Cleared</span>
+          </Link>
+        </div>
       </div>
 
       {/* ACTIVE SPOTLIGHT STORY: ROADVISION AI PILOT */}

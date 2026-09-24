@@ -152,6 +152,17 @@ export const api = {
 
   // Procurement
   getProcurement: () => fetchJson<ProcurementContract[]>('/procurement'),
+  getEligibleProcurementPilots: () => fetchJson<any[]>('/procurement/eligible-pilots'),
+  createProcurementContract: (contractData: Partial<ProcurementContract>) =>
+    fetchJson<ProcurementContract>('/procurement/create', {
+      method: 'POST',
+      body: JSON.stringify(contractData)
+    }),
+  updateProcurementStatus: (contractId: string, status: string, notes?: string, authorizedOfficial?: string) =>
+    fetchJson<ProcurementContract>(`/procurement/${contractId}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status, notes, authorizedOfficial })
+    }),
   releaseMilestonePayout: (contractId: string, milestoneNumber: number) =>
     fetchJson<ProcurementContract>(`/procurement/${contractId}/milestones/${milestoneNumber}/release`, {
       method: 'POST'
