@@ -160,6 +160,51 @@ export const INITIAL_CHALLENGES: Challenge[] = [
       { name: 'Impact', weight: 40, maxScore: 40, description: 'Estimated million liters of water saved daily' }
     ],
     applicationsCount: 11
+  },
+  {
+    id: 'ch-traffic-05',
+    title: 'AI-Based Smart Traffic Management & Adaptive Signal Control',
+    department: 'Urban Development Department',
+    category: 'Urban Mobility & Smart Traffic',
+    status: 'Applications Open',
+    createdAt: '2026-09-10',
+    deadline: '2026-11-15',
+    budgetRange: '₹45 - 60 Lakhs',
+    pilotDuration: '120 Days',
+    currentSituation: 'Urban arterial corridors suffer from rigid, timer-based signal cycles leading to heavy congestion, high idling emissions, and emergency vehicle delays.',
+    problemDescription: 'Deploy real-time edge-AI computer vision and sensor networks to dynamically adjust traffic signal green-times based on live intersection queue density and ensure automated green-wave preemption for emergency vehicles.',
+    targetOutcome: 'Reduce peak-hour corridor commute delays by ≥ 25%, ensure 100% emergency vehicle green-wave preemption, and reduce junction idling emissions by 20%.',
+    techArea: ['Computer Vision', 'Edge AI', 'IoT Telemetry', 'Reinforcement Learning', 'Traffic Flow Modeling'],
+    requiredCapabilities: [
+      'Real-time vehicle queue length estimation at urban intersections',
+      'Dynamic green signal recalculation based on live corridor congestion',
+      'Emergency vehicle (ambulance/fire) green-wave preemption',
+      'Interface compatibility with SCATS/CoTCS or standard ITMS controllers'
+    ],
+    kpis: [
+      { name: 'Corridor Delay Reduction', target: '≥ 25%', unit: '%' },
+      { name: 'Emergency Vehicle Preemption Success', target: '100%', unit: '%' },
+      { name: 'Vehicle Classification Accuracy under Mixed Traffic', target: '≥ 92%', unit: '%' }
+    ],
+    constraints: [
+      'Must handle Indian mixed traffic conditions (2-wheelers, auto-rickshaws, pedestrians)',
+      'Local fail-safe fallback to fixed cycles during power or network interruption',
+      'Adhere to MoRTH ITS and CERT-In data security standards'
+    ],
+    eligibility: {
+      startupAgeYears: 7,
+      turnover: 'Up to ₹25 Cr (DPIIT Recognized)',
+      minExperienceYears: 2,
+      techRequirements: ['Proprietary CV/ML model for traffic flow', 'Edge computing hardware readiness'],
+      certifications: ['DPIIT Startup Certificate', 'ISO 9001 or ISO 27001']
+    },
+    evaluationCriteria: [
+      { name: 'Technical Capability', weight: 30, maxScore: 30, description: 'Model accuracy, edge latency, adaptive controller interface' },
+      { name: 'Scalability & Integration', weight: 25, maxScore: 25, description: 'ITMS/SCATS compatibility and multi-junction coordination' },
+      { name: 'Public Impact & Congestion Relief', weight: 25, maxScore: 25, description: 'Demonstrated reduction in corridor wait times and emissions' },
+      { name: 'Cost Effectiveness', weight: 20, maxScore: 20, description: 'Per-intersection deployment and maintenance cost' }
+    ],
+    applicationsCount: 16
   }
 ];
 
@@ -334,6 +379,35 @@ export const MOCK_STARTUPS: Startup[] = [
     overview: 'Creates voice-enabled AI learning tutors that run locally on low-cost government school tablets in Hindi, Tamil, Telugu, and Marathi without internet dependency.',
     pastProjects: [
       { name: 'DIET Tribal School Literacy Initiative', client: 'Samagra Shiksha Abhiyan', impact: 'Improved reading comprehension scores by 34% across 80 schools' }
+    ]
+  },
+  {
+    id: 'startup-smartmobility',
+    name: 'Smart Mobility AI',
+    tagline: 'Multimodal Transit Corridor Optimization & AI Traffic Flow Prediction',
+    domain: 'Urban Mobility & Intelligent Transit',
+    techStack: ['Edge AI', 'Traffic Flow Modeling', 'Computer Vision', 'SCATS/ITMS API', 'GIS Transit Feeds'],
+    location: 'Pune, Maharashtra',
+    stage: 'Growth (Series A)',
+    foundedYear: 2022,
+    pilotReadiness: 'High',
+    eligibilityStatus: 'Eligible',
+    teamSize: 26,
+    revenueRange: '₹3.6 Cr',
+    completedPilotsCount: 4,
+    certifications: ['DPIIT Recognized (DIPP94321)', 'ISO 9001:2015', 'MoRTH ITS Certified', 'Make in India Certified'],
+    matchScore: 93,
+    matchBreakdown: {
+      techMatch: 95,
+      domainExperience: 94,
+      pilotReadiness: 92,
+      scalability: 90,
+      eligibility: 100
+    },
+    overview: 'Smart Mobility AI builds corridor-level traffic flow neural networks and intersection coordination software that dynamically synchronizes signal corridors, prioritizes public buses and emergency vehicles, and eliminates bottleneck delays across smart city road networks.',
+    pastProjects: [
+      { name: 'Pune Smart City Corridor Signal Coordination', client: 'Pune Municipal Corp & Traffic Police', impact: 'Reduced arterial corridor congestion by 24% across 8 consecutive junctions' },
+      { name: 'Surat BRTS Intelligent Transit Signal Priority', client: 'Surat Urban Transport Board', impact: 'Maintained 99.1% on-time rapid transit schedule compliance' }
     ]
   }
 ];

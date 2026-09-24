@@ -397,6 +397,23 @@ export interface AIMatchBreakdownFactor {
   desc: string;
 }
 
+export interface ExcludedStartupEvaluation {
+  startupId: string;
+  startupName: string;
+  tagline: string;
+  domain: string;
+  stage?: string;
+  location?: string;
+  exclusionCategory: 'Department Mismatch' | 'Domain Mismatch' | 'Capability Mismatch' | 'Challenge Requirements Mismatch';
+  exclusionReason: string;
+  departmentMatch: boolean;
+  domainMatch: boolean;
+  capabilityMatch: boolean;
+  requirementMatch: boolean;
+  technologyMatch: boolean;
+  compatibilityScore: number;
+}
+
 export interface AIMatchResult {
   rank: number;
   startupId: string;
@@ -421,6 +438,17 @@ export interface AIMatchResult {
   strengths: string[];
   riskFactors: string[];
   gaps?: string[];
+  // Hard Relevance Gating fields
+  relevant?: boolean;
+  departmentMatch?: boolean;
+  domainRelevanceMatch?: boolean;
+  problemMatch?: boolean;
+  requirementMatch?: boolean;
+  capabilityMatch?: boolean;
+  relevanceScore?: number;
+  matchedRequirements?: string[];
+  matchingCapabilities?: string[];
+  reason?: string;
 }
 
 export interface AIMatchingResponse {
@@ -431,6 +459,7 @@ export interface AIMatchingResponse {
   totalEvaluated: number;
   weightsUsed: Record<string, number>;
   matches: AIMatchResult[];
+  excludedMatches?: ExcludedStartupEvaluation[];
   mode?: 'ai' | 'fallback';
   modelUsed?: string;
   timestamp?: string;

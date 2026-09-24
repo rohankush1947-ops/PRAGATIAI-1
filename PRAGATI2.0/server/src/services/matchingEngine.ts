@@ -24,6 +24,39 @@ export interface MatchBreakdownFactor {
   desc: string;
 }
 
+export const RELEVANCE_THRESHOLD = 60;
+
+export interface RelevanceGateResult {
+  isRelevant: boolean;
+  departmentMatch: boolean;
+  domainMatch: boolean;
+  capabilityMatch: boolean;
+  requirementMatch: boolean;
+  technologyMatch: boolean;
+  relevanceScore: number;
+  exclusionCategory?: 'Department Mismatch' | 'Domain Mismatch' | 'Capability Mismatch' | 'Challenge Requirements Mismatch';
+  exclusionReason?: string;
+  matchedRequirements: string[];
+  matchingCapabilities: string[];
+}
+
+export interface ExcludedStartupEvaluation {
+  startupId: string;
+  startupName: string;
+  tagline: string;
+  domain: string;
+  stage?: string;
+  location?: string;
+  exclusionCategory: 'Department Mismatch' | 'Domain Mismatch' | 'Capability Mismatch' | 'Challenge Requirements Mismatch';
+  exclusionReason: string;
+  departmentMatch: boolean;
+  domainMatch: boolean;
+  capabilityMatch: boolean;
+  requirementMatch: boolean;
+  technologyMatch: boolean;
+  compatibilityScore: number;
+}
+
 export interface StartupMatchEvaluation {
   rank: number;
   startupId: string;
@@ -47,6 +80,17 @@ export interface StartupMatchEvaluation {
   breakdown: MatchBreakdownFactor[];
   strengths: string[];
   riskFactors: string[];
+  // Relevance fields
+  relevant?: boolean;
+  departmentMatch?: boolean;
+  domainRelevanceMatch?: boolean;
+  problemMatch?: boolean;
+  requirementMatch?: boolean;
+  capabilityMatch?: boolean;
+  relevanceScore?: number;
+  matchedRequirements?: string[];
+  matchingCapabilities?: string[];
+  reason?: string;
 }
 
 export interface MatchingEvaluationResult {
@@ -57,6 +101,10 @@ export interface MatchingEvaluationResult {
   totalEvaluated: number;
   weightsUsed: MatchingWeights;
   matches: StartupMatchEvaluation[];
+  excludedMatches?: ExcludedStartupEvaluation[];
+  mode?: 'ai' | 'fallback';
+  modelUsed?: string;
+  timestamp?: string;
 }
 
 // Structured domain dictionary for precision sector determination
@@ -165,6 +213,191 @@ function resolveChallengeSector(challenge: any): string {
   }
 
   return bestSector;
+}
+
+export const SECTOR_CROSS_INCOMPATIBILITY: Record<string, string[]> = {
+  urban_mobility: ['agriculture', 'healthcare', 'water_utilities', 'education', 'renewable_energy', 'civic_governance'],
+  road_infra: ['agriculture', 'healthcare', 'water_utilities', 'education', 'renewable_energy', 'civic_governance'],
+  agriculture: ['urban_mobility', 'road_infra', 'healthcare', 'water_utilities', 'education', 'renewable_energy', 'civic_governance', 'urban_waste'],
+  healthcare: ['urban_mobility', 'road_infra', 'agriculture', 'water_utilities', 'education', 'renewable_energy', 'civic_governance', 'urban_waste'],
+  water_utilities: ['urban_mobility', 'road_infra', 'agriculture', 'healthcare', 'education', 'renewable_energy', 'civic_governance'],
+  education: ['urban_mobility', 'road_infra', 'agriculture', 'healthcare', 'water_utilities', 'renewable_energy', 'civic_governance', 'urban_waste'],
+};
+
+/**
+ * Resolves the primary operating sector of a startup
+ */
+export function resolveStartupSector(startup: any): string {
+  const text = `${startup.domain || ''} ${startup.tagline || ''} ${startup.overview || ''} ${(startup.techStack || []).join(' ')}`.toLowerCase();
+  
+  let bestSector = 'unknown';
+  let bestScore = -1;
+
+  for (const [sectorKey, sector] of Object.entries(DOMAIN_SECTORS)) {
+    let score = 0;
+    sector.keywords.forEach(kw => {
+      if ((startup.domain || '').toLowerCase().includes(kw)) score += 5;
+      if ((startup.tagline || '').toLowerCase().includes(kw)) score += 3;
+      if (text.includes(kw)) score += 1;
+    });
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestSector = sectorKey;
+    }
+  }
+
+  return bestSector;
+}
+
+/**
+ * Deterministic Hard Relevance Gating: Evaluates if a startup is genuinely eligible
+ * and capable of solving the specific challenge before detailed ranking.
+ */
+export function checkStartupRelevance(startup: any, challenge: any): RelevanceGateResult {
+  const challengeSector = resolveChallengeSector(challenge);
+  const startupSector = resolveStartupSector(startup);
+
+  const stDomain = (startup.domain || '').toLowerCase();
+  const stText = `${startup.name || ''} ${startup.tagline || ''} ${stDomain} ${startup.overview || ''} ${(startup.techStack || []).join(' ')}`.toLowerCase();
+  const chDept = (challenge.department || '').toLowerCase();
+  const chCategory = (challenge.category || '').toLowerCase();
+  const chTitle = (challenge.title || '').toLowerCase();
+  const chDesc = `${challenge.problemDescription || ''} ${challenge.description || ''}`.toLowerCase();
+
+  const reqList: string[] = [
+    ...(challenge.requiredCapabilities || []),
+    ...(challenge.techArea || []),
+    ...(challenge.eligibility?.techRequirements || [])
+  ];
+
+  // Detect matched requirements
+  const matchedRequirements: string[] = [];
+  reqList.forEach(req => {
+    const cleanReq = req.toLowerCase();
+    const words = cleanReq.split(/[\s,/-]+/).filter((w: string) => w.length > 3);
+    const hasMatch = words.some((w: string) => stText.includes(w));
+    if (hasMatch && !matchedRequirements.includes(req)) {
+      matchedRequirements.push(req);
+    }
+  });
+
+  // Extract matching capabilities
+  const matchingCapabilities: string[] = [];
+  (startup.techStack || []).forEach((tech: string) => {
+    const cleanTech = tech.toLowerCase();
+    if (chDesc.includes(cleanTech) || chTitle.includes(cleanTech) || reqList.some(r => r.toLowerCase().includes(cleanTech))) {
+      if (!matchingCapabilities.includes(tech)) matchingCapabilities.push(tech);
+    }
+  });
+  if (matchingCapabilities.length === 0 && startup.techStack && startup.techStack.length > 0) {
+    matchingCapabilities.push(startup.techStack[0]);
+    if (startup.techStack[1]) matchingCapabilities.push(startup.techStack[1]);
+  }
+
+  // 1. Department Filter
+  let departmentMatch = true;
+
+  if (chDept.includes('agri') || chDept.includes('farmer') || chDept.includes('krishi') || challengeSector === 'agriculture') {
+    departmentMatch = startupSector === 'agriculture' || stDomain.includes('agri') || stDomain.includes('crop') || stDomain.includes('farm');
+  } else if (chDept.includes('health') || chDept.includes('hospital') || chDept.includes('medical') || challengeSector === 'healthcare') {
+    departmentMatch = startupSector === 'healthcare' || stDomain.includes('health') || stDomain.includes('hospital') || stDomain.includes('medical') || stDomain.includes('abdm');
+  } else if (chDept.includes('water') || chDept.includes('jal jeevan') || challengeSector === 'water_utilities') {
+    departmentMatch = startupSector === 'water_utilities' || stDomain.includes('water') || stDomain.includes('leak') || stDomain.includes('utility');
+  } else if (chDept.includes('education') || chDept.includes('school') || chDept.includes('shiksha') || challengeSector === 'education') {
+    departmentMatch = startupSector === 'education' || stDomain.includes('edtech') || stDomain.includes('education') || stDomain.includes('literacy');
+  } else if (chDept.includes('public works') || chDept.includes('pwd') || chDept.includes('nhai') || challengeSector === 'road_infra') {
+    departmentMatch = startupSector === 'road_infra' || startupSector === 'urban_mobility' || stDomain.includes('infrastructure') || stDomain.includes('road') || stDomain.includes('transport');
+  } else if (chDept.includes('urban development') || chDept.includes('traffic') || chDept.includes('municipal') || challengeSector === 'urban_mobility') {
+    departmentMatch = startupSector === 'urban_mobility' || startupSector === 'road_infra' || stDomain.includes('traffic') || stDomain.includes('mobility') || stDomain.includes('urban');
+  }
+
+  // Check cross-sector strict incompatibility
+  const incompatibleWithChallenge = SECTOR_CROSS_INCOMPATIBILITY[challengeSector] || [];
+  if (incompatibleWithChallenge.includes(startupSector)) {
+    departmentMatch = false;
+  }
+
+  // 2. Domain Match Filter
+  let domainMatch = true;
+  if (!departmentMatch) {
+    domainMatch = false;
+  } else if (challengeSector === startupSector) {
+    domainMatch = true;
+  } else if (
+    (challengeSector === 'urban_mobility' && startupSector === 'road_infra') ||
+    (challengeSector === 'road_infra' && startupSector === 'urban_mobility')
+  ) {
+    domainMatch = true;
+  } else {
+    domainMatch = false;
+  }
+
+  // 3. Capability Match Filter
+  let capabilityMatch = true;
+  if (!departmentMatch || !domainMatch) {
+    capabilityMatch = false;
+  } else if (matchedRequirements.length === 0 && matchingCapabilities.length === 0) {
+    capabilityMatch = false;
+  }
+
+  // 4. Technology Match
+  const technologyMatch = matchedRequirements.length > 0 || (startup.techStack || []).some((st: string) => {
+    const s = st.toLowerCase();
+    return chDesc.includes(s) || chTitle.includes(s);
+  });
+
+  // 5. Requirement Match
+  const requirementMatch = matchedRequirements.length >= 1;
+
+  // 6. Relevance Score calculation
+  let relevanceScore = 0;
+  if (!departmentMatch || !domainMatch) {
+    relevanceScore = Math.min(25, (matchedRequirements.length * 4) + 10);
+  } else {
+    let base = 65;
+    if (challengeSector === startupSector) base += 20;
+    base += Math.min(10, matchedRequirements.length * 3);
+    base += Math.min(5, matchingCapabilities.length * 2);
+    relevanceScore = Math.min(99, Math.max(50, base));
+  }
+
+  // 7. Overall Gating Decision
+  const isRelevant = departmentMatch && domainMatch && capabilityMatch && relevanceScore >= RELEVANCE_THRESHOLD;
+
+  // 8. Exclusion Category & Reason
+  let exclusionCategory: RelevanceGateResult['exclusionCategory'];
+  let exclusionReason: string | undefined;
+
+  if (!isRelevant) {
+    if (!departmentMatch) {
+      exclusionCategory = 'Department Mismatch';
+      exclusionReason = `${startup.name} operates in ${startup.domain}, which is not eligible for ${challenge.department} tenders.`;
+    } else if (!domainMatch) {
+      exclusionCategory = 'Domain Mismatch';
+      exclusionReason = `${startup.name} specializes in ${startup.domain}, which diverges from the required ${challenge.category} domain.`;
+    } else if (!capabilityMatch) {
+      exclusionCategory = 'Capability Mismatch';
+      exclusionReason = `${startup.name}'s technical capabilities do not provide a viable solution for the specific requirements of "${challenge.title}".`;
+    } else {
+      exclusionCategory = 'Challenge Requirements Mismatch';
+      exclusionReason = `${startup.name} capability relevance score (${relevanceScore}%) does not meet the minimum threshold of ${RELEVANCE_THRESHOLD}%.`;
+    }
+  }
+
+  return {
+    isRelevant,
+    departmentMatch,
+    domainMatch,
+    capabilityMatch,
+    requirementMatch,
+    technologyMatch,
+    relevanceScore,
+    exclusionCategory,
+    exclusionReason,
+    matchedRequirements,
+    matchingCapabilities
+  };
 }
 
 /**
@@ -498,158 +731,163 @@ export function evaluateChallengeMatches(
 ): MatchingEvaluationResult {
   const weights = normalizeWeights(customWeights);
 
-  const evaluations: StartupMatchEvaluation[] = startups
-    .filter(st => {
-      if (filters?.eligibleOnly && st.eligibilityStatus === 'Ineligible') return false;
-      if (filters?.minReadiness === 'High' && st.pilotReadiness !== 'High') return false;
-      if (filters?.minReadiness === 'Medium' && st.pilotReadiness === 'Low') return false;
-      return true;
-    })
-    .map(st => {
-      const tech = calculateTechnologyMatch(st, challenge);
-      const domain = calculateDomainMatch(st, challenge);
-      const exp = calculateExperienceMatch(st, challenge);
-      const readiness = calculatePilotReadiness(st);
-      const scalability = calculateScalability(st, challenge);
-      const eligibility = calculateEligibility(st, challenge);
+  const matches: StartupMatchEvaluation[] = [];
+  const excludedMatches: ExcludedStartupEvaluation[] = [];
 
-      // Domain Gate: Irrelevant startups cannot get recommended
-      const isDomainIncompatible = domain.domainMatchLevel === 'Divergent Domain' || domain.score < 30;
+  for (const st of startups) {
+    if (filters?.eligibleOnly && st.eligibilityStatus === 'Ineligible') continue;
+    if (filters?.minReadiness === 'High' && st.pilotReadiness !== 'High') continue;
+    if (filters?.minReadiness === 'Medium' && st.pilotReadiness === 'Low') continue;
 
-      let overall: number;
-      if (isDomainIncompatible) {
-        overall = Math.round(Math.min(35, domain.score * 0.5 + tech.score * 0.3 + exp.score * 0.2));
-      } else {
-        overall = Math.round(
-          tech.score * weights.technology +
-          domain.score * weights.domain +
-          exp.score * weights.experience +
-          readiness.score * weights.pilotReadiness +
-          scalability.score * weights.scalability +
-          eligibility.score * weights.eligibility
-        );
-      }
+    const relevance = checkStartupRelevance(st, challenge);
 
-      // Confidence tier
-      let confidenceTier: StartupMatchEvaluation['confidenceTier'] = 'High Conviction';
-      if (isDomainIncompatible || overall < 45) {
-        confidenceTier = 'Low Compatibility';
-      } else if (overall >= 88) {
-        confidenceTier = 'High Conviction';
-      } else if (overall >= 78) {
-        confidenceTier = 'Moderate Match';
-      } else if (overall >= 68) {
-        confidenceTier = 'Conditional Match';
-      } else {
-        confidenceTier = 'Low Compatibility';
-      }
-
-      const confidence = `${Math.min(99.8, Math.max(65.0, overall * 0.98 + (overall > 85 ? 4.5 : 1.2))).toFixed(1)}%`;
-
-      // Explainable Rationale
-      let explanation = '';
-      if (isDomainIncompatible) {
-        explanation = `Incompatible Domain: ${st.name} specializes in ${st.domain}, which does not match the operational needs or sector of "${challenge.title}". Not recommended for this public tender.`;
-      } else if (overall >= 88) {
-        explanation = `Strong match based on high technology compatibility, direct domain alignment (${domain.domainMatchLevel.toLowerCase()}), and verified ${readiness.level.toLowerCase()} pilot readiness. ${tech.desc} ${exp.desc}`;
-      } else if (overall >= 75) {
-        explanation = `Viable candidate with solid technical qualifications and ${domain.domainMatchLevel.toLowerCase()}. ${tech.desc} May benefit from targeted pilot milestone monitoring.`;
-      } else {
-        explanation = `Lower suitability for this specific challenge: domain focus is primarily ${st.domain}, resulting in lower sector alignment despite solid foundational capabilities.`;
-      }
-
-      const breakdown: MatchBreakdownFactor[] = [
-        {
-          factor: 'technologyMatch',
-          label: 'Technology Match',
-          score: tech.score,
-          weight: `${Math.round(weights.technology * 100)}%`,
-          desc: tech.desc
-        },
-        {
-          factor: 'domainMatch',
-          label: 'Domain Experience',
-          score: domain.score,
-          weight: `${Math.round(weights.domain * 100)}%`,
-          desc: domain.desc
-        },
-        {
-          factor: 'pilotReadiness',
-          label: 'Pilot Readiness',
-          score: readiness.score,
-          weight: `${Math.round(weights.pilotReadiness * 100)}%`,
-          desc: readiness.desc
-        },
-        {
-          factor: 'experienceMatch',
-          label: 'Startup Experience',
-          score: exp.score,
-          weight: `${Math.round(weights.experience * 100)}%`,
-          desc: exp.desc
-        },
-        {
-          factor: 'scalabilityMatch',
-          label: 'Scalability & Architecture',
-          score: scalability.score,
-          weight: `${Math.round(weights.scalability * 100)}%`,
-          desc: scalability.desc
-        },
-        {
-          factor: 'eligibilityMatch',
-          label: 'Statutory Eligibility',
-          score: eligibility.score,
-          weight: `${Math.round(weights.eligibility * 100)}%`,
-          desc: eligibility.desc
-        }
-      ];
-
-      // Key strengths & risks
-      const strengths: string[] = [];
-      const riskFactors: string[] = [];
-
-      if (tech.score >= 88) strengths.push(`Strong technology stack alignment with ${tech.matchedTerms.slice(0, 2).join(', ') || 'RFP requirements'}`);
-      if (domain.score >= 90) strengths.push(`Direct sector experience in ${st.domain}`);
-      if (exp.score >= 88) strengths.push(`Demonstrated deployment track record (${st.completedPilotsCount || 0} completed pilots)`);
-      if (readiness.score >= 90) strengths.push('Immediate hardware/software field deployment readiness');
-      if (eligibility.score === 100) strengths.push('Full statutory DPIIT and ISO compliance verified');
-
-      if (domain.score < 60) riskFactors.push(`Primary domain (${st.domain}) is non-standard for ${challenge.category}`);
-      if (tech.score < 65) riskFactors.push('Limited direct overlap with challenge specialized technical requirements');
-      if (exp.score < 65) riskFactors.push('Limited prior deployment history under government procurement frameworks');
-      if (readiness.score < 65) riskFactors.push('Additional development time required prior to live field trial');
-
-      return {
-        rank: 0,
+    if (!relevance.isRelevant) {
+      excludedMatches.push({
         startupId: st.id,
         startupName: st.name,
         tagline: st.tagline || '',
         domain: st.domain || '',
         stage: st.stage || 'Growth',
         location: st.location || 'India',
-        overallScore: overall,
-        confidence,
-        confidenceTier,
-        technologyMatch: tech.score,
-        domainMatch: domain.score,
-        experienceMatch: exp.score,
-        pilotReadiness: readiness.score,
-        scalabilityMatch: scalability.score,
-        eligibilityMatch: eligibility.score,
-        readinessLevel: readiness.level,
-        eligibilityStatus: eligibility.status,
-        explanation,
-        breakdown,
-        strengths,
-        riskFactors
-      };
+        exclusionCategory: relevance.exclusionCategory || 'Domain Mismatch',
+        exclusionReason: relevance.exclusionReason || `Specializes in ${st.domain}, diverging from "${challenge.title}".`,
+        departmentMatch: relevance.departmentMatch,
+        domainMatch: relevance.domainMatch,
+        capabilityMatch: relevance.capabilityMatch,
+        requirementMatch: relevance.requirementMatch,
+        technologyMatch: relevance.technologyMatch,
+        compatibilityScore: relevance.relevanceScore
+      });
+      continue; // GATED OUT: Irrelevant startups NEVER enter matches!
+    }
+
+    // For relevant startups, compute full compatibility evaluation
+    const tech = calculateTechnologyMatch(st, challenge);
+    const domain = calculateDomainMatch(st, challenge);
+    const exp = calculateExperienceMatch(st, challenge);
+    const readiness = calculatePilotReadiness(st);
+    const scalability = calculateScalability(st, challenge);
+    const eligibility = calculateEligibility(st, challenge);
+
+    const overall = Math.round(
+      tech.score * weights.technology +
+      domain.score * weights.domain +
+      exp.score * weights.experience +
+      readiness.score * weights.pilotReadiness +
+      scalability.score * weights.scalability +
+      eligibility.score * weights.eligibility
+    );
+
+    let confidenceTier: StartupMatchEvaluation['confidenceTier'] = 'High Conviction';
+    if (overall >= 88) {
+      confidenceTier = 'High Conviction';
+    } else if (overall >= 78) {
+      confidenceTier = 'Moderate Match';
+    } else if (overall >= 68) {
+      confidenceTier = 'Conditional Match';
+    } else {
+      confidenceTier = 'Low Compatibility';
+    }
+
+    const confidence = `${Math.min(99.8, Math.max(65.0, overall * 0.98 + (overall > 85 ? 4.5 : 1.2))).toFixed(1)}%`;
+
+    const explanation = `Strong match for ${challenge.department}: ${st.name} specializes in ${st.domain}, directly fulfilling ${relevance.matchedRequirements.length} RFP criteria with ${tech.score}% technology compatibility. ${tech.desc}`;
+
+    const breakdown: MatchBreakdownFactor[] = [
+      {
+        factor: 'technologyMatch',
+        label: 'Technology Match',
+        score: tech.score,
+        weight: `${Math.round(weights.technology * 100)}%`,
+        desc: tech.desc
+      },
+      {
+        factor: 'domainMatch',
+        label: 'Domain Experience',
+        score: domain.score,
+        weight: `${Math.round(weights.domain * 100)}%`,
+        desc: domain.desc
+      },
+      {
+        factor: 'pilotReadiness',
+        label: 'Pilot Readiness',
+        score: readiness.score,
+        weight: `${Math.round(weights.pilotReadiness * 100)}%`,
+        desc: readiness.desc
+      },
+      {
+        factor: 'experienceMatch',
+        label: 'Startup Experience',
+        score: exp.score,
+        weight: `${Math.round(weights.experience * 100)}%`,
+        desc: exp.desc
+      },
+      {
+        factor: 'scalabilityMatch',
+        label: 'Scalability & Architecture',
+        score: scalability.score,
+        weight: `${Math.round(weights.scalability * 100)}%`,
+        desc: scalability.desc
+      },
+      {
+        factor: 'eligibilityMatch',
+        label: 'Statutory Eligibility',
+        score: eligibility.score,
+        weight: `${Math.round(weights.eligibility * 100)}%`,
+        desc: eligibility.desc
+      }
+    ];
+
+    const strengths: string[] = [
+      `Direct sector alignment: ${st.domain}`,
+      ...relevance.matchedRequirements.slice(0, 2).map(r => `Verified requirement coverage: ${r}`),
+      ...(tech.score >= 85 ? [`High technology stack overlap (${tech.matchedTerms.slice(0, 2).join(', ') || 'RFP requirements'})`] : [])
+    ];
+
+    const riskFactors: string[] = [];
+    if (readiness.score < 80) riskFactors.push('Pilot deployment requires initial field calibration period');
+    if (exp.score < 80) riskFactors.push('Limited public sector pilot deployment history on record');
+
+    matches.push({
+      rank: 0,
+      startupId: st.id,
+      startupName: st.name,
+      tagline: st.tagline || '',
+      domain: st.domain || '',
+      stage: st.stage || 'Growth',
+      location: st.location || 'India',
+      overallScore: overall,
+      confidence,
+      confidenceTier,
+      technologyMatch: tech.score,
+      domainMatch: domain.score,
+      experienceMatch: exp.score,
+      pilotReadiness: readiness.score,
+      scalabilityMatch: scalability.score,
+      eligibilityMatch: eligibility.score,
+      readinessLevel: readiness.level,
+      eligibilityStatus: eligibility.status,
+      explanation,
+      breakdown,
+      strengths,
+      riskFactors,
+      relevant: true,
+      departmentMatch: true,
+      domainRelevanceMatch: true,
+      capabilityMatch: true,
+      requirementMatch: relevance.requirementMatch,
+      relevanceScore: relevance.relevanceScore,
+      matchedRequirements: relevance.matchedRequirements,
+      matchingCapabilities: relevance.matchingCapabilities
     });
+  }
 
   // Sort descending by overallScore, then by techScore
-  evaluations.sort((a, b) => b.overallScore - a.overallScore || b.technologyMatch - a.technologyMatch);
+  matches.sort((a, b) => b.overallScore - a.overallScore || b.technologyMatch - a.technologyMatch);
 
   // Assign ranks
-  evaluations.forEach((evalItem, index) => {
-    evalItem.rank = index + 1;
+  matches.forEach((item, index) => {
+    item.rank = index + 1;
   });
 
   return {
@@ -657,8 +895,9 @@ export function evaluateChallengeMatches(
     challengeTitle: challenge.title,
     department: challenge.department,
     category: challenge.category,
-    totalEvaluated: evaluations.length,
+    totalEvaluated: matches.length + excludedMatches.length,
     weightsUsed: weights,
-    matches: evaluations
+    matches,
+    excludedMatches
   };
 }

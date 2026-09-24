@@ -34,12 +34,23 @@ export interface StartupInput {
 
 export interface AISemanticEvaluation {
   startupId: string;
+  relevant: boolean;
+  departmentMatch: boolean;
+  domainMatch: boolean;
+  problemMatch: boolean;
+  requirementMatch: boolean;
+  capabilityMatch: boolean;
+  technologyMatch: boolean;
   semanticRelevanceScore: number;       // 0 - 100
   technologyCompatibilityScore: number; // 0 - 100
   domainCompatibilityScore: number;     // 0 - 100
   requirementCoverageScore: number;     // 0 - 100
   scalabilityScore: number;             // 0 - 100
   confidenceScore: number;              // 0.50 - 0.99
+  compatibilityScore?: number;          // 0 - 100
+  reason?: string;
+  matchedRequirements?: string[];
+  matchingCapabilities?: string[];
   strengths: string[];
   gaps: string[];
   explanation: string;

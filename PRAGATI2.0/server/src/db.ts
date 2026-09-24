@@ -104,10 +104,35 @@ export const initDb = (): DatabaseSchema => {
         inMemoryDb.scaleUpPlans = [inMemoryDb.scaleUpPlan];
         updated = true;
       }
+      if (inMemoryDb.challenges) {
+        for (const ch of INITIAL_CHALLENGES) {
+          const idx = inMemoryDb.challenges.findIndex((existing: any) => existing.id === ch.id);
+          if (idx === -1) {
+            inMemoryDb.challenges.push(ch);
+            updated = true;
+          } else {
+            // Ensure core fields are updated if needed
+            if (inMemoryDb.challenges[idx].department !== ch.department || inMemoryDb.challenges[idx].title !== ch.title) {
+              inMemoryDb.challenges[idx] = { ...inMemoryDb.challenges[idx], ...ch };
+              updated = true;
+            }
+          }
+        }
+        // Clean up any test challenges with corrupted department names
+        const prevLen = inMemoryDb.challenges.length;
+        inMemoryDb.challenges = inMemoryDb.challenges.filter((c: any) => !c.department?.includes('Municipal CUrban Development'));
+        if (inMemoryDb.challenges.length !== prevLen) {
+          updated = true;
+        }
+      }
       if (inMemoryDb.startups) {
         for (const st of MOCK_STARTUPS) {
-          if (!inMemoryDb.startups.some((existing: any) => existing.id === st.id)) {
+          const idx = inMemoryDb.startups.findIndex((existing: any) => existing.id === st.id);
+          if (idx === -1) {
             inMemoryDb.startups.unshift(st);
+            updated = true;
+          } else {
+            inMemoryDb.startups[idx] = { ...inMemoryDb.startups[idx], ...st };
             updated = true;
           }
         }
